@@ -1,0 +1,4335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Training</title>
+<meta name="description" content="Four-day training program with set logging, rest timers and progress tracking.">
+<meta name="apple-mobile-web-app-title" content="Training">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABF0lEQVR42u3dMQ6EIBBA0dFwaI/graWyoTBmCkbie71xZb9sshiMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4LaVnfk6sx/5WHi8l7rq3f2BOBAH4kAciANxIA7EgTgQB4xa8rjEGsHSayJfM2X8zRyIA3EgDsSBOBAH4kAciANxgDgQB+JAHIgDcSAOxIE4+J/s5i3pTUgo+6o9YIyfFcSBOBAH4kAciANxgDh4rc071fD3rb3PS0bPzIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+JAHCAOnmQfMPY2v1pTxt/MgTgQB+JAHIgDcSAOxIE4EAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARHSR0EZH4VfFQAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABF0lEQVR42u3dMQ6EIBBA0dFwaI/graWyoTBmCkbie71xZb9sshiMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4LaVnfk6sx/5WHi8l7rq3f2BOBAH4kAciANxIA7EgTgQB4xa8rjEGsHSayJfM2X8zRyIA3EgDsSBOBAH4kAciANxgDgQB+JAHIgDcSAOxIE4+J/s5i3pTUgo+6o9YIyfFcSBOBAH4kAciANxgDh4rc071fD3rb3PS0bPzIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+JAHCAOnmQfMPY2v1pTxt/MgTgQB+JAHIgDcSAOxIE4EAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARHSR0EZH4VfFQAAAAAElFTkSuQmCC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #000;
+  --surface: #0e0e0e;
+  --surface-2: #1a1a1a;
+  --border: #262626;
+  --ink: #ffffff;
+  --ink-2: #cfcfcf;
+  --muted: #8a8a8a;
+  --accent: #00ff88;
+  --accent-dim: rgba(0, 255, 136, 0.15);
+  --accent-fade: rgba(0, 255, 136, 0.08);
+  --warn: #ff5722;
+  --warn-dim: rgba(255, 87, 34, 0.12);
+  --red: #ff4444;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+
+  /* Font stacks with fallbacks so the app still reads correctly offline. */
+  --font-display: 'Bebas Neue', 'Avenir Next Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'Inter Tight', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Data-visualisation ramp — same green identity, stepped so overlapping
+     series stay distinguishable without introducing a second hue. */
+  --data-1: #00ff88;
+  --data-2: #34d3a6;
+  --data-3: #5aa8b0;
+  --grid: #1f1f1f;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  overscroll-behavior-y: contain;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100vh;
+  padding-top: var(--safe-top);
+  padding-bottom: calc(80px + var(--safe-bottom));
+}
+
+/* ============ TOP BAR ============ */
+.topbar {
+  position: sticky;
+  top: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 50;
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.topbar h1 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.topbar .meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.topbar .meta strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.reset-day-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
+  vertical-align: 1px;
+}
+.reset-day-btn:active {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.subhead {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ============ DAY VIEW ============ */
+.day { display: none; padding: 16px 14px 30px; }
+.day.active { display: block; }
+
+/* ============ EXERCISE CARD ============ */
+.ex {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.ex.priority {
+  border-left: 4px solid var(--warn);
+}
+
+.ex.complete {
+  border-color: var(--accent);
+  background: var(--accent-fade);
+}
+
+.ex-head {
+  padding: 14px 16px 12px;
+}
+
+.ex-row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ex-num {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--muted);
+  line-height: 0.9;
+  min-width: 30px;
+}
+
+.ex.priority .ex-num { color: var(--warn); }
+.ex.complete .ex-num { color: var(--accent); }
+
+.ex-title {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.ex-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  background: var(--warn-dim);
+  color: var(--warn);
+  padding: 3px 7px;
+  margin-left: 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  vertical-align: 2px;
+  font-weight: 700;
+}
+
+.ex-targets {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+  letter-spacing: 0.02em;
+}
+
+.ex-targets .reps { color: var(--accent); font-weight: 700; }
+.ex-targets .sep { color: var(--border); }
+
+/* ============ SET TRACKER ============ */
+.sets {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.set {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 2px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.05em;
+  user-select: none;
+  position: relative;
+}
+
+.set:active { transform: scale(0.92); }
+
+.set.done {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.set.done::after {
+  content: '✓';
+  position: absolute;
+  font-size: 14px;
+  top: 4px;
+  right: 6px;
+  font-family: system-ui;
+  font-weight: 800;
+}
+
+/* ============ ACTIONS ============ */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.btn {
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn.primary {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.btn-icon {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* ============ EXPANDED DETAIL ============ */
+.detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.ex.open .detail { max-height: 4000px; }
+
+.detail-inner {
+  padding: 4px 16px 18px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin: 14px 0 14px;
+  background: var(--surface-2);
+  padding: 4px;
+  border-radius: 10px;
+}
+
+.tab {
+  flex: 1;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.tab.active.exec-tab { color: var(--ink); }
+.tab.active.act-tab { color: var(--accent); }
+.tab.active.comp-tab { color: var(--red); }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.tab-content p {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+}
+
+.tab-content strong { color: var(--ink); font-weight: 700; }
+.tab-content em {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 600;
+  background: var(--accent-fade);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bullet-list li {
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  color: var(--ink-2);
+  border-left: 3px solid var(--border);
+}
+
+.tab-content.act-content .bullet-list li {
+  border-left-color: var(--accent);
+}
+
+.tab-content.comp-content .bullet-list li {
+  border-left-color: var(--red);
+  position: relative;
+  padding-left: 36px;
+}
+
+.tab-content.comp-content .bullet-list li::before {
+  content: '✕';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--red);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+/* ============ DAY HEADER ============ */
+.day-head {
+  margin: 8px 4px 18px;
+}
+
+.day-head h2 {
+  font-family: var(--font-display);
+  font-size: 38px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.day-head .day-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* ============ SUMMARY PANELS ============ */
+.summary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.panel.warn { border-color: rgba(255,87,34,0.4); background: rgba(255,87,34,0.04); }
+
+.panel h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.panel.warn h3 { color: var(--warn); }
+
+.panel ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.panel li {
+  font-size: 14.5px;
+  padding-left: 18px;
+  position: relative;
+  color: var(--ink-2);
+  line-height: 1.45;
+}
+
+.panel li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.panel.warn li::before { color: var(--warn); }
+
+/* ============ BOTTOM NAV ============ */
+.bottomnav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  padding: 8px 8px calc(8px + var(--safe-bottom));
+  z-index: 100;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.navbtn {
+  height: 56px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font-body);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.navbtn:active { transform: scale(0.95); }
+
+.navbtn.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.navbtn .nav-num {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.navbtn .nav-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ============ REST TIMER MODAL ============ */
+.timer-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.timer-modal.active { display: flex; }
+
+.timer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: center;
+  width: 100%;
+  max-width: 340px;
+}
+
+.timer-card h3 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.timer-display {
+  font-family: var(--font-display);
+  font-size: 96px;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin: 16px 0 8px;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-display.warning { color: var(--warn); }
+
+.timer-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.timer-presets {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 18px 0 8px;
+}
+
+.preset {
+  flex: 1;
+  height: 42px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.preset.active {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* ============ TOAST ============ */
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--accent);
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 300;
+  transition: transform 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0,255,136,0.3);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ============ DESKTOP ENHANCEMENTS ============ */
+@media (min-width: 720px) {
+  body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,255,136,0.05); }
+}
+
+@media (min-width: 768px) {
+  .summary { grid-template-columns: 1fr 1fr; }
+}
+
+/* ============ LOG SET MODAL ============ */
+.log-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+}
+.log-modal.active { display: flex; }
+.log-card {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  padding: 22px 22px calc(28px + var(--safe-bottom));
+  width: 100%;
+  max-width: 520px;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.log-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.log-card .log-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.log-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.log-field label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.log-field input {
+  width: 100%;
+  height: 52px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 28px;
+  text-align: center;
+  letter-spacing: 0.03em;
+  padding: 0 6px;
+}
+.log-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--accent-fade);
+}
+.log-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.log-prev {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: var(--surface-2);
+  border-radius: 8px;
+  letter-spacing: 0.04em;
+}
+.log-prev strong { color: var(--accent); font-weight: 700; }
+
+/* Logged set styling — set circle shows weight when logged */
+.set.done .set-weight {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-top: -2px;
+}
+.set .set-weight { display: none; }
+.set.done .set-num { font-size: 14px; line-height: 1; }
+.set .set-num { font-size: 22px; }
+
+/* ============ LOG VIEW (5th tab) ============ */
+.day.log-view { padding: 16px 14px 30px; }
+.log-section { margin-bottom: 24px; }
+.log-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+.log-section-head h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+}
+.log-section-head .count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+}
+.session-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.session-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--border);
+}
+.session-card-date {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.04em;
+}
+.session-card-day {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.session-ex-row {
+  font-size: 13px;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+.session-ex-row .ex-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.session-ex-row .ex-data {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 4px;
+}
+.session-card .session-del {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 4px 8px;
+  letter-spacing: 0.1em;
+}
+.session-card .session-del:active { color: var(--red); }
+
+/* Custom exercise library */
+.lib-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.lib-card .lib-info { flex: 1; min-width: 0; }
+.lib-card .lib-name {
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+.lib-card .lib-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.lib-card .lib-actions {
+  display: flex;
+  gap: 6px;
+}
+.lib-btn {
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.lib-btn.add { background: var(--accent); color: #000; border-color: var(--accent); }
+.lib-btn.danger { color: var(--red); }
+
+.export-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.export-btn {
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+  background: var(--accent-fade);
+  color: var(--accent);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.export-btn:active { transform: scale(0.97); }
+.export-help {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  padding: 0 4px;
+  margin-top: 6px;
+}
+
+/* Form (add custom exercise / edit) */
+.form-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  backdrop-filter: blur(8px);
+  z-index: 250;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  overflow-y: auto;
+}
+.form-modal.active { display: flex; }
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  width: 100%;
+  max-width: 540px;
+  margin: 20px 0 60px;
+}
+.form-card h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+.form-row { margin-bottom: 14px; }
+.form-row label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.form-row input,
+.form-row textarea {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 12px 14px;
+  resize: vertical;
+}
+.form-row textarea { min-height: 70px; line-height: 1.5; }
+.form-row input:focus, .form-row textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.form-row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+/* Add-to-day picker */
+.picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.picker-item {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.picker-item:active { background: var(--accent-dim); }
+.picker-item .picker-name { font-weight: 600; font-size: 14px; }
+.picker-item .picker-meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* ============ COACH SUGGESTION BANNER ============ */
+.ex-suggest {
+  background: linear-gradient(180deg, var(--accent-fade), transparent);
+  border: 1px solid var(--accent-dim);
+  border-radius: 10px;
+  padding: 10px 12px 10px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  position: relative;
+}
+.ex-suggest::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 10px 0 0 10px;
+}
+.ex-suggest-body { flex: 1; min-width: 0; }
+.ex-suggest-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.ex-suggest-text {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
+.ex-suggest-edit {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 4px 6px;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+.ex-suggest-edit:active { color: var(--accent); }
+
+/* Edit-mode "+ Add suggestion" button on cards without one — only shown in suggest-edit mode */
+.ex-suggest-add {
+  background: transparent;
+  border: 1px dashed var(--border);
+  color: var(--muted);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: none;
+}
+body.suggest-edit-mode .ex-suggest-add { display: block; }
+body.suggest-edit-mode .ex-suggest-edit { color: var(--accent); }
+
+/* Suggest-edit mode banner across the top of the active day */
+.suggest-mode-banner {
+  display: none;
+  position: sticky;
+  top: 80px;
+  z-index: 40;
+  margin: 0 -14px 14px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
+
+/* Custom exercise marker on cards */
+.ex.custom .ex-num::after {
+  content: '+';
+  display: inline-block;
+  font-size: 14px;
+  color: var(--accent);
+  margin-left: 2px;
+  vertical-align: 6px;
+}
+.ex-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px 8px;
+  font-family: system-ui;
+}
+.ex-remove:active { color: var(--red); }
+.ex-head { position: relative; }
+
+/* 5-column nav */
+.bottomnav.cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+
+/* ============ 6-COLUMN NAV ============ */
+.bottomnav.cols-6 { grid-template-columns: repeat(6, 1fr); }
+.bottomnav.cols-6 .nav-label { font-size: 8px; letter-spacing: 0.08em; }
+.bottomnav.cols-6 .nav-num { font-size: 15px; }
+
+/* ============ LOG MODAL — STEPPERS ============ */
+.log-field { position: relative; }
+.stepper-row {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  gap: 6px;
+  align-items: stretch;
+}
+.step-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step-btn:active { background: var(--accent-dim); border-color: var(--accent); }
+.stepper-row input { border-radius: 12px; }
+
+/* ============ STATS VIEW ============ */
+.day.stats-view { padding: 16px 14px 30px; }
+
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.stat-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.stat-cell .v {
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+.stat-cell .k {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.chart-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 14px 12px;
+  margin-bottom: 18px;
+}
+.chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+.chart-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  letter-spacing: 0.04em;
+}
+.chart-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.chart-delta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.chart-delta.up { color: var(--accent); }
+.chart-delta.down { color: var(--warn); }
+.chart-delta.flat { color: var(--muted); }
+.chart-svg { width: 100%; height: auto; display: block; margin-top: 10px; }
+
+/* Horizontally scrolling selector rows */
+.chip-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 2px 0 8px;
+  margin: 0 -14px 12px;
+  padding-left: 14px;
+  padding-right: 14px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.chip-row::-webkit-scrollbar { display: none; }
+.chip {
+  flex: 0 0 auto;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+.chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.metric-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--ink-2);
+  border-radius: 10px;
+  padding: 10px 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+}
+.metric-btn.active { background: var(--accent-fade); border-color: var(--accent); color: var(--accent); }
+
+.chart-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.chart-empty strong { color: var(--ink-2); display: block; margin-bottom: 4px; font-size: 14px; }
+
+.chart-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+/* Per-session readout under the chart */
+.point-list { margin-top: 12px; }
+.point-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--grid);
+  font-size: 12px;
+}
+.point-row:last-child { border-bottom: none; }
+.point-row .pdate { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+.point-row .psets { color: var(--ink-2); font-family: var(--font-mono); font-size: 11px; }
+.point-row .pval { font-family: var(--font-display); font-size: 17px; color: var(--accent); letter-spacing: 0.02em; }
+
+/* ============ FOCUS VISIBILITY ============ */
+button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============ ACCESSIBILITY ============ */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-row">
+    <h1 id="day-title">Upper · Strength</h1>
+    <div class="meta">
+      <button id="resetDayBtn" class="reset-day-btn" onclick="resetCurrentDay()" style="display:none;">RESET</button>
+      DAY <strong id="day-num">01</strong>
+    </div>
+  </div>
+  <div class="subhead" id="day-sub">Back-led. Heavy compounds. Controlled tempo.</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+</header>
+
+<!-- ========== DAY 1 ========== -->
+<main class="day active" data-day="1" data-title="Upper · Strength" data-sub="Back-led. Heavy compounds. Controlled tempo.">
+
+  <div class="ex priority" data-rest="150">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">01</div>
+        <div class="ex-title">Hammer Iso-Lateral Row<span class="ex-tag">BACK</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">6–8 reps</span><span class="sep">·</span>
+        <span>2–3 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(150)"><span class="btn-icon">⏱</span>Rest 2:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Pad's top edge at <strong>sternal notch</strong>. Neutral grip. <em>Pre-load before unracking</em> — retract and depress scapulae so handles move 1–2cm; that's your start.</p>
+          <p>Initiate by driving <strong>medial scapular border toward the spine</strong>, then humerus into extension. Elbow tracks toward iliac crest at ~30° from torso. Squeeze 1 sec at peak. <em>3-sec eccentric</em> with full scapular protraction at end-range — let blade wrap forward around ribcage.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lower traps + rhomboids on concentric</li>
+            <li>Lats lengthen on the eccentric stretch</li>
+            <li>Rear delts secondary</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Sternum lifting off pad — using lumbar extension</li>
+            <li>Elbow flaring to 90° — turns into rear delt row</li>
+            <li>Wrist flexion at peak — biceps takeover</li>
+            <li>Skipping eccentric protraction — lat won't grow</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="150">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">02</div>
+        <div class="ex-title">Hammer Incline Press</div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">6–8 reps</span><span class="sep">·</span>
+        <span>2–3 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(150)"><span class="btn-icon">⏱</span>Rest 2:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Seat: handles align at <strong>lower pec border</strong> (~1 inch below nipple). Optimal length-tension for upper pec at 30°. Feet flat, drive heels into floor.</p>
+          <p>Scapulae retracted + depressed, <em>stay there throughout</em>. Half-breath into chest, not Valsalva. 2-sec eccentric to deep pec stretch (feel tendon load at humeral insertion). <em>Exhale forcefully starting at the bottom and through the press.</em> Stop 5cm short of lockout.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Upper pec (clavicular fibers) primary</li>
+            <li>30° + low handle alignment biases hard</li>
+            <li>Anterior delt + triceps secondary</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Scapulae unpacking at lockout — ant. delt takes over</li>
+            <li>Head pushing into pad — Valsalva proxy</li>
+            <li>Pressing to full lockout — tension dumps to elbow</li>
+            <li>Half-breath becoming a hold — drop a plate</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex priority" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">03</div>
+        <div class="ex-title">Lat Pulldown, Neutral<span class="ex-tag">BACK</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">8–10 reps</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Neutral grip, hands at shoulder width. Thigh pad snug. Torso <strong>~10° lean back, locked</strong> for every rep — no progressive lean.</p>
+          <p>Start: arms fully extended, feel lat origin stretch from posterior axilla to iliac crest. Initiate with <em>scapular depression</em> (humeral head slides down in socket), then drive elbow toward floor. Bring handle to upper sternum. <em>3-sec eccentric to full overhead stretch with scapular elevation</em> — let shoulder blade ride up. Most lifters cost themselves the loaded stretch.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lats through full length</li>
+            <li>Lower traps in concentric squeeze</li>
+            <li>Biceps secondary (controlled)</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Increasing lean during set — bodyweight rowing</li>
+            <li>Pulling to clavicle, not sternum — lost ROM</li>
+            <li>Wrist flexion / curling bar — biceps</li>
+            <li>Locked scapula at top — lost loaded stretch</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">04</div>
+        <div class="ex-title">Hammer Shoulder Press</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">8–10 reps</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Seat so handles start at <strong>ear level, not above head</strong>. Above-ear pre-shortens delt and biases triceps. Ribs stacked over hips, no excessive lumbar arch.</p>
+          <p>Press straight up, slight inward arc — hands meet ~10cm apart at top. Stop short of lockout. 2-sec eccentric to ear level. <em>Don't drop below — preserves deltoid tension.</em></p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Anterior + lateral delt heads</li>
+            <li>Neutral grip biases lateral; pronated biases anterior</li>
+            <li>Triceps secondary</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Lumbar hyperextension — load is incline weight, not OHP</li>
+            <li>Shrugging at top — upper traps steal work</li>
+            <li>Half-rep stopping high — full ROM ear to near-lockout</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">05</div>
+        <div class="ex-title">Cable Triceps Pushdown, Rope</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Rope, not bar. Stand 15cm from cable column. ~5° forward torso lean. Upper arms <strong>pinned vertically at sides</strong>.</p>
+          <p>Start at 90° elbow flexion. Press down by extending elbow only. At full extension, <em>flare rope ends apart and rotate hands to face floor</em> — maximally shortens medial and lateral heads. 1-sec hold. Control back up to 90° only — past 90° unloads triceps.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Medial + lateral heads of triceps</li>
+            <li>Long head hit on Day 3 with overhead extension</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Upper arm drifting forward — lat assists</li>
+            <li>Leaning weight onto rope — bodyweight cheating</li>
+            <li>No flare at bottom — lose peak contraction</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">06</div>
+        <div class="ex-title">Incline DB Curl</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Bench at <strong>60°</strong>. Long head in max stretch when arms hang. Shoulders pulled into pad and <em>must stay back the entire set</em>.</p>
+          <p>DBs hang straight, palms forward (full supination from start). Curl by flexing elbow only — humerus doesn't move. 1-sec squeeze at top. <em>3-sec eccentric to full extension</em> — feel long head loaded in stretch. Don't relax at bottom.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Biceps long head — loaded stretch is highest hypertrophy stimulus</li>
+            <li>Most lifters never train long head this way</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Anterior shoulder roll — removes the stretch</li>
+            <li>Cheating supination — start fully supinated, hold it</li>
+            <li>Cutting bottom range — defeats the incline</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">CV</div>
+        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">CONDITIONING</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>1 block</span><span class="sep">·</span>
+        <span class="reps">20–30 min</span><span class="sep">·</span>
+        <span>2&#215;/week</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">&#8595;</span>Details</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
+          <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
+          <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
+          <p><strong>Logging:</strong> tap the set and enter weight = bike level (or 0), reps = minutes.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Cardiovascular &#8212; the primary target</li>
+            <li>Aerobic base &#8212; supports work capacity between lifting days</li>
+            <li>Aids recovery between lifting days</li>
+            <li>Zero added fatigue at this intensity</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li><strong>Turning it into intervals</strong> &#8212; hard efforts bring back breath-holding</li>
+            <li>Rowing erg &#8212; forward lean and hard pulls, defeats the purpose</li>
+            <li>Head-below-heart positions at any point</li>
+            <li>Skipping it because the lifting session ran long &#8212; move it to an off day instead</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="custom-ex-container"></div>
+  <button class="btn" style="margin: 8px 0 18px; width: 100%;" onclick="openPicker()"><span class="btn-icon">+</span>Add Custom Exercise</button>
+  <div class="summary">
+    <div class="panel">
+      <h3>Warm-Up · 9 min</h3>
+      <ul>
+        <li>Bike easy · 3 min</li>
+        <li>World's greatest stretch · 4/side</li>
+        <li>Standing thoracic extension · 8</li>
+        <li>Band pull-apart · 15</li>
+        <li>Wall slides + wall angels · 10 each</li>
+      </ul>
+    </div>
+    <div class="panel warn">
+      <h3>Breathing Protocol</h3>
+      <ul>
+        <li>Exhale forcefully through every concentric — never hold through a set</li>
+        <li>No belt cinched tight</li>
+        <li>Compounds RIR 1–2 · everything else RIR 2 — never grind</li>
+        <li>Head neutral or above heart</li>
+        <li>Pulldown: stop the set if you start leaning back</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<!-- ========== DAY 2 ========== -->
+<main class="day" data-day="2" data-title="Lower · Strength" data-sub="Deadlift leads. Posterior chain anchored.">
+
+  <div class="ex priority" data-rest="180">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">01</div>
+        <div class="ex-title">Deadlift<span class="ex-tag">CONVENTIONAL</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">6 reps</span><span class="sep">·</span>
+        <span>3 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Breathing note:</strong> conventional generates more intra-abdominal pressure than most machine work. Breathing discipline matters more here, not less. <em>Keep loads submaximal — this slot is not for grinding singles.</em></p>
+          <p>Feet hip-width, bar over mid-foot, shins ~2cm from bar. Hinge hips back, shins come forward to touch bar. Grip just outside knees. <em>Pull slack out of the bar</em> — pre-tension lats, chest up, ribs down.</p>
+          <p>Half-breath into the belly — <strong>not a maximal breath-hold</strong>. Eyes on a point ~2m forward, neutral neck. Drive: push the floor away through mid-foot, hips and shoulders rise at the same rate. <em>Exhale forcefully as the bar passes the knees, finishing the breath at lockout.</em> Reset the breath between every rep — no held-breath multi-rep sets.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Glutes + hamstrings primary</li>
+            <li>Erectors isometric (spinal position, not movement)</li>
+            <li>Lats isometric — keep bar tight to body</li>
+            <li>Quads assist off the floor only</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li><strong>Holding breath through a full set.</strong> Reset between reps</li>
+            <li>Grinding a maximal rep — stop the set instead</li>
+            <li>Hips rising faster than shoulders — turns it into a stiff-leg</li>
+            <li>Head dropping toward the floor, or craning up at the ceiling — stay neutral</li>
+            <li>Bar drifting away from shins — costs the low back</li>
+            <li>Belt cinched tight — keep it loose enough to breathe normally</li>
+            <li>Bouncing reps off the floor — reset each rep</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="150">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">02</div>
+        <div class="ex-title">Belt Squat<span class="ex-tag">SPINE-FREE</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">6–8 reps</span><span class="sep">·</span>
+        <span>2:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(150)"><span class="btn-icon">⏱</span>Rest 2:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Best squat option here.</strong> Load hangs from your waist via belt — zero spinal compression, no axial load, no need to brace abdomen hard. Replaces traditional barbell squatting safely.</p>
+          <p>Strap belt around hips (sit on hip bones, not waist). Stand on platform, feet shoulder-width, toes ~15° out. Hold the upper rails for balance only — <strong>don't pull yourself up with arms</strong>. Stand fully tall to start.</p>
+          <p>Descend in 2 sec — hips travel back and down, knees track over toes. Go to ~parallel or to where you maintain neutral spine (no lumbar rounding). Drive up through mid-foot. <em>Exhale forcefully through the drive.</em> Stand tall, squeeze glutes, no hyperextension.</p>
+          <p>Without spinal load you can train this harder than a back squat. Push to RIR 2.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Quads + glutes primary — hip-dominant pattern with belt at hips</li>
+            <li>Adductors, hamstrings as stabilizers</li>
+            <li>Core minimal — no axial load to brace against</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pulling up on rails with arms — defeats the loading</li>
+            <li>Belt riding up to waist — should sit on hip bones for proper hip extension load</li>
+            <li>Knee valgus — track over second toe</li>
+            <li>Lumbar rounding at depth — stop ROM where neutral spine is lost</li>
+            <li>Hyperextending at top — squeeze glutes to terminate, don't lean back</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">03</div>
+        <div class="ex-title">Bulgarian Split Squat</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">8–10 / leg</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Rear foot on bench, laces down. Bench at knee height. Stride: short = quad bias, long = pure glute. <em>Moderate stride for 50/50.</em> Front shin ~70–80° from horizontal at bottom.</p>
+          <p>DBs at sides. Torso ~10° forward lean — loads glute through hip flexion. Drop straight down. Drive through <strong>mid-foot to heel of front leg</strong>. Rear leg = kickstand only.</p>
+          <p>Test: at the bottom, lift rear foot 2cm off bench. If you can't balance, you were loading it.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Front-leg glute + quad</li>
+            <li>Rear-leg passive hip flexor stretch</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pushing off rear foot — biggest cheat</li>
+            <li>Front knee caving in — track over second toe</li>
+            <li>Standing torso fully upright — removes glute</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="90">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">04</div>
+        <div class="ex-title">Iso-Lateral Kneeling Leg Curl</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 / leg</span><span class="sep">·</span>
+        <span>1:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Kneel on the platform, support leg pad against the working thigh. Working leg's knee aligned with machine pivot, ankle pad just above heel on Achilles. <strong>Brace torso against chest pad — hips stay neutral, don't let them flex forward.</strong></p>
+          <p>The kneeling position <em>extends the hip while flexing the knee</em> — this lengthens the hamstring across both joints, especially the long head of biceps femoris. That makes this a superior stretch position vs. seated.</p>
+          <p><strong>Toes dorsiflexed throughout</strong> (pulled toward shins). Curl heel under butt, 1-sec peak hold. <em>3-sec eccentric, never let stack rest.</em> Train weaker leg first, match reps on stronger.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Hamstrings — biceps femoris (long head) heavily biased due to hip extension</li>
+            <li>Stronger stretch stimulus than seated curl</li>
+            <li>Iso-lateral exposes/fixes left-right strength asymmetry</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Hips flexing forward — shortens hamstring, kills stretch advantage</li>
+            <li>Plantar-flexing toes — instant deactivation</li>
+            <li>Letting stack rest at bottom — kills tension</li>
+            <li>Using torso to pull weight up — only knee should flex</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">05</div>
+        <div class="ex-title">Single-Leg Calf Raise on Leg Press</div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 / leg</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>On lying leg press. Place <strong>ball of one foot</strong> on bottom edge of platform — heel free to drop below platform edge. Other leg crosses behind or rests aside. <strong>Knee nearly straight (5° bend, locked)</strong> — this biases gastrocnemius. Fully locked overstretches, fully bent removes gastroc.</p>
+          <p>Drop heel toward floor for <em>2-sec pause at full stretch</em> — this is where gastroc grows. Drive up onto big toe to full plantar flexion, 1-sec squeeze at top. Slow tempo. The 2-sec pause kills the stretch-shortening cycle so muscle does the work, not tendon.</p>
+          <p>Unilateral = better stimulus per leg, exposes/fixes side-to-side imbalances.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Gastrocnemius (medial + lateral heads)</li>
+            <li>Knee mostly straight = gastroc focus</li>
+            <li>Single-leg loading exposes weak-side asymmetry</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Bouncing — calves are 70% tendon, bouncing skips muscle work</li>
+            <li>Knee bending under load — shifts work to soleus</li>
+            <li>Rolling to outer foot — push through big toe</li>
+            <li>Cutting the stretch — deep stretch is the growth signal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">06</div>
+        <div class="ex-title">Hanging Knee Raise</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Brief setup — get up, do set, get down. Long hangs just drain grip before the abs do any work.</p>
+          <p>Dead-hang. <strong>Initiate with posterior pelvic tilt</strong> — tuck pelvis under <em>before</em> knees move. Then bring knees up and toward face. Tailbone points forward at top. 2-sec lower. If swinging starts, kill the set.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lower rectus abdominis (pelvic retroversion)</li>
+            <li>Full rectus, then hip flexors</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Knees-up without pelvic tilt — pure hip flexor</li>
+            <li>Swinging — kill the set</li>
+            <li>Long hangs between reps — grip fails before the abs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-ex-container"></div>
+  <button class="btn" style="margin: 8px 0 18px; width: 100%;" onclick="openPicker()"><span class="btn-icon">+</span>Add Custom Exercise</button>
+  <div class="summary">
+    <div class="panel">
+      <h3>Warm-Up · 9 min</h3>
+      <ul>
+        <li>Bike easy · 3 min</li>
+        <li>Standing leg swings · 10/leg each direction</li>
+        <li>Bodyweight squat to stand · 10</li>
+        <li>Cossack squat · 6/side</li>
+        <li>Glute bridge · 12</li>
+      </ul>
+    </div>
+    <div class="panel warn">
+      <h3>Breathing Protocol</h3>
+      <ul>
+        <li>Conventional pull — <strong>keep load submaximal</strong></li>
+        <li>Cap deadlifts at 6 reps · no grinding</li>
+        <li><strong>Reset the breath every rep</strong> — never hold through a set</li>
+        <li>Forceful exhale through sticking point</li>
+        <li>No tight belt above 70% effort</li>
+        <li>Neutral neck — no head drop, no craning up</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<!-- ========== DAY 3 ========== -->
+<main class="day" data-day="3" data-title="Upper · Hypertrophy" data-sub="Volume day. Two back movements lead.">
+
+  <div class="ex priority" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">01</div>
+        <div class="ex-title">Hammer High Row<span class="ex-tag">BACK</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Pad at upper sternum height. Pronated grip (palms down) for upper-back bias. Sit tall, scapulae pre-retracted.</p>
+          <p>Path: handles come <strong>down and back, toward collarbone level</strong>. Drive elbows up and out — humerus to ~70° abduction at peak. This high path smokes upper traps, rhomboids, rear delts. 1-sec peak hold. <em>3-sec eccentric to overhead-ish stretch</em> — let scapulae fully protract and slightly elevate.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lower lats (when handles low)</li>
+            <li>Upper lats, rhomboids, lower traps (eccentric stretch)</li>
+            <li>Rear delts</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pulling to belly button — that's a low row</li>
+            <li>Shrugging at peak — upper traps eat the work</li>
+            <li>Cutting eccentric short — missing loaded stretch</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex priority" data-rest="90">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">02</div>
+        <div class="ex-title">Hammer Iso-Lat Lat Pulldown<span class="ex-tag">BACK</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>1:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Set seat low — when reaching up, get <strong>active scapular elevation</strong>. <em>Reach up into the stretch.</em> The stretched start is the unique value of this exercise.</p>
+          <p>Initiate with scapular depression each side, then drive elbow toward lateral ribcage (not behind — that's a row). Bring handle to shoulder/upper-chest. 1-sec squeeze. <em>3-sec eccentric to full overhead stretch with scapular elevation.</em> Both sides simultaneously.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lats, full ROM</li>
+            <li>Iso-lateral eliminates left-right strength imbalance</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pulling elbows back behind ribs — makes it a row</li>
+            <li>Locking scapulae, only moving arms — costs the stretch</li>
+            <li>Using biceps — wrist relaxed, elbow leads</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">03</div>
+        <div class="ex-title">Hammer Flat Press</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Seat so handles align at <strong>mid-pec (nipple line)</strong>. Same setup as Day 1 incline — scapulae pinned back/down, ribs stacked, head against pad.</p>
+          <p>2-sec eccentric to deep pec stretch — pec is at longest length when handles roughly level with chest depth or slightly past. <em>Exhale forcefully through the press.</em> Stop short of lockout.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Mid pec (sternal head) primary</li>
+            <li>Day 1 incline + Day 3 flat = full pec coverage</li>
+            <li>No decline needed</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Scapulae unpacking at lockout</li>
+            <li>Not getting stretch at bottom — common machine error</li>
+            <li>Elbows flaring to 90° — keep ~45–60°</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="90">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">04</div>
+        <div class="ex-title">Cable Lat Pullover</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Rope at high pulley. Stand 1m back. <strong>Slight hinge ~20°, eyes fixed forward</strong> — head must stay above heart. If can't keep eyes forward, kneel.</p>
+          <p>Arms slightly bent (~15° elbow flexion) — <em>lock that angle for the entire set.</em> Any change converts it into a triceps press. Pull cable in arc to hips — arc generated entirely by <strong>shoulder extension</strong>; humerus rotates around shoulder, elbow stays fixed-bent. Squeeze lat, 1-sec hold. Slow return to overhead full stretch.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lats in pure shoulder-extension function</li>
+            <li>One of few exercises lat works without bicep secondary</li>
+            <li>High-quality lat-isolated stimulus</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Elbow angle changing — biggest error. Triceps pumped after = wrong</li>
+            <li>Hinging too far forward — head drops</li>
+            <li>Shoulders shrugging up at top — keep depressed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">05</div>
+        <div class="ex-title">DB Lateral Raise</div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>DBs at sides, slight elbow bend (~15°), locked. Slight forward torso lean (~5°).</p>
+          <p>Raise to sides. <strong>Lead with elbows; hand passive and slightly lower than elbow.</strong> Pour-the-water cue — pinky tilts slightly higher than thumb at top. Internally rotates humerus, biases lateral delt fibers, removes supraspinatus involvement. Stop at shoulder height. <em>3-sec eccentric, stop 5cm before sides</em> — continuous tension.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lateral deltoid (middle three pennate fibers)</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Going too heavy — #1 lateral raise sin. Drop 30%</li>
+            <li>Internal rotation switching to neutral at top</li>
+            <li>Lifting above shoulder — upper trap takes over</li>
+            <li>Bouncing DBs off thighs — momentum cheat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">06</div>
+        <div class="ex-title">Overhead Cable Triceps Ext.</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Rope at low pulley. Face away. Rope behind head. Step forward enough that cable is taut at bottom. ~10° forward torso lean.</p>
+          <p>Elbows pointing forward and <strong>pinned in space — don't let them flare or move.</strong> Forearms rotate around fixed elbows. At bottom (rope deep behind head), feel strong stretch in long head. Drive up, <em>flare rope apart at lockout</em>.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Long head of triceps — only triceps exercise loading long head in stretch</li>
+            <li>Long head crosses shoulder; needs overhead position to lengthen</li>
+            <li>Day 1 pushdown + Day 3 overhead = full triceps</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Elbows drifting forward — long head deactivates</li>
+            <li>Cutting off the stretch — long head needs full lengthening</li>
+            <li>Using shoulders to extend — only forearms move</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">07</div>
+        <div class="ex-title">Hammer Curl</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Neutral grip throughout (palms facing each other). Stand tall, shoulders pulled back. <strong>Elbows pinned to ribs the entire set.</strong></p>
+          <p>Curl by flexing elbow only — humerus does not move. Full ROM up, 1-sec squeeze, <em>3-sec eccentric to full extension</em>. Don't relax at bottom.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Brachialis primary — sits between biceps and humerus, pushes biceps up = thicker arm</li>
+            <li>Brachioradialis (forearm)</li>
+            <li>Biceps long head secondary</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Elbows drifting forward — anterior delt assists</li>
+            <li>Swinging — momentum cheating</li>
+            <li>Cutting bottom range — brachialis stretch is the growth signal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">CV</div>
+        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">CONDITIONING</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>1 block</span><span class="sep">·</span>
+        <span class="reps">20–30 min</span><span class="sep">·</span>
+        <span>2&#215;/week</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">&#8595;</span>Details</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
+          <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
+          <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
+          <p><strong>Logging:</strong> tap the set and enter weight = bike level (or 0), reps = minutes.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Cardiovascular &#8212; the primary target</li>
+            <li>Aerobic base &#8212; supports work capacity between lifting days</li>
+            <li>Aids recovery between lifting days</li>
+            <li>Zero added fatigue at this intensity</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li><strong>Turning it into intervals</strong> &#8212; hard efforts bring back breath-holding</li>
+            <li>Rowing erg &#8212; forward lean and hard pulls, defeats the purpose</li>
+            <li>Head-below-heart positions at any point</li>
+            <li>Skipping it because the lifting session ran long &#8212; move it to an off day instead</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="custom-ex-container"></div>
+  <button class="btn" style="margin: 8px 0 18px; width: 100%;" onclick="openPicker()"><span class="btn-icon">+</span>Add Custom Exercise</button>
+  <div class="summary">
+    <div class="panel">
+      <h3>Warm-Up · 9 min</h3>
+      <ul>
+        <li>Bike or rower easy · 3 min</li>
+        <li>World's greatest stretch · 4/side</li>
+        <li>Wall slides + wall angels · 10 each</li>
+        <li>Arm circles · 10 each direction</li>
+        <li>Seated thoracic rotation · 8/side</li>
+      </ul>
+    </div>
+    <div class="panel warn">
+      <h3>Volume Day Notes</h3>
+      <ul>
+        <li>Lighter loads — keep RIR 2 throughout</li>
+        <li>Long sets: breathe through every rep, never hold</li>
+        <li>3-sec eccentric on back work</li>
+        <li>Mind-muscle connection over weight</li>
+        <li>Lateral raises: stop well short of failure</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<!-- ========== DAY 4 ========== -->
+<main class="day" data-day="4" data-title="Lower · Hypertrophy" data-sub="Quad-led. Machine-anchored. Lower spinal load.">
+
+  <div class="ex priority" data-rest="180">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">01</div>
+        <div class="ex-title">Pendulum Squat<span class="ex-tag">QUAD ISOLATION</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>3 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>The best quad-isolation machine you have</strong> — fixed arc means pure knee extension pattern, no hip drive cheating. Better than hack squat for direct quad targeting.</p>
+          <p>Shoulder pads on top of shoulders/traps. Back flat against pad. Feet on platform — <strong>placement low-to-mid for full quad emphasis</strong> (high placement reduces ROM and turns it into a partial). Toes 15° out.</p>
+          <p>Unrack. Lower in 2 sec — body swings backward on the arc as knees bend. Go to ~95° knee flexion or to where lumbar starts to peel — whichever comes first. Drive up through <strong>mid-foot</strong>, body swings forward through the arc. <em>Exhale forcefully through the drive.</em> Stop 5cm short of lockout.</p>
+          <p>The pendulum arc means resistance peaks in the bottom-half of the rep where quads are stretched — exactly where you want hypertrophy stimulus highest.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Quads (vastus lat., intermedius, rectus fem.) — most isolated quad work in the gym</li>
+            <li>Pendulum arc loads quads heaviest in stretched position = optimal hypertrophy</li>
+            <li>Glutes and core minimal — by design</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Lumbar peel at depth — non-negotiable hard stop</li>
+            <li>Knee valgus — actively press knees out toward toes</li>
+            <li>Heels lifting — ankle mobility limit, elevate 1–2cm or limit depth</li>
+            <li>Foot too high on platform — turns into partial rep, kills quad stretch</li>
+            <li>Bouncing out of bottom — Valsalva risk; controlled descent</li>
+            <li>Locking out hard at top — kills tension, knee compression</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">02</div>
+        <div class="ex-title">Standing Hip Thrust<span class="ex-tag">GLUTE ISO</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Best glute-isolation tool you have.</strong> Pure hip extension under load — no spinal involvement, no axial compression. Replaces cable pull-through with a more direct stimulus.</p>
+          <p>Stand on platform, chest pad against your front (sternum/upper abs). Hold rails for stability. Adjust pad height so the lever arm/pad presses against your <strong>upper glutes / lower back where the glute insertion is</strong> — not on lumbar spine.</p>
+          <p>Setup: feet shoulder-width, slight knee bend (~15°, locked). Brace against chest pad. Start position: hips slightly flexed forward.</p>
+          <p>Drive hips forward by squeezing glutes hard — <em>finish with posterior pelvic tilt at top</em> (tuck tailbone under, ribs down). 1-sec peak squeeze. 2-sec eccentric back to start, never let glutes fully relax.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Glutes — gluteus maximus primarily, in pure shortened-position contraction</li>
+            <li>Standing position with pad on glutes = direct loading, no leverage loss</li>
+            <li>Hamstrings minimal (different from hip thrust on bench)</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pad on lower back/lumbar — should be on glutes, adjust height</li>
+            <li>Hyperextending lumbar at top — <em>posterior pelvic tilt</em>, don't arch back</li>
+            <li>Knees bending through rep — knee angle stays fixed</li>
+            <li>Pushing with arms on rails — they're for balance only</li>
+            <li>Cutting reps short — squeeze glutes hard at top, full lockout</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="120">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">03</div>
+        <div class="ex-title">Walking Lunge<span class="ex-tag">LONG STRIDE</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 / leg</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>DBs at sides. Stand tall, ribs over hips.</p>
+          <p>Stride matters: short = quad bias, long = glute/hamstring bias. <strong>Long stride for glute focus</strong> — balances the quad-dominant pendulum squat earlier in the session.</p>
+          <p>Step into long stride. Drop straight down — front shin angles slightly forward but stays close to vertical, rear knee 2cm above floor. Front knee tracks over toes. Chest tall (~5° forward lean max), eyes forward. Drive up through <em>front-leg heel and mid-foot</em>. Front-leg glute squeezes at top.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Glutes primary (long stride)</li>
+            <li>Quads, adductors (stabilization)</li>
+            <li>Core (anti-rotation)</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pushing off rear foot — kills unilateral stimulus</li>
+            <li>Front knee caving — track over second toe</li>
+            <li>Torso pitching forward — weight too heavy or stride too long</li>
+            <li>Stride shortening with fatigue — keep it long</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="90">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">04</div>
+        <div class="ex-title">Iso-Lateral Kneeling Leg Curl</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 / leg</span><span class="sep">·</span>
+        <span>1:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Same machine as Day 2, but <strong>higher reps for hypertrophy stimulus</strong>. Keep all the same execution: kneel, brace torso against chest pad, hips neutral, ankle pad above heel.</p>
+          <p>Toes dorsiflexed throughout. <em>3-sec eccentric, no stack rest, 1-sec peak hold.</em> Push the reps deep into the burn — hamstrings respond to high-rep work especially in this stretched position.</p>
+          <p>Day 2 (10-12 reps) trains strength + stretch; Day 4 (12-15 reps) trains metabolic stress + stretch — different stimuli on the same exercise.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Biceps femoris (long head) — kneeling position lengthens it across both joints</li>
+            <li>Higher rep range = metabolic + stretch-mediated hypertrophy</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Hip flexing forward — kills stretch advantage</li>
+            <li>Plantar flexion — hamstring deactivates</li>
+            <li>Stack resting — kills tension</li>
+            <li>Cutting reps short of burn — high-rep day requires pushing past discomfort</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex" data-rest="60">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">05</div>
+        <div class="ex-title">Smith Machine Seated Calf Raise</div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Sit on a flat bench placed inside the Smith. Place a 25kg/45lb plate or aerobic step in front of you for elevation. Balls of feet on plate, heels free to drop below. <strong>Knees at 90°.</strong></p>
+          <p>Position the Smith bar across the lower thighs (just above knees), padded with a towel/foam if needed. Unrack. Keep <strong>upper body upright, head neutral, eyes forward</strong>.</p>
+          <p>Drop heels deep — <em>2-sec pause at full stretch</em>. Drive up to full plantar flexion, 1-sec squeeze. Slow tempo. <strong>Knee at 90° puts gastroc into shortened (slack) position — leaves soleus to do the work.</strong></p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Soleus (95% of work) — gastroc mechanically eliminated by bent knee</li>
+            <li>Soleus is mostly slow-twitch — grows from longer, slower work, more reps</li>
+            <li>Smith bar = stable load path, no balance demand</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Bouncing — soleus is slow-twitch, bouncing skips muscle work</li>
+            <li>Cutting stretch at bottom — that's where it grows</li>
+            <li>Going too heavy — soleus responds to volume more than load</li>
+            <li>Bar placed too far up thighs — uncomfortable, shifts mechanics</li>
+            <li>Letting torso slump forward — head drops, position lost</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="custom-ex-container"></div>
+  <button class="btn" style="margin: 8px 0 18px; width: 100%;" onclick="openPicker()"><span class="btn-icon">+</span>Add Custom Exercise</button>
+  <div class="summary">
+    <div class="panel">
+      <h3>Warm-Up · 9 min</h3>
+      <ul>
+        <li>Bike easy · 3 min</li>
+        <li>Leg swings front/back/lateral · 10/leg</li>
+        <li>Bodyweight squat · 10</li>
+        <li>Cossack squat · 6/side</li>
+        <li>Glute bridge · 12</li>
+      </ul>
+    </div>
+    <div class="panel warn">
+      <h3>Breathing Protocol</h3>
+      <ul>
+        <li>Machine-anchored day — no axial loading anywhere</li>
+        <li>Pendulum squat: fixed arc, no spinal compression. Stop at RIR 2</li>
+        <li>Hip thrust: ribs down at lockout, no hyperextension</li>
+        <li>Walking lunge: chest tall, head up, eyes forward</li>
+        <li>Smith calf raise: torso upright — don't let it slump forward</li>
+        <li>Higher reps here means longer sets — keep breathing through them</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<!-- ========== BOTTOM NAV ========== -->
+<nav class="bottomnav cols-6">
+  <button class="navbtn active" data-day="1">
+    <div class="nav-num">01</div>
+    <div class="nav-label">UPP·STR</div>
+  </button>
+  <button class="navbtn" data-day="2">
+    <div class="nav-num">02</div>
+    <div class="nav-label">LOW·STR</div>
+  </button>
+  <button class="navbtn" data-day="3">
+    <div class="nav-num">03</div>
+    <div class="nav-label">UPP·HYP</div>
+  </button>
+  <button class="navbtn" data-day="4">
+    <div class="nav-num">04</div>
+    <div class="nav-label">LOW·HYP</div>
+  </button>
+  <button class="navbtn" data-day="stats">
+    <div class="nav-num">◪</div>
+    <div class="nav-label">STATS</div>
+  </button>
+  <button class="navbtn" data-day="log">
+    <div class="nav-num">≡</div>
+    <div class="nav-label">LOG</div>
+  </button>
+</nav>
+
+<!-- ========== STATS VIEW ========== -->
+<main class="day stats-view" data-day="stats" data-title="Progress" data-sub="Trends from your logged sessions">
+
+  <div class="stat-strip" id="stat-strip"></div>
+
+  <div class="chart-block">
+    <div class="chart-head">
+      <div class="chart-title">Sessions per week</div>
+      <div class="chart-sub" id="adherence-sub">Last 12 weeks</div>
+    </div>
+    <div id="adherence-chart"></div>
+  </div>
+
+  <div class="chart-block">
+    <div class="chart-head">
+      <div class="chart-title">By exercise</div>
+      <div class="chart-delta" id="ex-delta"></div>
+    </div>
+    <div class="chip-row" id="ex-chips"></div>
+    <div class="metric-row">
+      <button class="metric-btn active" data-metric="e1rm" onclick="setStatMetric('e1rm')">Est. 1RM</button>
+      <button class="metric-btn" data-metric="top" onclick="setStatMetric('top')">Top set</button>
+      <button class="metric-btn" data-metric="vol" onclick="setStatMetric('vol')">Volume</button>
+    </div>
+    <div id="ex-chart"></div>
+    <div id="ex-points" class="point-list"></div>
+  </div>
+
+</main>
+
+<!-- ========== LOG VIEW ========== -->
+<main class="day log-view" data-day="log" data-title="Log &amp; Library" data-sub="History · Custom exercises · Export">
+
+  <div class="log-section">
+    <div class="log-section-head">
+      <h2>Export for Claude</h2>
+    </div>
+    <div class="export-grid">
+      <button class="export-btn" onclick="exportMarkdown(7)">7-Day MD</button>
+      <button class="export-btn" onclick="exportMarkdown(14)">14-Day MD</button>
+    </div>
+    <div class="export-help">
+      Copies a markdown summary of your sessions to clipboard. Paste into a new Claude chat and ask: <em>"Analyze my progress and give weekly adjustments."</em>
+    </div>
+  </div>
+
+  <div class="log-section">
+    <div class="log-section-head">
+      <h2>Coach Suggestions</h2>
+      <button class="lib-btn" id="suggestModeBtn" onclick="toggleSuggestEditMode()">EDIT MODE</button>
+    </div>
+    <div class="export-help" style="margin-top:0;">
+      Tap EDIT MODE, then go to any day. You'll see a "+ Add suggestion" button on each exercise card. Use this to capture Claude's weight/rep recommendations from your last analysis. Suggestions show on the card during your workout.
+    </div>
+    <div id="suggest-summary" style="margin-top:12px;"></div>
+  </div>
+
+  <div class="log-section">
+    <div class="log-section-head">
+      <h2>Custom Exercises</h2>
+      <button class="lib-btn add" onclick="openExerciseForm()">+ NEW</button>
+    </div>
+    <div id="lib-list"></div>
+  </div>
+
+  <div class="log-section">
+    <div class="log-section-head">
+      <h2>Session History</h2>
+      <span class="count" id="history-count">0</span>
+    </div>
+    <div id="history-list"></div>
+  </div>
+
+  <div class="log-section">
+    <div class="log-section-head">
+      <h2>Data</h2>
+    </div>
+    <div class="export-grid">
+      <button class="lib-btn" onclick="downloadJSON()">SAVE BACKUP</button>
+      <button class="lib-btn" onclick="document.getElementById('importFile').click()">RESTORE</button>
+    </div>
+    <input type="file" id="importFile" accept="application/json,.json" style="display:none" onchange="importJSON(this)">
+    <div class="export-grid" style="margin-top:8px;">
+      <button class="lib-btn danger" onclick="confirmReset()">DELETE ALL DATA</button>
+    </div>
+    <div class="export-help">
+      Your data lives only in this browser. Save a backup before clearing site data or switching phones.
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== LOG SET MODAL ========== -->
+<div class="log-modal" id="logModal">
+  <div class="log-card">
+    <h3 id="logTitle">Log Set</h3>
+    <div class="log-sub" id="logSub">Set 1 of 4</div>
+    <div class="log-prev" id="logPrev" style="display:none;"></div>
+    <div class="log-field" style="margin-bottom:12px;">
+      <label>Weight (kg)</label>
+      <div class="stepper-row">
+        <button class="step-btn" type="button" onclick="nudgeField('logWeight',-2.5)" aria-label="Decrease weight">&minus;</button>
+        <input type="number" id="logWeight" inputmode="decimal" step="0.5" min="0">
+        <button class="step-btn" type="button" onclick="nudgeField('logWeight',2.5)" aria-label="Increase weight">+</button>
+      </div>
+    </div>
+    <div class="log-field" style="margin-bottom:12px;">
+      <label>Reps</label>
+      <div class="stepper-row">
+        <button class="step-btn" type="button" onclick="nudgeField('logReps',-1)" aria-label="Decrease reps">&minus;</button>
+        <input type="number" id="logReps" inputmode="numeric" step="1" min="0">
+        <button class="step-btn" type="button" onclick="nudgeField('logReps',1)" aria-label="Increase reps">+</button>
+      </div>
+    </div>
+    <div class="log-field" style="margin-bottom:16px;">
+      <label>Rest taken (seconds)</label>
+      <div class="stepper-row">
+        <button class="step-btn" type="button" onclick="nudgeField('logRest',-15)" aria-label="Decrease rest">&minus;</button>
+        <input type="number" id="logRest" inputmode="numeric" step="5" min="0">
+        <button class="step-btn" type="button" onclick="nudgeField('logRest',15)" aria-label="Increase rest">+</button>
+      </div>
+    </div>
+    <div class="log-actions">
+      <button class="btn" onclick="cancelLogSet()">Cancel</button>
+      <button class="btn primary" onclick="saveLogSet()">Save · Start Rest</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== EXERCISE FORM MODAL (add/edit custom exercise) ========== -->
+<div class="form-modal" id="formModal">
+  <div class="form-card">
+    <h3 id="formTitle">New Exercise</h3>
+    <div class="form-row">
+      <label>Name</label>
+      <input type="text" id="fName" placeholder="e.g. Pendlay Row">
+    </div>
+    <div class="form-row form-row-grid">
+      <div>
+        <label>Sets</label>
+        <input type="number" id="fSets" value="3" min="1" max="10">
+      </div>
+      <div>
+        <label>Reps</label>
+        <input type="text" id="fReps" placeholder="8–10">
+      </div>
+      <div>
+        <label>Rest (s)</label>
+        <input type="number" id="fRest" value="120" step="15" min="15">
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Tag (optional, e.g. BACK)</label>
+      <input type="text" id="fTag" maxlength="8">
+    </div>
+    <div class="form-row">
+      <label>How — Execution cues</label>
+      <textarea id="fHow" placeholder="Setup, tempo, ROM, breathing..."></textarea>
+    </div>
+    <div class="form-row">
+      <label>Engage — Muscles &amp; intent</label>
+      <textarea id="fAct" placeholder="Primary movers, secondary..."></textarea>
+    </div>
+    <div class="form-row">
+      <label>Avoid — Common errors</label>
+      <textarea id="fComp" placeholder="What goes wrong, what to fix..."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn" onclick="closeExerciseForm()">Cancel</button>
+      <button class="btn primary" onclick="saveExercise()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ADD-TO-DAY PICKER ========== -->
+<div class="form-modal" id="pickerModal">
+  <div class="form-card">
+    <h3>Add Custom Exercise</h3>
+    <div class="log-sub" id="pickerSub">Pick from your library</div>
+    <div class="picker-list" id="pickerList"></div>
+    <div class="form-actions" style="margin-top:18px;">
+      <button class="btn" onclick="closePickerModal()">Cancel</button>
+      <button class="btn primary" onclick="openExerciseForm(); closePickerModal();">+ Create New</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SUGGESTION EDIT MODAL ========== -->
+<div class="form-modal" id="suggestModal">
+  <div class="form-card">
+    <h3 id="suggestTitle">Coach Suggestion</h3>
+    <div class="log-sub" id="suggestSub" style="margin-bottom:14px;"></div>
+    <div class="form-row">
+      <label>Suggestion (e.g. "80×8, 80×8, 85×6-8, 85×6-8")</label>
+      <textarea id="suggestText" rows="3" placeholder="Enter weight/rep targets or notes from your coach analysis..."></textarea>
+    </div>
+    <div class="form-actions" style="grid-template-columns: 1fr 1fr 1fr;">
+      <button class="btn" onclick="closeSuggestModal()">Cancel</button>
+      <button class="btn" style="color:var(--red);" onclick="clearSuggestion()">Clear</button>
+      <button class="btn primary" onclick="saveSuggestion()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== REST TIMER MODAL ========== -->
+<div class="timer-modal" id="timerModal">
+  <div class="timer-card">
+    <h3>Rest Timer</h3>
+    <div class="timer-display" id="timerDisplay">2:30</div>
+    <div class="timer-presets">
+      <button class="preset" onclick="setTimer(60)">1:00</button>
+      <button class="preset" onclick="setTimer(90)">1:30</button>
+      <button class="preset" onclick="setTimer(120)">2:00</button>
+      <button class="preset" onclick="setTimer(180)">3:00</button>
+    </div>
+    <div class="timer-actions">
+      <button class="btn" onclick="closeTimer()">Close</button>
+      <button class="btn primary" id="timerToggle" onclick="toggleTimerPause()">Pause</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Set complete</div>
+
+<script>
+
+const STORAGE_KEY = 'training_app_v1';
+
+const defaultState = () => ({
+  version: 1,
+  customExercises: [],
+  dayCustoms: { "1": [], "2": [], "3": [], "4": [] },
+  suggestions: {},          // keyed by exercise name (lowercased) → coach text
+  suggestionsRev: 0,        // matches SUGGESTIONS_REV when storage is current
+  suggestionOverrides: {},  // keys here are user-edited and won't be overwritten by rev bumps
+  currentSession: null,
+  sessions: []
+});
+
+let state = loadState();
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    return Object.assign(defaultState(), parsed);
+  } catch (e) {
+    console.warn('State load failed, resetting', e);
+    return defaultState();
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    showToast('Storage error — log may not persist');
+  }
+}
+
+function todayISO() {
+  const d = new Date();
+  return d.toISOString().split('T')[0];
+}
+
+function ensureSession(dayKey) {
+  if (state.currentSession
+      && state.currentSession.day === dayKey
+      && state.currentSession.date === todayISO()) {
+    return state.currentSession;
+  }
+  if (state.currentSession && Object.keys(state.currentSession.logs || {}).length > 0) {
+    archiveSession(state.currentSession);
+  }
+  state.currentSession = {
+    day: dayKey,
+    date: todayISO(),
+    logs: {}  // keyed by exercise DOM id
+  };
+  return state.currentSession;
+}
+
+function archiveSession(session) {
+  const dayEl = document.querySelector(`.day[data-day="${session.day}"]`);
+  const dayTitle = dayEl ? dayEl.dataset.title : `Day ${session.day}`;
+  const exercises = [];
+  Object.entries(session.logs).forEach(([exKey, sets]) => {
+    if (!sets.length) return;
+    const name = session.exNames?.[exKey] || exKey;
+    exercises.push({ name, sets });
+  });
+  if (exercises.length === 0) return;
+  state.sessions.unshift({
+    date: session.date,
+    day: session.day,
+    dayTitle,
+    exercises
+  });
+  if (state.sessions.length > 200) state.sessions.length = 200;
+}
+
+function finalizeAndArchiveCurrent() {
+  if (state.currentSession && Object.keys(state.currentSession.logs || {}).length > 0) {
+    archiveSession(state.currentSession);
+    state.currentSession = null;
+    saveState();
+  }
+}
+
+function assignExerciseKeys() {
+  document.querySelectorAll('.day[data-day]').forEach(day => {
+    const dKey = day.dataset.day;
+    if (dKey === 'log' || dKey === 'stats') return;
+    day.querySelectorAll('.ex').forEach((ex, i) => {
+      if (!ex.dataset.exKey) ex.dataset.exKey = `day${dKey}-ex${i}`;
+    });
+  });
+}
+
+function decorateSets() {
+  document.querySelectorAll('.set').forEach(set => {
+    if (set.querySelector('.set-num')) return;
+    const num = set.textContent.trim();
+    set.innerHTML = `<span class="set-num">${num}</span><span class="set-weight"></span>`;
+  });
+}
+
+function switchTab(btn, tab) {
+  const detail = btn.closest('.detail-inner');
+  detail.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  detail.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  detail.querySelector(`.${tab}-content`).classList.add('active');
+}
+
+function toggleDetail(btn) {
+  const ex = btn.closest('.ex');
+  ex.classList.toggle('open');
+  btn.querySelector('.btn-icon').textContent = ex.classList.contains('open') ? '↑' : '↓';
+}
+
+let pendingLog = null;  // { exKey, exName, setIndex, setEl, restDefault, prevValues }
+
+function openLogModal(setEl) {
+  const ex = setEl.closest('.ex');
+  const exKey = ex.dataset.exKey;
+  const exName = getExerciseName(ex);
+  const setIndex = [...ex.querySelectorAll('.set')].indexOf(setEl);
+  const totalSets = ex.querySelectorAll('.set').length;
+  const restDefault = parseInt(ex.dataset.rest) || 90;
+
+  const session = state.currentSession;
+  const existing = session?.logs?.[exKey]?.[setIndex];
+
+  const prev = findPreviousSet(exKey, setIndex);
+
+  pendingLog = { exKey, exName, setIndex, setEl, restDefault };
+
+  document.getElementById('logTitle').textContent = exName;
+  document.getElementById('logSub').textContent = `Set ${setIndex + 1} of ${totalSets}`;
+
+  const wInput = document.getElementById('logWeight');
+  const rInput = document.getElementById('logReps');
+  const restInput = document.getElementById('logRest');
+
+  if (existing) {
+    wInput.value = existing.w ?? '';
+    rInput.value = existing.r ?? '';
+    restInput.value = existing.rest ?? restDefault;
+  } else {
+    wInput.value = prev?.w ?? '';
+    rInput.value = prev?.r ?? '';
+    restInput.value = restDefault;
+  }
+
+  const prevEl = document.getElementById('logPrev');
+  if (prev && !existing) {
+    prevEl.style.display = 'block';
+    prevEl.innerHTML = `Last: <strong>${prev.w}kg × ${prev.r}</strong> · ${prev.source}`;
+  } else {
+    prevEl.style.display = 'none';
+  }
+
+  document.getElementById('logModal').classList.add('active');
+  setTimeout(() => wInput.focus(), 150);
+}
+
+function findPreviousSet(exKey, setIndex) {
+  const cur = state.currentSession?.logs?.[exKey];
+  if (cur && cur[setIndex - 1]) {
+    const p = cur[setIndex - 1];
+    return { w: p.w, r: p.r, source: 'prev set' };
+  }
+  const ex = document.querySelector(`.ex[data-ex-key="${exKey}"]`);
+  if (!ex) return null;
+  const exName = getExerciseName(ex);
+  for (const sess of state.sessions) {
+    const hit = sess.exercises.find(e => e.name === exName);
+    if (hit && hit.sets.length) {
+      const s = hit.sets[setIndex] || hit.sets[hit.sets.length - 1];
+      return { w: s.w, r: s.r, source: sess.date };
+    }
+  }
+  return null;
+}
+
+function cancelLogSet() {
+  document.getElementById('logModal').classList.remove('active');
+  pendingLog = null;
+}
+
+function saveLogSet() {
+  if (!pendingLog) return;
+  const { exKey, exName, setIndex, setEl, restDefault } = pendingLog;
+  const w = parseFloat(document.getElementById('logWeight').value);
+  const r = parseInt(document.getElementById('logReps').value);
+  const rest = parseInt(document.getElementById('logRest').value) || restDefault;
+
+  if (isNaN(w) || isNaN(r)) {
+    showToast('Enter weight and reps');
+    return;
+  }
+
+  const dayKey = setEl.closest('.day').dataset.day;
+  const session = ensureSession(dayKey);
+  if (!session.logs[exKey]) session.logs[exKey] = [];
+  if (!session.exNames) session.exNames = {};
+  session.exNames[exKey] = exName;
+  session.logs[exKey][setIndex] = { w, r, rest, ts: Date.now() };
+
+  setEl.classList.add('done');
+  setEl.querySelector('.set-weight').textContent = `${w}kg`;
+
+  const ex = setEl.closest('.ex');
+  const allDone = [...ex.querySelectorAll('.set')].every(s => s.classList.contains('done'));
+  ex.classList.toggle('complete', allDone);
+
+  saveState();
+  updateProgress();
+  document.getElementById('logModal').classList.remove('active');
+  startTimer(rest);
+  showToast(`Logged · ${w}kg × ${r}`);
+  pendingLog = null;
+}
+
+function restoreSetUI() {
+  document.querySelectorAll('.set.done').forEach(s => {
+    s.classList.remove('done');
+    const sw = s.querySelector('.set-weight');
+    if (sw) sw.textContent = '';
+  });
+  document.querySelectorAll('.ex.complete').forEach(e => e.classList.remove('complete'));
+
+  const sess = state.currentSession;
+  if (!sess || sess.date !== todayISO()) return;
+
+  const dayEl = document.querySelector(`.day[data-day="${sess.day}"]`);
+  if (!dayEl) return;
+
+  Object.entries(sess.logs).forEach(([exKey, sets]) => {
+    const ex = dayEl.querySelector(`.ex[data-ex-key="${exKey}"]`);
+    if (!ex) return;
+    const setEls = ex.querySelectorAll('.set');
+    sets.forEach((log, i) => {
+      if (log && setEls[i]) {
+        setEls[i].classList.add('done');
+        setEls[i].querySelector('.set-weight').textContent = `${log.w}kg`;
+      }
+    });
+    const allDone = [...setEls].every(s => s.classList.contains('done'));
+    ex.classList.toggle('complete', allDone);
+  });
+}
+
+function attachSetListeners() {
+  document.querySelectorAll('.set').forEach(set => {
+    if (set.dataset.bound) return;
+    set.dataset.bound = '1';
+    set.addEventListener('click', () => openLogModal(set));
+  });
+}
+
+function updateProgress() {
+  const day = document.querySelector('.day.active');
+  const resetBtn = document.getElementById('resetDayBtn');
+  if (!day || day.classList.contains('log-view') || day.classList.contains('stats-view')) {
+    document.getElementById('progress').style.width = '0%';
+    if (resetBtn) resetBtn.style.display = 'none';
+    return;
+  }
+  const total = day.querySelectorAll('.set').length;
+  const done = day.querySelectorAll('.set.done').length;
+  const pct = total > 0 ? (done / total) * 100 : 0;
+  document.getElementById('progress').style.width = `${pct}%`;
+  if (resetBtn) resetBtn.style.display = done > 0 ? 'inline-block' : 'none';
+}
+
+document.querySelectorAll('.navbtn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const day = btn.dataset.day;
+    document.querySelectorAll('.navbtn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
+    btn.classList.add('active');
+    const dayEl = document.querySelector(`.day[data-day="${day}"]`);
+    dayEl.classList.add('active');
+    document.getElementById('day-title').textContent = dayEl.dataset.title;
+    document.getElementById('day-num').textContent = (day === 'log' || day === 'stats') ? '—' : '0' + day;
+    document.getElementById('day-sub').textContent = dayEl.dataset.sub;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (day === 'log') {
+      renderLogView();
+    } else if (day === 'stats') {
+      renderStats();
+    } else {
+      restoreSetUI();
+    }
+    updateProgress();
+  });
+});
+
+let timerInterval = null;
+let timerSeconds = 0;
+let timerPaused = false;
+
+function startTimer(seconds) {
+  timerSeconds = seconds;
+  timerPaused = false;
+  document.getElementById('timerToggle').textContent = 'Pause';
+  document.getElementById('timerModal').classList.add('active');
+  updateTimerDisplay();
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (!timerPaused) {
+      timerSeconds--;
+      updateTimerDisplay();
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400]);
+        playBeep();
+        document.getElementById('timerDisplay').textContent = 'GO';
+      }
+    }
+  }, 1000);
+}
+
+function setTimer(seconds) {
+  timerSeconds = seconds;
+  updateTimerDisplay();
+  document.querySelectorAll('.preset').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  const display = document.getElementById('timerDisplay');
+  display.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+  display.classList.toggle('warning', timerSeconds <= 10 && timerSeconds > 0);
+}
+
+function toggleTimerPause() {
+  timerPaused = !timerPaused;
+  document.getElementById('timerToggle').textContent = timerPaused ? 'Resume' : 'Pause';
+}
+
+function closeTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  document.getElementById('timerModal').classList.remove('active');
+}
+
+function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.start(); osc.stop(ctx.currentTime + 0.5);
+  } catch(e) {}
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+let editingId = null;
+
+function openExerciseForm(id = null) {
+  editingId = id;
+  const ex = id ? state.customExercises.find(e => e.id === id) : null;
+  document.getElementById('formTitle').textContent = ex ? 'Edit Exercise' : 'New Exercise';
+  document.getElementById('fName').value  = ex?.name || '';
+  document.getElementById('fSets').value  = ex?.sets || 3;
+  document.getElementById('fReps').value  = ex?.reps || '';
+  document.getElementById('fRest').value  = ex?.rest || 120;
+  document.getElementById('fTag').value   = ex?.tag  || '';
+  document.getElementById('fHow').value   = ex?.how  || '';
+  document.getElementById('fAct').value   = ex?.act  || '';
+  document.getElementById('fComp').value  = ex?.comp || '';
+  document.getElementById('formModal').classList.add('active');
+}
+
+function closeExerciseForm() {
+  document.getElementById('formModal').classList.remove('active');
+  editingId = null;
+}
+
+function saveExercise() {
+  const data = {
+    name: document.getElementById('fName').value.trim(),
+    sets: parseInt(document.getElementById('fSets').value) || 3,
+    reps: document.getElementById('fReps').value.trim() || '8–10',
+    rest: parseInt(document.getElementById('fRest').value) || 120,
+    tag:  document.getElementById('fTag').value.trim().toUpperCase(),
+    how:  document.getElementById('fHow').value.trim(),
+    act:  document.getElementById('fAct').value.trim(),
+    comp: document.getElementById('fComp').value.trim()
+  };
+  if (!data.name) { showToast('Name required'); return; }
+
+  if (editingId) {
+    const idx = state.customExercises.findIndex(e => e.id === editingId);
+    if (idx >= 0) state.customExercises[idx] = { ...state.customExercises[idx], ...data };
+  } else {
+    data.id = 'cx_' + Date.now().toString(36);
+    state.customExercises.push(data);
+  }
+  saveState();
+  renderLibrary();
+  renderAllCustomExercises();
+  closeExerciseForm();
+  showToast(editingId ? 'Updated' : 'Added to library');
+}
+
+function deleteExercise(id) {
+  if (!confirm('Delete this exercise from your library?')) return;
+  state.customExercises = state.customExercises.filter(e => e.id !== id);
+  Object.keys(state.dayCustoms).forEach(d => {
+    state.dayCustoms[d] = (state.dayCustoms[d] || []).filter(item => {
+      const itemId = typeof item === 'string' ? item : item.exId;
+      return itemId !== id;
+    });
+  });
+  saveState();
+  renderLibrary();
+  renderAllCustomExercises();
+}
+
+function renderLibrary() {
+  const root = document.getElementById('lib-list');
+  if (!state.customExercises.length) {
+    root.innerHTML = '<div class="export-help" style="margin:0;">No custom exercises yet. Tap + NEW to add one.</div>';
+    return;
+  }
+  root.innerHTML = state.customExercises.map(e => `
+    <div class="lib-card">
+      <div class="lib-info">
+        <div class="lib-name">${escapeHtml(e.name)}${e.tag ? ` <span class="ex-tag" style="margin-left:4px;">${escapeHtml(e.tag)}</span>` : ''}</div>
+        <div class="lib-meta">${e.sets} × ${escapeHtml(e.reps)} · ${formatRest(e.rest)}</div>
+      </div>
+      <div class="lib-actions">
+        <button class="lib-btn" onclick="openExerciseForm('${e.id}')">EDIT</button>
+        <button class="lib-btn danger" onclick="deleteExercise('${e.id}')">DEL</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openPicker() {
+  const dayKey = document.querySelector('.day.active')?.dataset.day;
+  if (!dayKey || dayKey === 'log') return;
+  const list = document.getElementById('pickerList');
+  document.getElementById('pickerSub').textContent = `Add to Day ${dayKey}`;
+
+  if (!state.customExercises.length) {
+    list.innerHTML = '<div class="export-help" style="margin:0;">No saved exercises. Create one first.</div>';
+  } else {
+    list.innerHTML = state.customExercises.map(e => `
+      <div class="picker-item" onclick="addCustomToDay('${dayKey}', '${e.id}')">
+        <div>
+          <div class="picker-name">${escapeHtml(e.name)}</div>
+          <div class="picker-meta">${e.sets} × ${escapeHtml(e.reps)} · ${formatRest(e.rest)}</div>
+        </div>
+        <span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:18px;">+</span>
+      </div>
+    `).join('');
+  }
+  document.getElementById('pickerModal').classList.add('active');
+}
+
+function closePickerModal() {
+  document.getElementById('pickerModal').classList.remove('active');
+}
+
+function addCustomToDay(dayKey, exId) {
+  if (!state.dayCustoms[dayKey]) state.dayCustoms[dayKey] = [];
+  state.dayCustoms[dayKey].push({ exId, iid: 'i_' + Date.now().toString(36) + Math.floor(Math.random()*1000) });
+  saveState();
+  renderCustomExercisesForDay(dayKey);
+  closePickerModal();
+  showToast('Added');
+}
+
+function removeCustomFromDay(dayKey, iid) {
+  state.dayCustoms[dayKey] = (state.dayCustoms[dayKey] || []).filter(item => {
+    const itemIid = typeof item === 'string' ? item : item.iid;
+    return itemIid !== iid;
+  });
+  saveState();
+  renderCustomExercisesForDay(dayKey);
+}
+
+function renderAllCustomExercises() {
+  ['1','2','3','4'].forEach(d => renderCustomExercisesForDay(d));
+}
+
+function renderCustomExercisesForDay(dayKey) {
+  const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+  if (!dayEl) return;
+  const container = dayEl.querySelector('.custom-ex-container');
+  if (!container) return;
+
+  const items = (state.dayCustoms[dayKey] || []).map(item =>
+    typeof item === 'string' ? { exId: item, iid: 'legacy_' + Math.random().toString(36).slice(2,8) } : item
+  );
+  state.dayCustoms[dayKey] = items;
+
+  const builtInCount = dayEl.querySelectorAll('.ex:not(.custom)').length;
+
+  container.innerHTML = items.map((item, i) => {
+    const ex = state.customExercises.find(e => e.id === item.exId);
+    if (!ex) return '';
+    const num = String(builtInCount + i + 1).padStart(2, '0');
+    const exKey = `custom-${item.iid}`;  // stable per-instance id
+    const setHTML = Array.from({length: ex.sets}, (_, k) =>
+      `<div class="set"><span class="set-num">${k+1}</span><span class="set-weight"></span></div>`
+    ).join('');
+
+    return `
+      <div class="ex custom" data-rest="${ex.rest}" data-ex-key="${exKey}">
+        <div class="ex-head">
+          <button class="ex-remove" title="Remove from day" onclick="removeCustomFromDay('${dayKey}', '${item.iid}')">×</button>
+          <div class="ex-row1">
+            <div class="ex-num">${num}</div>
+            <div class="ex-title">${escapeHtml(ex.name)}${ex.tag ? `<span class="ex-tag">${escapeHtml(ex.tag)}</span>` : ''}</div>
+          </div>
+          <div class="ex-targets">
+            <span>${ex.sets} sets</span><span class="sep">·</span>
+            <span class="reps">${escapeHtml(ex.reps)} reps</span><span class="sep">·</span>
+            <span>${formatRest(ex.rest)}</span>
+          </div>
+          <div class="sets">${setHTML}</div>
+          <div class="actions">
+            <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+            <button class="btn primary" onclick="startTimer(${ex.rest})"><span class="btn-icon">⏱</span>Rest ${formatRest(ex.rest)}</button>
+          </div>
+        </div>
+        <div class="detail">
+          <div class="detail-inner">
+            <div class="tabs">
+              <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+              <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+              <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+            </div>
+            <div class="tab-content exec-content active"><p>${escapeHtml(ex.how) || '<em>No notes</em>'}</p></div>
+            <div class="tab-content act-content"><p>${escapeHtml(ex.act) || '<em>No notes</em>'}</p></div>
+            <div class="tab-content comp-content"><p>${escapeHtml(ex.comp) || '<em>No notes</em>'}</p></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  attachSetListeners();
+  renderSuggestionBanners();
+  if (dayEl.classList.contains('active')) restoreSetUI();
+}
+
+let suggestEditingName = null;
+
+function suggestKey(name) {
+  return (name || '').toLowerCase().trim();
+}
+
+function getSuggestion(name) {
+  return state.suggestions[suggestKey(name)] || null;
+}
+
+function renderSuggestionBanners() {
+  document.querySelectorAll('.day .ex').forEach(ex => {
+    const name = getExerciseName(ex);
+    const text = getSuggestion(name);
+    let banner = ex.querySelector('.ex-suggest');
+    let addBtn = ex.querySelector('.ex-suggest-add');
+    const targetsEl = ex.querySelector('.ex-targets');
+    if (!targetsEl) return;
+
+    if (banner) banner.remove();
+    if (addBtn) addBtn.remove();
+
+    if (text) {
+      banner = document.createElement('div');
+      banner.className = 'ex-suggest';
+      banner.innerHTML = `
+        <div class="ex-suggest-body">
+          <div class="ex-suggest-label">Coach</div>
+          <div class="ex-suggest-text"></div>
+        </div>
+        <button class="ex-suggest-edit" type="button">EDIT</button>
+      `;
+      banner.querySelector('.ex-suggest-text').textContent = text;
+      banner.querySelector('.ex-suggest-edit').onclick = () => openSuggestModal(name);
+      targetsEl.insertAdjacentElement('afterend', banner);
+    } else {
+      addBtn = document.createElement('button');
+      addBtn.className = 'ex-suggest-add';
+      addBtn.type = 'button';
+      addBtn.textContent = '+ Add coach suggestion';
+      addBtn.onclick = () => openSuggestModal(name);
+      targetsEl.insertAdjacentElement('afterend', addBtn);
+    }
+  });
+}
+
+function toggleSuggestEditMode() {
+  document.body.classList.toggle('suggest-edit-mode');
+  const on = document.body.classList.contains('suggest-edit-mode');
+  document.getElementById('suggestModeBtn').textContent = on ? 'EXIT EDIT' : 'EDIT MODE';
+  document.getElementById('suggestModeBtn').classList.toggle('add', on);
+  if (on) {
+    showToast('Edit mode on · go to any day');
+  }
+}
+
+function openSuggestModal(exerciseName) {
+  suggestEditingName = exerciseName;
+  document.getElementById('suggestTitle').textContent = exerciseName;
+  document.getElementById('suggestSub').textContent = 'Weight/rep targets or coach notes';
+  document.getElementById('suggestText').value = getSuggestion(exerciseName) || '';
+  document.getElementById('suggestModal').classList.add('active');
+  setTimeout(() => document.getElementById('suggestText').focus(), 150);
+}
+
+function closeSuggestModal() {
+  document.getElementById('suggestModal').classList.remove('active');
+  suggestEditingName = null;
+}
+
+function saveSuggestion() {
+  if (!suggestEditingName) return;
+  const text = document.getElementById('suggestText').value.trim();
+  const k = suggestKey(suggestEditingName);
+  if (!state.suggestionOverrides) state.suggestionOverrides = {};
+  if (text) {
+    state.suggestions[k] = text;
+    state.suggestionOverrides[k] = true;  // mark so future rev bumps don't overwrite
+  } else {
+    delete state.suggestions[k];
+    delete state.suggestionOverrides[k];
+  }
+  saveState();
+  renderSuggestionBanners();
+  renderSuggestSummary();
+  closeSuggestModal();
+  showToast(text ? 'Suggestion saved' : 'Suggestion cleared');
+}
+
+function clearSuggestion() {
+  if (!suggestEditingName) return;
+  const k = suggestKey(suggestEditingName);
+  delete state.suggestions[k];
+  if (state.suggestionOverrides) delete state.suggestionOverrides[k];
+  saveState();
+  renderSuggestionBanners();
+  renderSuggestSummary();
+  closeSuggestModal();
+  showToast('Suggestion cleared');
+}
+
+function renderSuggestSummary() {
+  const root = document.getElementById('suggest-summary');
+  if (!root) return;
+  const entries = Object.entries(state.suggestions);
+  if (!entries.length) {
+    root.innerHTML = '<div class="export-help" style="margin:0;font-style:italic;">No suggestions yet.</div>';
+    return;
+  }
+  root.innerHTML = entries.map(([k, text]) => `
+    <div class="lib-card">
+      <div class="lib-info">
+        <div class="lib-name">${escapeHtml(titleCase(k))}</div>
+        <div class="lib-meta" style="white-space:normal;line-height:1.4;margin-top:2px;color:var(--ink-2);text-transform:none;letter-spacing:0;font-size:11px;">${escapeHtml(text)}</div>
+      </div>
+      <div class="lib-actions">
+        <button class="lib-btn danger" onclick="quickClearSuggestion('${escapeJs(k)}')">CLEAR</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function quickClearSuggestion(key) {
+  if (!confirm('Clear this suggestion?')) return;
+  delete state.suggestions[key];
+  saveState();
+  renderSuggestionBanners();
+  renderSuggestSummary();
+}
+
+function titleCase(s) {
+  return s.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function escapeJs(s) {
+  return String(s).replace(/['"\\]/g, '\\$&');
+}
+
+function renderLogView() {
+  renderLibrary();
+  renderHistory();
+  renderSuggestSummary();
+}
+
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  document.getElementById('history-count').textContent = state.sessions.length;
+
+  const items = [];
+  if (state.currentSession && Object.keys(state.currentSession.logs || {}).length > 0) {
+    const cs = state.currentSession;
+    const dayEl = document.querySelector(`.day[data-day="${cs.day}"]`);
+    const dayTitle = dayEl ? dayEl.dataset.title : `Day ${cs.day}`;
+    const exercises = Object.entries(cs.logs).map(([exKey, sets]) => ({
+      name: cs.exNames?.[exKey] || exKey,
+      sets: sets.filter(Boolean)
+    })).filter(e => e.sets.length);
+    items.push({ date: cs.date, day: cs.day, dayTitle, exercises, isCurrent: true });
+  }
+  items.push(...state.sessions);
+
+  if (!items.length) {
+    list.innerHTML = '<div class="export-help" style="margin:0;">No sessions logged yet.</div>';
+    return;
+  }
+
+  list.innerHTML = items.slice(0, 50).map((s, idx) => {
+    const isCurrent = s.isCurrent;
+    return `
+      <div class="session-card">
+        <div class="session-card-head">
+          <div>
+            <span class="session-card-date">${formatDate(s.date)}</span>
+            ${isCurrent ? ' <span class="session-card-day" style="color:var(--warn)">· IN PROGRESS</span>' : ''}
+          </div>
+          <span class="session-card-day">${escapeHtml(s.dayTitle)}</span>
+        </div>
+        ${s.exercises.map(ex => `
+          <div class="session-ex-row">
+            <span class="ex-name">${escapeHtml(ex.name)}</span>
+            <span class="ex-data">${ex.sets.map(set => `${set.w}×${set.r}`).join(' · ')}</span>
+          </div>
+        `).join('')}
+        ${!isCurrent ? `<div style="text-align:right;margin-top:8px;"><button class="session-del" onclick="deleteSession(${idx - (state.currentSession ? 1 : 0)})">DELETE</button></div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function deleteSession(archiveIdx) {
+  if (!confirm('Delete this session?')) return;
+  state.sessions.splice(archiveIdx, 1);
+  saveState();
+  renderHistory();
+}
+
+function exportMarkdown(days) {
+  const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+  const sessions = [];
+
+  if (state.currentSession && Object.keys(state.currentSession.logs || {}).length > 0) {
+    const cs = state.currentSession;
+    const dayEl = document.querySelector(`.day[data-day="${cs.day}"]`);
+    sessions.push({
+      date: cs.date,
+      day: cs.day,
+      dayTitle: dayEl?.dataset.title || `Day ${cs.day}`,
+      exercises: Object.entries(cs.logs).map(([exKey, sets]) => ({
+        name: cs.exNames?.[exKey] || exKey,
+        sets: sets.filter(Boolean)
+      })).filter(e => e.sets.length)
+    });
+  }
+  state.sessions.forEach(s => {
+    const sessTime = new Date(s.date).getTime();
+    if (sessTime >= cutoff) sessions.push(s);
+  });
+
+  if (!sessions.length) {
+    showToast('No sessions in window');
+    return;
+  }
+
+  const lines = [];
+  lines.push(`# Training Log — Last ${days} Days`);
+  lines.push(`Generated: ${todayISO()}`);
+  lines.push(`Sessions: ${sessions.length}`);
+  lines.push('');
+  lines.push('## Format');
+  lines.push('Each set: `weight kg × reps (rest taken in seconds)`');
+  lines.push('');
+
+  sessions.forEach(s => {
+    lines.push(`---`);
+    lines.push(`### ${formatDate(s.date)} — ${s.dayTitle}`);
+    lines.push('');
+    s.exercises.forEach(ex => {
+      lines.push(`**${ex.name}**`);
+      ex.sets.forEach((set, i) => {
+        lines.push(`- Set ${i+1}: ${set.w}kg × ${set.r} reps (rest ${set.rest}s)`);
+      });
+      lines.push('');
+    });
+  });
+
+  lines.push('---');
+  lines.push('## Ask Claude');
+  lines.push('Please analyze the above and give me:');
+  lines.push('1. Progression patterns (which lifts moved up, which stalled)');
+  lines.push('2. Volume / fatigue assessment per body part');
+  lines.push('3. Specific weight/rep adjustments for next week');
+  lines.push('4. Any form-related red flags suggested by the rep/weight pattern');
+
+  const md = lines.join('\n');
+  copyToClipboard(md);
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(
+      () => showToast('Markdown copied · paste into Claude'),
+      () => fallbackCopy(text)
+    );
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('Copied · paste into Claude');
+  } catch (e) {
+    showToast('Copy failed — try JSON export');
+  }
+  document.body.removeChild(ta);
+}
+
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `training-log-${todayISO()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('JSON downloaded');
+}
+
+function confirmReset() {
+  if (!confirm('Delete ALL data — sessions, custom exercises, current progress?')) return;
+  if (!confirm('Really sure? This cannot be undone.')) return;
+  state = defaultState();
+  saveState();
+  renderLogView();
+  renderAllCustomExercises();
+  restoreSetUI();
+  showToast('All data cleared');
+}
+
+function resetCurrentDay() {
+  const dayEl = document.querySelector('.day.active');
+  if (!dayEl || dayEl.classList.contains('log-view')) return;
+  const dayKey = dayEl.dataset.day;
+  const dayTitle = dayEl.dataset.title;
+
+  if (!confirm(`Reset ${dayTitle}?\n\nThis clears today's logged sets on this day. Archived history is kept.`)) return;
+
+  if (state.currentSession && state.currentSession.day === dayKey) {
+    if (Object.keys(state.currentSession.logs || {}).length > 0) {
+      state.currentSession = null;
+    } else {
+      state.currentSession = null;
+    }
+  }
+  saveState();
+
+  dayEl.querySelectorAll('.set.done').forEach(s => {
+    s.classList.remove('done');
+    const sw = s.querySelector('.set-weight');
+    if (sw) sw.textContent = '';
+  });
+  dayEl.querySelectorAll('.ex.complete').forEach(e => e.classList.remove('complete'));
+  updateProgress();
+  showToast(`${dayTitle} reset`);
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])
+  );
+}
+
+function getExerciseName(ex) {
+  const titleEl = ex.querySelector('.ex-title');
+  if (!titleEl) return '';
+  const clone = titleEl.cloneNode(true);
+  const tag = clone.querySelector('.ex-tag');
+  let tagText = '';
+  if (tag) {
+    tagText = ` (${tag.textContent.trim()})`;
+    tag.remove();
+  }
+  return clone.textContent.replace(/\s+/g, ' ').trim() + tagText;
+}
+
+function formatRest(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  if (m === 0) return `${s}s`;
+  if (s === 0) return `${m} min`;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function formatDate(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
+}
+
+let statMetric = 'e1rm';
+let statExercise = null;
+
+function allSessions() {
+  const out = [];
+  const cs = state.currentSession;
+  if (cs && Object.keys(cs.logs || {}).length) {
+    const dayEl = document.querySelector(`.day[data-day="${cs.day}"]`);
+    out.push({
+      date: cs.date,
+      dayTitle: dayEl ? dayEl.dataset.title : `Day ${cs.day}`,
+      exercises: Object.entries(cs.logs).map(([k, sets]) => ({
+        name: cs.exNames?.[k] || k,
+        sets: (sets || []).filter(Boolean)
+      })).filter(e => e.sets.length)
+    });
+  }
+  out.push(...state.sessions);
+  return out.slice().sort((a, b) => a.date.localeCompare(b.date));
+}
+
+function validSets(sets) {
+  return (sets || []).filter(s => s && s.r > 0);
+}
+
+function est1RM(w, r) {
+  if (!w || !r) return 0;
+  return r === 1 ? w : w * (1 + r / 30);
+}
+
+function exerciseSeries(name) {
+  const pts = [];
+  allSessions().forEach(sess => {
+    const hit = sess.exercises.find(e => e.name === name);
+    if (!hit) return;
+    const sets = validSets(hit.sets);
+    if (!sets.length) return;
+    pts.push({
+      date: sess.date,
+      top: Math.max(...sets.map(s => s.w)),
+      e1rm: Math.round(Math.max(...sets.map(s => est1RM(s.w, s.r))) * 10) / 10,
+      vol: sets.reduce((a, s) => a + s.w * s.r, 0),
+      sets
+    });
+  });
+  return pts;
+}
+
+function exercisesWithData() {
+  const counts = {};
+  const lastSeen = {};
+  allSessions().forEach(sess => {
+    sess.exercises.forEach(e => {
+      if (!validSets(e.sets).length) return;
+      counts[e.name] = (counts[e.name] || 0) + 1;
+      lastSeen[e.name] = sess.date;
+    });
+  });
+  return Object.keys(counts)
+    .sort((a, b) => (lastSeen[b] || '').localeCompare(lastSeen[a] || ''))
+    .map(n => ({ name: n, n: counts[n] }));
+}
+
+function svgLineChart(values, labels, opts = {}) {
+  const W = 320, H = 150, PL = 34, PR = 8, PT = 12, PB = 22;
+  if (!values.length) return '';
+  const min = Math.min(...values), max = Math.max(...values);
+  const pad = (max - min) === 0 ? Math.max(max * 0.1, 1) : (max - min) * 0.15;
+  const lo = Math.max(0, min - pad), hi = max + pad;
+  const iw = W - PL - PR, ih = H - PT - PB;
+  const x = i => values.length === 1 ? PL + iw / 2 : PL + (i / (values.length - 1)) * iw;
+  const y = v => PT + ih - ((v - lo) / (hi - lo || 1)) * ih;
+
+  const grid = [0, 0.5, 1].map(f => {
+    const gy = PT + ih * f;
+    const val = hi - (hi - lo) * f;
+    return `<line x1="${PL}" y1="${gy.toFixed(1)}" x2="${W - PR}" y2="${gy.toFixed(1)}" stroke="var(--grid)" stroke-width="1"/>`
+         + `<text x="${PL - 5}" y="${(gy + 3.5).toFixed(1)}" text-anchor="end" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${fmtNum(val)}</text>`;
+  }).join('');
+
+  const path = values.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const area = `${path} L${x(values.length - 1).toFixed(1)},${PT + ih} L${x(0).toFixed(1)},${PT + ih} Z`;
+
+  const dots = values.map((v, i) => {
+    const last = i === values.length - 1;
+    return `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="${last ? 4 : 2.5}" fill="${last ? 'var(--accent)' : 'var(--bg)'}" stroke="var(--accent)" stroke-width="1.6"/>`;
+  }).join('');
+
+  const first = labels[0] || '', lastL = labels[labels.length - 1] || '';
+  const xlabels = values.length > 1
+    ? `<text x="${PL}" y="${H - 6}" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${first}</text>`
+      + `<text x="${W - PR}" y="${H - 6}" text-anchor="end" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${lastL}</text>`
+    : `<text x="${PL + iw / 2}" y="${H - 6}" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${first}</text>`;
+
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${escapeHtml(opts.label || 'Trend chart')}">
+    <defs><linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+    </linearGradient></defs>
+    ${grid}
+    <path d="${area}" fill="url(#gfill)"/>
+    <path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    ${dots}${xlabels}
+  </svg>`;
+}
+
+function svgBarChart(values, labels) {
+  const W = 320, H = 110, PL = 20, PR = 8, PT = 10, PB = 20;
+  if (!values.length) return '';
+  const max = Math.max(...values, 1);
+  const iw = W - PL - PR, ih = H - PT - PB;
+  const bw = iw / values.length;
+  const bars = values.map((v, i) => {
+    const bh = (v / max) * ih;
+    const bx = PL + i * bw + bw * 0.18;
+    const by = PT + ih - bh;
+    const w = bw * 0.64;
+    const on = v > 0;
+    return `<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(bh,1).toFixed(1)}" rx="2" fill="${on ? 'var(--accent)' : 'var(--grid)'}" opacity="${on ? 0.9 : 1}"/>`
+      + (on ? `<text x="${(bx + w/2).toFixed(1)}" y="${(by - 3).toFixed(1)}" text-anchor="middle" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${v}</text>` : '');
+  }).join('');
+  const xl = `<text x="${PL}" y="${H - 5}" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${labels[0] || ''}</text>`
+           + `<text x="${W - PR}" y="${H - 5}" text-anchor="end" font-size="8" fill="var(--muted)" font-family="var(--font-mono)">${labels[labels.length-1] || ''}</text>`;
+  return `<svg class="chart-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Sessions per week">
+    <line x1="${PL}" y1="${PT+ih}" x2="${W-PR}" y2="${PT+ih}" stroke="var(--grid)" stroke-width="1"/>
+    ${bars}${xl}</svg>`;
+}
+
+function fmtNum(n) {
+  if (n >= 10000) return Math.round(n / 1000) + 'k';
+  if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+  return Math.round(n * 10) / 10;
+}
+
+function shortDate(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+function renderStats() {
+  const sessions = allSessions();
+  renderStatStrip(sessions);
+  renderAdherence(sessions);
+  renderExerciseChips();
+  renderExerciseChart();
+}
+
+function renderStatStrip(sessions) {
+  const strip = document.getElementById('stat-strip');
+  const now = Date.now();
+  const within = d => (now - new Date(d + 'T00:00:00').getTime()) / 86400000;
+  const last28 = sessions.filter(s => within(s.date) <= 28).length;
+  const totalSets = sessions.reduce((a, s) =>
+    a + s.exercises.reduce((b, e) => b + validSets(e.sets).length, 0), 0);
+  strip.innerHTML = `
+    <div class="stat-cell"><div class="v">${sessions.length}</div><div class="k">Sessions</div></div>
+    <div class="stat-cell"><div class="v">${last28}</div><div class="k">Last 4 wks</div></div>
+    <div class="stat-cell"><div class="v">${fmtNum(totalSets)}</div><div class="k">Sets logged</div></div>`;
+}
+
+function renderAdherence(sessions) {
+  const root = document.getElementById('adherence-chart');
+  if (!sessions.length) {
+    root.innerHTML = '<div class="chart-empty"><strong>Nothing logged yet</strong>Log a set and your training frequency shows up here.</div>';
+    return;
+  }
+  const WEEKS = 12;
+  const now = new Date();
+  const monday = d => {
+    const x = new Date(d);
+    const day = (x.getDay() + 6) % 7;
+    x.setDate(x.getDate() - day);
+    x.setHours(0, 0, 0, 0);
+    return x;
+  };
+  const thisMon = monday(now);
+  const buckets = new Array(WEEKS).fill(0);
+  const labels = [];
+  for (let i = 0; i < WEEKS; i++) {
+    const wStart = new Date(thisMon);
+    wStart.setDate(wStart.getDate() - (WEEKS - 1 - i) * 7);
+    labels.push(wStart.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }));
+  }
+  sessions.forEach(s => {
+    const m = monday(new Date(s.date + 'T00:00:00'));
+    const diffWeeks = Math.round((thisMon - m) / (7 * 86400000));
+    const idx = WEEKS - 1 - diffWeeks;
+    if (idx >= 0 && idx < WEEKS) buckets[idx]++;
+  });
+  root.innerHTML = svgBarChart(buckets, labels);
+}
+
+function renderExerciseChips() {
+  const row = document.getElementById('ex-chips');
+  const list = exercisesWithData();
+  if (!list.length) { row.innerHTML = ''; return; }
+  if (!statExercise || !list.some(e => e.name === statExercise)) statExercise = list[0].name;
+  row.innerHTML = list.map(e =>
+    `<button class="chip${e.name === statExercise ? ' active' : ''}" onclick="setStatExercise(${JSON.stringify(e.name).replace(/"/g, '&quot;')})">${escapeHtml(e.name)} <span style="opacity:.6">${e.n}</span></button>`
+  ).join('');
+}
+
+function setStatExercise(name) {
+  statExercise = name;
+  renderExerciseChips();
+  renderExerciseChart();
+}
+
+function setStatMetric(m) {
+  statMetric = m;
+  document.querySelectorAll('.metric-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.metric === m));
+  renderExerciseChart();
+}
+
+function renderExerciseChart() {
+  const chart = document.getElementById('ex-chart');
+  const pts = document.getElementById('ex-points');
+  const delta = document.getElementById('ex-delta');
+
+  if (!statExercise) {
+    chart.innerHTML = '<div class="chart-empty"><strong>No exercise data yet</strong>Log a few sets and trends appear here.</div>';
+    pts.innerHTML = ''; delta.textContent = '';
+    return;
+  }
+  const series = exerciseSeries(statExercise);
+  if (series.length < 2) {
+    chart.innerHTML = `<div class="chart-empty"><strong>Only ${series.length} session logged</strong>Two sessions of ${escapeHtml(statExercise)} and the trend line appears.</div>`;
+    pts.innerHTML = ''; delta.textContent = '';
+    return;
+  }
+
+  const key = statMetric;
+  const values = series.map(p => p[key]);
+  const labels = series.map(p => shortDate(p.date));
+  chart.innerHTML = svgLineChart(values, labels, { label: `${statExercise} trend` });
+
+  const first = values[0], last = values[values.length - 1];
+  const pct = first ? Math.round(((last - first) / first) * 100) : 0;
+  delta.className = 'chart-delta ' + (pct > 1 ? 'up' : pct < -1 ? 'down' : 'flat');
+  delta.textContent = `${pct > 0 ? '+' : ''}${pct}% over ${series.length} sessions`;
+
+  const unit = key === 'vol' ? 'kg total' : 'kg';
+  pts.innerHTML = series.slice().reverse().slice(0, 6).map(p => `
+    <div class="point-row">
+      <div>
+        <div class="pdate">${shortDate(p.date)}</div>
+        <div class="psets">${p.sets.map(s => `${s.w}×${s.r}`).join(' · ')}</div>
+      </div>
+      <div class="pval">${fmtNum(p[key])}<span style="font-size:10px;color:var(--muted);font-family:var(--font-mono);"> ${unit}</span></div>
+    </div>`).join('')
+    + (key === 'e1rm'
+      ? `<div class="chart-note">Estimated 1RM compares a heavy 6 against a lighter 12 on one scale, so changing rep ranges doesn't look like losing strength.</div>`
+      : key === 'vol'
+      ? `<div class="chart-note">Volume is weight × reps summed across working sets — a measure of total work, not intensity.</div>`
+      : `<div class="chart-note">Top set is the heaviest load used that session, regardless of reps.</div>`);
+}
+
+function nudgeField(id, delta) {
+  const el = document.getElementById(id);
+  const cur = parseFloat(el.value);
+  let next = (isNaN(cur) ? 0 : cur) + delta;
+  if (next < 0) next = 0;
+  el.value = Math.round(next * 100) / 100;
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+function importJSON(input) {
+  const file = input.files && input.files[0];
+  input.value = '';
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let parsed;
+    try {
+      parsed = JSON.parse(reader.result);
+    } catch (e) {
+      showToast('That file isn\'t valid backup data');
+      return;
+    }
+    if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.sessions)) {
+      showToast('That file isn\'t a training backup');
+      return;
+    }
+    const incoming = parsed.sessions.length;
+    const existing = state.sessions.length;
+    if (!confirm(`Restore ${incoming} sessions from this backup?\n\nThis replaces the ${existing} sessions currently on this device.`)) return;
+    state = Object.assign(defaultState(), parsed);
+    state.suggestionsRev = 0;   // re-apply current coach suggestions over restored data
+    saveState();
+    applyCoachSuggestions();
+    renderAllCustomExercises();
+    renderSuggestionBanners();
+    restoreSetUI();
+    updateProgress();
+    renderLogView();
+    showToast(`Restored ${incoming} sessions`);
+  };
+  reader.onerror = () => showToast('Could not read that file');
+  reader.readAsText(file);
+}
+
+(function injectManifest() {
+  try {
+    const icon = document.querySelector('link[rel="apple-touch-icon"]');
+    const manifest = {
+      name: 'Training',
+      short_name: 'Training',
+      start_url: '.',
+      display: 'standalone',
+      background_color: '#000000',
+      theme_color: '#000000',
+      icons: icon ? [{ src: icon.href, sizes: '180x180', type: 'image/png', purpose: 'any' }] : []
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = URL.createObjectURL(blob);
+    document.head.appendChild(link);
+  } catch (e) { /* install is a bonus, never block the app */ }
+})();
+
+const SUGGESTIONS_REV = 1;
+
+const coachSuggestions = {
+  "hammer iso-lateral row (back)":
+    "90kg × 6-8, RIR 1-2 — stop 1-2 reps short; never grind the last rep.",
+  "hammer incline press":
+    "50kg × 6-8, RIR 1-2 — stop before form degrades, not after.",
+  "lat pulldown, neutral (back)":
+    "60kg × 8-10, RIR 2 — stop the set if you start leaning back.",
+  "hammer shoulder press":
+    "22.5kg/side × 8-10, RIR 2 — keep 2 reps in the tank.",
+  "cable triceps pushdown, rope":
+    "17.5kg × 10-12, RIR 2 — elbows pinned to ribs, forearm only.",
+  "incline db curl":
+    "6kg × 10-12, RIR 2 — controlled tempo, no swing.",
+  "zone 2 cardio (conditioning)":
+    "20-30 min, conversational pace, 2×/week — easy effort throughout. An off day counts.",
+
+  "deadlift (conventional)":
+    "100kg × 6, RIR 2 — reset the breath every rep, never grind a last rep.",
+  "belt squat (spine-free)":
+    "120kg × 6-8, RIR 1-2 — if you start pulling with the arms, the load is too high.",
+  "iso-lateral kneeling leg curl":
+    "Str 17.5kg × 10-12 · Hyp 10kg × 12-15, RIR 2 — same movement, two different days.",
+  "bulgarian split squat":
+    "16kg × 8-10, RIR 2 — limited by balance, not strength. Technique before load.",
+  "hanging knee raise":
+    "Bodyweight × 12-15 — optional. Superset during rest periods if time is short.",
+  "single-leg calf raise on leg press":
+    "30kg × 10-12, RIR 2 — soleus is fatigue-resistant; higher reps beat heavy low ones.",
+
+  "hammer high row (back)":
+    "52.5kg × 10-12, RIR 2 — hold the rep count across all four sets.",
+  "hammer iso-lat lat pulldown (back)":
+    "50kg × 10-12, RIR 2 — full stretch at the top of every rep.",
+  "cable lat pullover":
+    "12.5kg × 12-15, RIR 2 — stop 2 short so the last set doesn't collapse.",
+  "hammer flat press":
+    "50kg × 10-12, RIR 2 — controlled eccentric, no bouncing.",
+  "db lateral raise":
+    "7kg × 12-15, RIR 2 — lead with the elbow, no shrug.",
+  "overhead cable triceps ext.":
+    "12.5kg × 12-15, RIR 2 — anchor the scapulae, no forward roll.",
+  "hammer curl":
+    "6kg × 12-15, RIR 2 — reach the top of the range before adding load.",
+
+  "pendulum squat (quad isolation)":
+    "22.5kg × 10-12, RIR 2 — full depth, controlled tempo.",
+  "standing hip thrust (glute iso)":
+    "90kg × 10-12, RIR 2 — squeeze at lockout, ribs down.",
+  "walking lunge (long stride)":
+    "12kg × 10-12/leg, RIR 2 — long stride, torso tall.",
+  "smith machine seated calf raise":
+    "45kg × 12-15, RIR 2 — reach the top of the range before adding load."
+};
+
+function applyCoachSuggestions() {
+  const storedRev = state.suggestionsRev || 0;
+
+  if (storedRev >= SUGGESTIONS_REV) {
+    let added = 0;
+    Object.entries(coachSuggestions).forEach(([k, v]) => {
+      if (state.suggestions[k] == null) {
+        state.suggestions[k] = v;
+        added++;
+      }
+    });
+    if (added > 0) saveState();
+    return;
+  }
+
+  const overrides = state.suggestionOverrides || {};
+  Object.entries(coachSuggestions).forEach(([k, v]) => {
+    if (!overrides[k]) state.suggestions[k] = v;
+  });
+
+  Object.keys(state.suggestions).forEach(k => {
+    if (!(k in coachSuggestions) && !overrides[k]) {
+      delete state.suggestions[k];
+    }
+  });
+
+  state.suggestionsRev = SUGGESTIONS_REV;
+  saveState();
+}
+
+applyCoachSuggestions();
+assignExerciseKeys();
+decorateSets();
+renderAllCustomExercises();  // re-renders custom cards from state
+attachSetListeners();
+renderSuggestionBanners();
+restoreSetUI();
+updateProgress();
+
+if (state.currentSession && state.currentSession.date !== todayISO()) {
+  finalizeAndArchiveCurrent();
+  saveState();
+}
+</script>
+
+</body>
+</html>
