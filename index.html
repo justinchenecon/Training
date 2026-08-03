@@ -3,47 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#faf9f5">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Training</title>
 <meta name="description" content="Four-day training program with set logging, rest timers and progress tracking.">
 <meta name="apple-mobile-web-app-title" content="Training">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABF0lEQVR42u3dMQ6EIBBA0dFwaI/graWyoTBmCkbie71xZb9sshiMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4LaVnfk6sx/5WHi8l7rq3f2BOBAH4kAciANxIA7EgTgQB4xa8rjEGsHSayJfM2X8zRyIA3EgDsSBOBAH4kAciANxgDgQB+JAHIgDcSAOxIE4+J/s5i3pTUgo+6o9YIyfFcSBOBAH4kAciANxgDh4rc071fD3rb3PS0bPzIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+JAHCAOnmQfMPY2v1pTxt/MgTgQB+JAHIgDcSAOxIE4EAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARHSR0EZH4VfFQAAAAAElFTkSuQmCC">
-<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABF0lEQVR42u3dMQ6EIBBA0dFwaI/graWyoTBmCkbie71xZb9sshiMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4LaVnfk6sx/5WHi8l7rq3f2BOBAH4kAciANxIA7EgTgQB4xa8rjEGsHSayJfM2X8zRyIA3EgDsSBOBAH4kAciANxgDgQB+JAHIgDcSAOxIE4+J/s5i3pTUgo+6o9YIyfFcSBOBAH4kAciANxgDh4rc071fD3rb3PS0bPzIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+JAHCAOnmQfMPY2v1pTxt/MgTgQB+JAHIgDcSAOxIE4EAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARHSR0EZH4VfFQAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABm0lEQVR42u3dQQ5FMBRAUcSGLMRKrMdKLMRqDBiZq0i8Qatxzlzkv9xU8ivVHvvWwJ3OCBAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDhAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+Lgf/pSN16nMXbhMC/1jruuX23lQByIA3EgDsSBOBAH4kAciAMSwb2VwB5B1XsiX5Nn/lYOxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHPxPe+xb4LLwISSU4gVjPFYQB+JAHIgDcSAOxAHi4IV8Z59f/r519nmR6Vk5EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxMGj4AvGvuZXVp75WzkQB+JAHIgDcSAOxIE4EAfigETw7HOsHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+JAHIgDcYA4EAfiQByIA3EgDmp2AphyJRggw0XIAAAAAElFTkSuQmCC">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABm0lEQVR42u3dQQ5FMBRAUcSGLMRKrMdKLMRqDBiZq0i8Qatxzlzkv9xU8ivVHvvWwJ3OCBAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDhAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+Lgf/pSN16nMXbhMC/1jruuX23lQByIA3EgDsSBOBAH4kAciAMSwb2VwB5B1XsiX5Nn/lYOxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHPxPe+xb4LLwISSU4gVjPFYQB+JAHIgDcSAOxAHi4IV8Z59f/r519nmR6Vk5EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxMGj4AvGvuZXVp75WzkQB+JAHIgDcSAOxIE4EAfigETw7HOsHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+JAHIgDcYA4EAfiQByIA3EgDmp2AphyJRggw0XIAAAAAElFTkSuQmCC">
+<script>
+(function () {
+  var t = 'light';
+  try {
+    var raw = localStorage.getItem('training_app_v1');
+    if (raw) { var s = JSON.parse(raw); if (s && s.theme === 'dark') t = 'dark'; }
+  } catch (e) {}
+  document.documentElement.setAttribute('data-theme', t);
+  var m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute('content', t === 'dark' ? '#262624' : '#faf9f5');
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   THEME TOKENS — Claude palette
+   Warm ivory ground, clay accent, near-black warm ink. Light is
+   the default; dark mirrors Claude's dark surfaces.
+   Every colour is referenced through a variable so the two themes
+   stay in sync — never hardcode a colour in a rule.
+============================================================ */
 :root {
-  --bg: #000;
-  --surface: #0e0e0e;
-  --surface-2: #1a1a1a;
-  --border: #262626;
-  --ink: #ffffff;
-  --ink-2: #cfcfcf;
-  --muted: #8a8a8a;
-  --accent: #00ff88;
-  --accent-dim: rgba(0, 255, 136, 0.15);
-  --accent-fade: rgba(0, 255, 136, 0.08);
-  --warn: #ff5722;
-  --warn-dim: rgba(255, 87, 34, 0.12);
-  --red: #ff4444;
+  /* --- Light (default) --- */
+  --bg: #faf9f5;
+  --surface: #ffffff;
+  --surface-2: #f0eee6;
+  --border: #e3e0d8;
+  --ink: #1f1e1d;
+  --ink-2: #46443f;
+  --muted: #6a6760;
+
+  /* Clay. Slightly deeper than the marketing tint so body-sized text
+     on white clears 4.5:1. */
+  --accent: #ad4c2b;
+  --accent-dim: rgba(173, 76, 43, 0.14);
+  --accent-fade: rgba(173, 76, 43, 0.06);
+  --on-accent: #ffffff;
+
+  /* Caution and destructive read as deeper reds so they stay
+     distinguishable from the clay accent by darkness, not hue alone. */
+  --warn: #8a3324;
+  --warn-dim: rgba(138, 51, 36, 0.12);
+  --warn-glow: rgba(138, 51, 36, 0.25);
+  --warn-fade: rgba(138, 51, 36, 0.05);
+  --red: #9b221a;
+
+  --scrim: rgba(31, 30, 29, 0.42);
+  --scrim-strong: rgba(31, 30, 29, 0.52);
+  --chrome: rgba(250, 249, 245, 0.88);
+  --shadow: 0 1px 2px rgba(31, 30, 29, 0.05), 0 4px 14px rgba(31, 30, 29, 0.05);
+  --accent-glow: rgba(173, 76, 43, 0.22);
+
+  --data-1: #ad4c2b;
+  --data-2: #8a6a4f;
+  --data-3: #6f7561;
+  --grid: #ebe8e0;
+
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
 
-  /* Font stacks with fallbacks so the app still reads correctly offline. */
-  --font-display: 'Bebas Neue', 'Avenir Next Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --font-display: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --font-body: 'Inter Tight', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
 
-  /* Data-visualisation ramp — same green identity, stepped so overlapping
-     series stay distinguishable without introducing a second hue. */
-  --data-1: #00ff88;
-  --data-2: #34d3a6;
-  --data-3: #5aa8b0;
-  --grid: #1f1f1f;
+[data-theme="dark"] {
+  --bg: #262624;
+  --surface: #30302e;
+  --surface-2: #3a3a37;
+  --border: #474743;
+  --ink: #f5f4ef;
+  --ink-2: #c8c5bd;
+  --muted: #a8a49b;
+
+  --accent: #e79a7f;
+  --accent-dim: rgba(231, 154, 127, 0.20);
+  --accent-fade: rgba(231, 154, 127, 0.10);
+  --on-accent: #1f1e1d;
+
+  --warn: #e9927a;
+  --warn-dim: rgba(233, 146, 122, 0.16);
+  --warn-glow: rgba(233, 146, 122, 0.35);
+  --warn-fade: rgba(233, 146, 122, 0.06);
+  --red: #ee8b81;
+
+  --scrim: rgba(15, 15, 14, 0.80);
+  --scrim-strong: rgba(15, 15, 14, 0.90);
+  --chrome: rgba(38, 38, 36, 0.92);
+  --shadow: none;
+  --accent-glow: rgba(231, 154, 127, 0.30);
+
+  --data-1: #e79a7f;
+  --data-2: #b3946f;
+  --data-3: #8d9b7e;
+  --grid: #3d3d3a;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -68,7 +133,7 @@ body {
 .topbar {
   position: sticky;
   top: 0;
-  background: rgba(0,0,0,0.92);
+  background: var(--chrome);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   z-index: 50;
@@ -84,8 +149,8 @@ body {
 
 .topbar h1 {
   font-family: var(--font-display);
-  font-size: 26px;
-  letter-spacing: 0.04em;
+  font-size: 25px;
+  letter-spacing: -0.01em;
   line-height: 1;
 }
 
@@ -165,7 +230,7 @@ body {
 
 .ex-num {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 24px;
   color: var(--muted);
   line-height: 0.9;
   min-width: 30px;
@@ -229,13 +294,13 @@ body {
   border: 2px solid var(--border);
   color: var(--muted);
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
   transition: all 0.15s;
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
   user-select: none;
   position: relative;
 }
@@ -244,7 +309,7 @@ body {
 
 .set.done {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   border-color: var(--accent);
 }
 
@@ -287,7 +352,7 @@ body {
 
 .btn.primary {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   border-color: var(--accent);
   font-weight: 700;
 }
@@ -413,8 +478,8 @@ body {
 
 .day-head h2 {
   font-family: var(--font-display);
-  font-size: 38px;
-  letter-spacing: 0.02em;
+  font-size: 34px;
+  letter-spacing: -0.02em;
   line-height: 1;
 }
 
@@ -454,7 +519,7 @@ body {
   padding: 16px;
 }
 
-.panel.warn { border-color: rgba(255,87,34,0.4); background: rgba(255,87,34,0.04); }
+.panel.warn { border-color: var(--warn-glow); background: var(--warn-fade); }
 
 .panel h3 {
   font-family: var(--font-mono);
@@ -497,7 +562,7 @@ body {
 .bottomnav {
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: rgba(0,0,0,0.94);
+  background: var(--chrome);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border);
@@ -533,9 +598,9 @@ body {
 
 .navbtn .nav-num {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 19px;
   line-height: 1;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
 }
 
 .navbtn .nav-label {
@@ -550,7 +615,7 @@ body {
 .timer-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: var(--scrim);
   backdrop-filter: blur(8px);
   z-index: 200;
   display: none;
@@ -582,8 +647,8 @@ body {
 
 .timer-display {
   font-family: var(--font-display);
-  font-size: 96px;
-  letter-spacing: 0.02em;
+  font-size: 84px;
+  letter-spacing: -0.02em;
   line-height: 1;
   margin: 16px 0 8px;
   color: var(--accent);
@@ -621,7 +686,7 @@ body {
 
 .preset.active {
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   border-color: var(--accent);
 }
 
@@ -632,21 +697,21 @@ body {
   left: 50%;
   transform: translateX(-50%) translateY(100px);
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   padding: 12px 20px;
   border-radius: 100px;
   font-weight: 700;
   font-size: 14px;
   z-index: 300;
   transition: transform 0.3s ease;
-  box-shadow: 0 8px 24px rgba(0,255,136,0.3);
+  box-shadow: 0 8px 24px var(--accent-glow);
 }
 
 .toast.show { transform: translateX(-50%) translateY(0); }
 
 /* ============ DESKTOP ENHANCEMENTS ============ */
 @media (min-width: 720px) {
-  body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,255,136,0.05); }
+  body { max-width: 480px; margin: 0 auto; box-shadow: 0 0 60px var(--accent-fade); }
 }
 
 @media (min-width: 768px) {
@@ -657,7 +722,7 @@ body {
 .log-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: var(--scrim);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 200;
@@ -679,8 +744,8 @@ body {
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 .log-card h3 {
   font-family: var(--font-display);
-  font-size: 22px;
-  letter-spacing: 0.04em;
+  font-size: 21px;
+  letter-spacing: -0.01em;
   margin-bottom: 4px;
 }
 .log-card .log-sub {
@@ -715,9 +780,9 @@ body {
   border-radius: 12px;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 26px;
   text-align: center;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   padding: 0 6px;
 }
 .log-field input:focus {
@@ -767,8 +832,8 @@ body {
 }
 .log-section-head h2 {
   font-family: var(--font-display);
-  font-size: 22px;
-  letter-spacing: 0.04em;
+  font-size: 21px;
+  letter-spacing: -0.01em;
 }
 .log-section-head .count {
   font-family: var(--font-mono);
@@ -793,8 +858,8 @@ body {
 }
 .session-card-date {
   font-family: var(--font-display);
-  font-size: 18px;
-  letter-spacing: 0.04em;
+  font-size: 17px;
+  letter-spacing: -0.005em;
 }
 .session-card-day {
   font-family: var(--font-mono);
@@ -874,7 +939,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
 }
-.lib-btn.add { background: var(--accent); color: #000; border-color: var(--accent); }
+.lib-btn.add { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 .lib-btn.danger { color: var(--red); }
 
 .export-grid {
@@ -909,7 +974,7 @@ body {
 .form-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: var(--scrim);
   backdrop-filter: blur(8px);
   z-index: 250;
   display: none;
@@ -930,8 +995,8 @@ body {
 }
 .form-card h3 {
   font-family: var(--font-display);
-  font-size: 24px;
-  letter-spacing: 0.04em;
+  font-size: 22px;
+  letter-spacing: -0.01em;
   margin-bottom: 16px;
 }
 .form-row { margin-bottom: 14px; }
@@ -1078,7 +1143,7 @@ body.suggest-edit-mode .ex-suggest-edit { color: var(--accent); }
   margin: 0 -14px 14px;
   padding: 10px 18px;
   background: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -1115,6 +1180,109 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
 /* 5-column nav */
 .bottomnav.cols-5 { grid-template-columns: repeat(5, 1fr); }
 
+
+/* ============ SURFACE DEPTH ============
+   --shadow is a real shadow in light and `none` in dark, so these rules
+   serve both themes without a media query. */
+.ex, .log-card, .form-card, .stat-cell, .chart-block,
+.session-card, .lib-card, .timer-card { box-shadow: var(--shadow); }
+
+/* ============ THEME TOGGLE ============ */
+.theme-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.theme-opt {
+  height: 56px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.theme-opt.sel {
+  border-color: var(--accent);
+  background: var(--accent-fade);
+  color: var(--accent);
+  font-weight: 700;
+}
+.theme-swatch {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.theme-swatch.light { background: #faf9f5; }
+.theme-swatch.dark { background: #30302e; }
+
+/* ============ SURFACE DEPTH END ============ */
+
+/* ============ EFFORT (RIR) CONTROL ============ */
+.ex-effort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.ex-effort-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.rir-scale { display: flex; gap: 4px; flex: 1; justify-content: flex-end; }
+.rir-dot {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rir-dot.sel {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+.rir-dot.sel[data-rir="0"] { background: var(--warn); border-color: var(--warn); color: var(--on-accent); }
+.rir-dot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.rir-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--accent-fade);
+  color: var(--accent);
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+.rir-badge.zero { background: var(--warn-dim); color: var(--warn); }
 
 /* ============ 6-COLUMN NAV ============ */
 .bottomnav.cols-6 { grid-template-columns: repeat(6, 1fr); }
@@ -1165,9 +1333,9 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
 }
 .stat-cell .v {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 28px;
   line-height: 1;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
   color: var(--accent);
 }
 .stat-cell .k {
@@ -1195,8 +1363,8 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
 }
 .chart-title {
   font-family: var(--font-display);
-  font-size: 19px;
-  letter-spacing: 0.04em;
+  font-size: 18px;
+  letter-spacing: -0.005em;
 }
 .chart-sub {
   font-family: var(--font-mono);
@@ -1246,7 +1414,7 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
 .chip.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: #000;
+  color: var(--on-accent);
   font-weight: 700;
 }
 .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -1303,7 +1471,7 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
 .point-row:last-child { border-bottom: none; }
 .point-row .pdate { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
 .point-row .psets { color: var(--ink-2); font-family: var(--font-mono); font-size: 11px; }
-.point-row .pval { font-family: var(--font-display); font-size: 17px; color: var(--accent); letter-spacing: 0.02em; }
+.point-row .pval { font-family: var(--font-display); font-size: 17px; color: var(--accent); letter-spacing: 0; }
 
 /* ============ FOCUS VISIBILITY ============ */
 button:focus-visible, input:focus-visible, textarea:focus-visible {
@@ -2831,6 +2999,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
   <div class="log-section">
     <div class="log-section-head">
+      <h2>Appearance</h2>
+    </div>
+    <div class="theme-row">
+      <button class="theme-opt" id="themeLight" onclick="setTheme('light')"><span class="theme-swatch light"></span>Light</button>
+      <button class="theme-opt" id="themeDark" onclick="setTheme('dark')"><span class="theme-swatch dark"></span>Dark</button>
+    </div>
+    <div class="export-help">Dark is easier on the eyes in a dimly lit gym.</div>
+  </div>
+
+  <div class="log-section">
+    <div class="log-section-head">
       <h2>Data</h2>
     </div>
     <div class="export-grid">
@@ -2988,6 +3167,7 @@ const defaultState = () => ({
   version: 1,
   customExercises: [],
   dayCustoms: { "1": [], "2": [], "3": [], "4": [] },
+  theme: 'light',           // 'light' | 'dark'
   suggestions: {},          // keyed by exercise name (lowercased) → coach text
   suggestionsRev: 0,        // matches SUGGESTIONS_REV when storage is current
   suggestionOverrides: {},  // keys here are user-edited and won't be overwritten by rev bumps
@@ -3034,7 +3214,8 @@ function ensureSession(dayKey) {
   state.currentSession = {
     day: dayKey,
     date: todayISO(),
-    logs: {}  // keyed by exercise DOM id
+    logs: {},  // keyed by exercise DOM id
+    rir: {}    // optional per-exercise reps-in-reserve rating
   };
   return state.currentSession;
 }
@@ -3046,7 +3227,10 @@ function archiveSession(session) {
   Object.entries(session.logs).forEach(([exKey, sets]) => {
     if (!sets.length) return;
     const name = session.exNames?.[exKey] || exKey;
-    exercises.push({ name, sets });
+    const entry = { name, sets };
+    const rir = session.rir?.[exKey];
+    if (rir !== undefined && rir !== null) entry.rir = rir;
+    exercises.push(entry);
   });
   if (exercises.length === 0) return;
   state.sessions.unshift({
@@ -3203,6 +3387,7 @@ function saveLogSet() {
 }
 
 function restoreSetUI() {
+  renderAllEffortControls();
   document.querySelectorAll('.set.done').forEach(s => {
     s.classList.remove('done');
     const sw = s.querySelector('.set-weight');
@@ -3539,6 +3724,7 @@ function renderCustomExercisesForDay(dayKey) {
 
   attachSetListeners();
   renderSuggestionBanners();
+  dayEl.querySelectorAll('.ex.custom').forEach(renderEffortControl);
   if (dayEl.classList.contains('active')) restoreSetUI();
 }
 
@@ -3681,6 +3867,7 @@ function escapeJs(s) {
 }
 
 function renderLogView() {
+  applyTheme(state.theme);
   renderLibrary();
   renderHistory();
   renderSuggestSummary();
@@ -3695,10 +3882,12 @@ function renderHistory() {
     const cs = state.currentSession;
     const dayEl = document.querySelector(`.day[data-day="${cs.day}"]`);
     const dayTitle = dayEl ? dayEl.dataset.title : `Day ${cs.day}`;
-    const exercises = Object.entries(cs.logs).map(([exKey, sets]) => ({
-      name: cs.exNames?.[exKey] || exKey,
-      sets: sets.filter(Boolean)
-    })).filter(e => e.sets.length);
+    const exercises = Object.entries(cs.logs).map(([exKey, sets]) => {
+      const e = { name: cs.exNames?.[exKey] || exKey, sets: sets.filter(Boolean) };
+      const r = cs.rir?.[exKey];
+      if (r !== undefined && r !== null) e.rir = r;
+      return e;
+    }).filter(e => e.sets.length);
     items.push({ date: cs.date, day: cs.day, dayTitle, exercises, isCurrent: true });
   }
   items.push(...state.sessions);
@@ -3721,7 +3910,9 @@ function renderHistory() {
         </div>
         ${s.exercises.map(ex => `
           <div class="session-ex-row">
-            <span class="ex-name">${escapeHtml(ex.name)}</span>
+            <span class="ex-name">${escapeHtml(ex.name)}</span>${
+              (ex.rir !== undefined && ex.rir !== null)
+                ? `<span class="rir-badge${ex.rir === 0 ? ' zero' : ''}">RIR ${ex.rir}</span>` : ''}
             <span class="ex-data">${ex.sets.map(set => `${set.w}×${set.r}`).join(' · ')}</span>
           </div>
         `).join('')}
@@ -3749,10 +3940,12 @@ function exportMarkdown(days) {
       date: cs.date,
       day: cs.day,
       dayTitle: dayEl?.dataset.title || `Day ${cs.day}`,
-      exercises: Object.entries(cs.logs).map(([exKey, sets]) => ({
-        name: cs.exNames?.[exKey] || exKey,
-        sets: sets.filter(Boolean)
-      })).filter(e => e.sets.length)
+      exercises: Object.entries(cs.logs).map(([exKey, sets]) => {
+        const e = { name: cs.exNames?.[exKey] || exKey, sets: sets.filter(Boolean) };
+        const r = cs.rir?.[exKey];
+        if (r !== undefined && r !== null) e.rir = r;
+        return e;
+      }).filter(e => e.sets.length)
     });
   }
   state.sessions.forEach(s => {
@@ -3772,6 +3965,9 @@ function exportMarkdown(days) {
   lines.push('');
   lines.push('## Format');
   lines.push('Each set: `weight kg × reps (rest taken in seconds)`');
+  lines.push('Where present, `RIR` is reps in reserve on the hardest set of that exercise —');
+  lines.push('how many more reps were available. `RIR 0` means the set went to failure.');
+  lines.push('Exercises without an RIR value were not rated.');
   lines.push('');
 
   sessions.forEach(s => {
@@ -3779,7 +3975,10 @@ function exportMarkdown(days) {
     lines.push(`### ${formatDate(s.date)} — ${s.dayTitle}`);
     lines.push('');
     s.exercises.forEach(ex => {
-      lines.push(`**${ex.name}**`);
+      const tag = (ex.rir !== undefined && ex.rir !== null)
+        ? ` — RIR ${ex.rir}${ex.rir === 0 ? ' (to failure)' : ''}`
+        : '';
+      lines.push(`**${ex.name}**${tag}`);
       ex.sets.forEach((set, i) => {
         lines.push(`- Set ${i+1}: ${set.w}kg × ${set.r} reps (rest ${set.rest}s)`);
       });
@@ -3794,6 +3993,8 @@ function exportMarkdown(days) {
   lines.push('2. Volume / fatigue assessment per body part');
   lines.push('3. Specific weight/rep adjustments for next week');
   lines.push('4. Any form-related red flags suggested by the rep/weight pattern');
+  lines.push('5. Whether the RIR values match the prescribed targets — flag anything');
+  lines.push('   repeatedly hitting RIR 0 that was meant to stop short.');
 
   const md = lines.join('\n');
   copyToClipboard(md);
@@ -3871,6 +4072,7 @@ function resetCurrentDay() {
     if (sw) sw.textContent = '';
   });
   dayEl.querySelectorAll('.ex.complete').forEach(e => e.classList.remove('complete'));
+  renderAllEffortControls();
   updateProgress();
   showToast(`${dayTitle} reset`);
 }
@@ -3906,6 +4108,90 @@ function formatRest(seconds) {
 function formatDate(iso) {
   const d = new Date(iso + 'T00:00:00');
   return d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
+}
+
+function applyTheme(theme) {
+  const t = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', t === 'dark' ? '#262624' : '#faf9f5');
+  const l = document.getElementById('themeLight');
+  const d = document.getElementById('themeDark');
+  if (l) l.classList.toggle('sel', t === 'light');
+  if (d) d.classList.toggle('sel', t === 'dark');
+}
+
+function setTheme(theme) {
+  state.theme = (theme === 'dark') ? 'dark' : 'light';
+  saveState();
+  applyTheme(state.theme);
+  const active = document.querySelector('.day.active');
+  if (active && active.classList.contains('stats-view')) renderStats();
+}
+
+const RIR_CHOICES = [0, 1, 2, 3, 4];
+
+function getRIR(exKey) {
+  const v = state.currentSession?.rir?.[exKey];
+  return (v === undefined || v === null) ? null : v;
+}
+
+function setRIR(exKey, value) {
+  const ex = document.querySelector(`.ex[data-ex-key="${exKey}"]`);
+  if (!ex) return;
+  const dayKey = ex.closest('.day').dataset.day;
+  const session = ensureSession(dayKey);
+  if (!session.rir) session.rir = {};
+  if (!session.exNames) session.exNames = {};
+  session.exNames[exKey] = getExerciseName(ex);
+
+  if (session.rir[exKey] === value) {
+    delete session.rir[exKey];
+  } else {
+    session.rir[exKey] = value;
+  }
+  saveState();
+  renderEffortControl(ex);
+  if (navigator.vibrate) navigator.vibrate(8);
+}
+
+function renderEffortControl(ex) {
+  const exKey = ex.dataset.exKey;
+  let row = ex.querySelector('.ex-effort');
+  const actions = ex.querySelector('.actions');
+  if (!actions) return;
+
+  if (!row) {
+    row = document.createElement('div');
+    row.className = 'ex-effort';
+    actions.insertAdjacentElement('afterend', row);
+  }
+  const current = getRIR(exKey);
+  row.innerHTML = `
+    <span class="ex-effort-label">Reps left</span>
+    <div class="rir-scale" role="group" aria-label="Reps in reserve for this exercise">
+      ${RIR_CHOICES.map(v => `
+        <button type="button" class="rir-dot${current === v ? ' sel' : ''}" data-rir="${v}"
+          aria-pressed="${current === v}"
+          aria-label="${v === 0 ? 'Went to failure' : v + ' reps left'}">${v === 4 ? '4+' : v}</button>`).join('')}
+    </div>`;
+  row.querySelectorAll('.rir-dot').forEach(btn => {
+    btn.onclick = () => setRIR(exKey, parseInt(btn.dataset.rir));
+  });
+}
+
+function renderAllEffortControls() {
+  document.querySelectorAll('.day[data-day] .ex').forEach(ex => {
+    const d = ex.closest('.day')?.dataset.day;
+    if (d === 'log' || d === 'stats') return;
+    renderEffortControl(ex);
+  });
+}
+
+function rirLabel(v) {
+  if (v === 0) return 'to failure';
+  if (v >= 4) return '4+ left';
+  return v + ' left';
 }
 
 let statMetric = 'e1rm';
@@ -3947,6 +4233,7 @@ function exerciseSeries(name) {
     if (!sets.length) return;
     pts.push({
       date: sess.date,
+      rir: (hit.rir === undefined || hit.rir === null) ? null : hit.rir,
       top: Math.max(...sets.map(s => s.w)),
       e1rm: Math.round(Math.max(...sets.map(s => est1RM(s.w, s.r))) * 10) / 10,
       vol: sets.reduce((a, s) => a + s.w * s.r, 0),
@@ -4154,7 +4441,7 @@ function renderExerciseChart() {
   pts.innerHTML = series.slice().reverse().slice(0, 6).map(p => `
     <div class="point-row">
       <div>
-        <div class="pdate">${shortDate(p.date)}</div>
+        <div class="pdate">${shortDate(p.date)}${p.rir !== null ? ` · RIR ${p.rir}` : ''}</div>
         <div class="psets">${p.sets.map(s => `${s.w}×${s.r}`).join(' · ')}</div>
       </div>
       <div class="pval">${fmtNum(p[key])}<span style="font-size:10px;color:var(--muted);font-family:var(--font-mono);"> ${unit}</span></div>
@@ -4218,8 +4505,8 @@ function importJSON(input) {
       short_name: 'Training',
       start_url: '.',
       display: 'standalone',
-      background_color: '#000000',
-      theme_color: '#000000',
+      background_color: state.theme === 'dark' ? '#262624' : '#faf9f5',
+      theme_color: state.theme === 'dark' ? '#262624' : '#faf9f5',
       icons: icon ? [{ src: icon.href, sizes: '180x180', type: 'image/png', purpose: 'any' }] : []
     };
     const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
@@ -4249,41 +4536,41 @@ const coachSuggestions = {
     "20-30 min, conversational pace, 2×/week — easy effort throughout. An off day counts.",
 
   "deadlift (conventional)":
-    "100kg × 6, RIR 2 — reset the breath every rep, never grind a last rep.",
+    "110-120kg × 6, RIR 2 — reset the breath between every rep. If you can't, that's your ceiling.",
   "belt squat (spine-free)":
-    "120kg × 6-8, RIR 1-2 — if you start pulling with the arms, the load is too high.",
+    "120kg × 6-8, RIR 1-2 — build reps to 8 before adding load.",
   "iso-lateral kneeling leg curl":
-    "Str 17.5kg × 10-12 · Hyp 10kg × 12-15, RIR 2 — same movement, two different days.",
+    "Str 17.5kg × 10-12 · Hyp 12.5kg × 12-15, RIR 2 — same movement, two different days.",
   "bulgarian split squat":
-    "16kg × 8-10, RIR 2 — limited by balance, not strength. Technique before load.",
+    "16kg × 8-10, RIR 2 — limited by balance, not strength. Build reps before load.",
   "hanging knee raise":
-    "Bodyweight × 12-15 — optional. Superset during rest periods if time is short.",
+    "Bodyweight × 12-15 — superset during calf or leg-curl rest, not last in the session.",
   "single-leg calf raise on leg press":
-    "30kg × 10-12, RIR 2 — soleus is fatigue-resistant; higher reps beat heavy low ones.",
+    "32.5kg × 10-12, RIR 2 — soleus is fatigue-resistant; higher reps beat heavy low ones.",
 
   "hammer high row (back)":
-    "52.5kg × 10-12, RIR 2 — hold the rep count across all four sets.",
+    "52.5kg × 10-11, RIR 2 — stop earlier; a flat 10-11 across beats 12 then a collapse.",
   "hammer iso-lat lat pulldown (back)":
-    "50kg × 10-12, RIR 2 — full stretch at the top of every rep.",
+    "52.5kg × 10-12, RIR 2 — full stretch at the top of every rep.",
   "cable lat pullover":
-    "12.5kg × 12-15, RIR 2 — stop 2 short so the last set doesn't collapse.",
+    "15kg × 12-15, RIR 2 — controlled through the whole arc.",
   "hammer flat press":
-    "50kg × 10-12, RIR 2 — controlled eccentric, no bouncing.",
+    "50kg × 10 across, RIR 2 — a flat 10/10/10 beats 12 then two 8s.",
   "db lateral raise":
-    "7kg × 12-15, RIR 2 — lead with the elbow, no shrug.",
+    "6kg × 15 across, RIR 2 — when that's easy, jump to 8 and accept 10-12 reps.",
   "overhead cable triceps ext.":
     "12.5kg × 12-15, RIR 2 — anchor the scapulae, no forward roll.",
   "hammer curl":
-    "6kg × 12-15, RIR 2 — reach the top of the range before adding load.",
+    "7kg × 12-15, RIR 2 — small steps; don't jump two sizes.",
 
   "pendulum squat (quad isolation)":
-    "22.5kg × 10-12, RIR 2 — full depth, controlled tempo.",
+    "22.5kg × 12 across, RIR 2 — even out the sets before adding load.",
   "standing hip thrust (glute iso)":
-    "90kg × 10-12, RIR 2 — squeeze at lockout, ribs down.",
+    "90kg × 12, RIR 2 — squeeze at lockout, ribs down.",
   "walking lunge (long stride)":
-    "12kg × 10-12/leg, RIR 2 — long stride, torso tall.",
+    "12kg × 10-12/leg, RIR 2 — light first pass before the working sets.",
   "smith machine seated calf raise":
-    "45kg × 12-15, RIR 2 — reach the top of the range before adding load."
+    "50kg × 12-15, RIR 2 — reach the top of the range before adding load."
 };
 
 function applyCoachSuggestions() {
@@ -4321,7 +4608,9 @@ assignExerciseKeys();
 decorateSets();
 renderAllCustomExercises();  // re-renders custom cards from state
 attachSetListeners();
+applyTheme(state.theme);
 renderSuggestionBanners();
+renderAllEffortControls();
 restoreSetUI();
 updateProgress();
 
