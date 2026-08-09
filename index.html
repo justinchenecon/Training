@@ -28,6 +28,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
+
+
 /* ============================================================
    THEME TOKENS — Claude palette
    Warm ivory ground, clay accent, near-black warm ink. Light is
@@ -1224,6 +1226,26 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
 
 /* ============ SURFACE DEPTH END ============ */
 
+.backup-warn {
+  background: var(--warn-fade);
+  border: 1px solid var(--warn-dim);
+  border-left: 3px solid var(--warn);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  margin: 10px 0 4px;
+}
+.backup-warn strong { color: var(--warn); display: block; margin-bottom: 2px; }
+.backup-ok {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 10px 0 4px;
+}
+
 /* ============ EFFORT (RIR) CONTROL ============ */
 .ex-effort {
   display: flex;
@@ -1791,7 +1813,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     </div>
   </div>
 
-  <div class="ex" data-rest="60">
+  <div class="ex" data-rest="60" data-log-mode="cardio">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
@@ -1820,7 +1842,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
           <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
           <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
-          <p><strong>Logging:</strong> tap the set and enter weight = bike level (or 0), reps = minutes.</p>
+          <p><strong>Logging:</strong> tap the circle and enter machine, minutes and zone.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
@@ -2535,7 +2557,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     </div>
   </div>
 
-  <div class="ex" data-rest="60">
+  <div class="ex" data-rest="60" data-log-mode="cardio">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
@@ -2564,7 +2586,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
           <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
           <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
-          <p><strong>Logging:</strong> tap the set and enter weight = bike level (or 0), reps = minutes.</p>
+          <p><strong>Logging:</strong> tap the circle and enter machine, minutes and zone.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
@@ -2618,7 +2640,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">01</div>
-        <div class="ex-title">Pendulum Squat<span class="ex-tag">QUAD ISOLATION</span></div>
+        <div class="ex-title">Hack Squat<span class="ex-tag">QUAD ISOLATION</span></div>
       </div>
       <div class="ex-targets">
         <span>4 sets</span><span class="sep">·</span>
@@ -2641,26 +2663,27 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>The best quad-isolation machine you have</strong> — fixed arc means pure knee extension pattern, no hip drive cheating. Better than hack squat for direct quad targeting.</p>
-          <p>Shoulder pads on top of shoulders/traps. Back flat against pad. Feet on platform — <strong>placement low-to-mid for full quad emphasis</strong> (high placement reduces ROM and turns it into a partial). Toes 15° out.</p>
-          <p>Unrack. Lower in 2 sec — body swings backward on the arc as knees bend. Go to ~95° knee flexion or to where lumbar starts to peel — whichever comes first. Drive up through <strong>mid-foot</strong>, body swings forward through the arc. <em>Exhale forcefully through the drive.</em> Stop 5cm short of lockout.</p>
-          <p>The pendulum arc means resistance peaks in the bottom-half of the rep where quads are stretched — exactly where you want hypertrophy stimulus highest.</p>
+          <p><strong>Machine-supported quad work with a fixed path</strong> — back braced against the pad, so no balance or hip-drive cheating. Note the load sits on your shoulders, so this carries more axial compression than a pendulum or belt squat: <em>keep it in the 10–12 range and off the grinding end.</em></p>
+          <p>Shoulder pads on top of shoulders/traps, back flat against the pad the whole set. Feet on platform — <strong>low-to-mid placement for full quad emphasis</strong> (high placement shortens ROM and turns it into a partial). Toes 15° out.</p>
+          <p>Unrack. Lower in 2 sec to ~95° knee flexion, or to where the lumbar starts to peel off the pad — whichever comes first. Drive up through <strong>mid-foot</strong>. <em>Exhale forcefully through the drive — do not hold the breath through the rep.</em> Stop 5cm short of lockout.</p>
+          <p>Because the torso is supported, most people can load this heavily. That is exactly why the rep target sits at 10–12 rather than lower: the goal here is quad stimulus, not a maximal effort.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Quads (vastus lat., intermedius, rectus fem.) — most isolated quad work in the gym</li>
-            <li>Pendulum arc loads quads heaviest in stretched position = optimal hypertrophy</li>
-            <li>Glutes and core minimal — by design</li>
+            <li>Quads (vastus lat., intermedius, rectus fem.) — primary target</li>
+            <li>Glutes and adductors assist out of the bottom</li>
+            <li>Core braced isometrically against the pad, minimal spinal movement</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
+            <li><strong>Holding the breath through the rep</strong> — the main thing to avoid on a shoulder-loaded machine</li>
             <li>Lumbar peel at depth — non-negotiable hard stop</li>
             <li>Knee valgus — actively press knees out toward toes</li>
-            <li>Heels lifting — ankle mobility limit, elevate 1–2cm or limit depth</li>
-            <li>Foot too high on platform — turns into partial rep, kills quad stretch</li>
-            <li>Bouncing out of bottom — Valsalva risk; controlled descent</li>
-            <li>Locking out hard at top — kills tension, knee compression</li>
+            <li>Heels lifting — ankle mobility limit; elevate 1–2cm or limit depth</li>
+            <li>Foot too high on platform — turns into a partial, kills quad stretch</li>
+            <li>Bouncing out of the bottom — controlled descent instead</li>
+            <li>Chasing a heavy low-rep set here — wrong lift for it</li>
           </ul>
         </div>
       </div>
@@ -3020,8 +3043,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="export-grid" style="margin-top:8px;">
       <button class="lib-btn danger" onclick="confirmReset()">DELETE ALL DATA</button>
     </div>
+    <div id="backup-notice"></div>
     <div class="export-help">
-      Your data lives only in this browser. Save a backup before clearing site data or switching phones.
+      History is stored by this exact file location. A newly downloaded copy, or a different URL, starts empty —
+      save a backup here and restore it into the new one. Restoring merges; it never deletes what's already there.
     </div>
   </div>
 
@@ -3033,6 +3058,25 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <h3 id="logTitle">Log Set</h3>
     <div class="log-sub" id="logSub">Set 1 of 4</div>
     <div class="log-prev" id="logPrev" style="display:none;"></div>
+    <div id="cardioFields" style="display:none;">
+      <div class="log-field" style="margin-bottom:12px;">
+        <label>Machine</label>
+        <div class="chip-row" id="cardioMachines" style="margin:0 0 2px;padding:2px 0 4px;"></div>
+      </div>
+      <div class="log-field" style="margin-bottom:12px;">
+        <label>Minutes</label>
+        <div class="stepper-row">
+          <button class="step-btn" type="button" onclick="nudgeField('logMinutes',-5)" aria-label="Decrease minutes">&minus;</button>
+          <input type="number" id="logMinutes" inputmode="numeric" step="1" min="0">
+          <button class="step-btn" type="button" onclick="nudgeField('logMinutes',5)" aria-label="Increase minutes">+</button>
+        </div>
+      </div>
+      <div class="log-field" style="margin-bottom:16px;">
+        <label>Intensity</label>
+        <div class="chip-row" id="cardioZones" style="margin:0;padding:2px 0 4px;"></div>
+      </div>
+    </div>
+    <div id="liftFields">
     <div class="log-field" style="margin-bottom:12px;">
       <label>Weight (kg)</label>
       <div class="stepper-row">
@@ -3056,6 +3100,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <input type="number" id="logRest" inputmode="numeric" step="5" min="0">
         <button class="step-btn" type="button" onclick="nudgeField('logRest',15)" aria-label="Increase rest">+</button>
       </div>
+    </div>
     </div>
     <div class="log-actions">
       <button class="btn" onclick="cancelLogSet()">Cancel</button>
@@ -3168,6 +3213,7 @@ const defaultState = () => ({
   customExercises: [],
   dayCustoms: { "1": [], "2": [], "3": [], "4": [] },
   theme: 'light',           // 'light' | 'dark'
+  lastBackup: null,         // timestamp of the last downloaded backup
   suggestions: {},          // keyed by exercise name (lowercased) → coach text
   suggestionsRev: 0,        // matches SUGGESTIONS_REV when storage is current
   suggestionOverrides: {},  // keys here are user-edited and won't be overwritten by rev bumps
@@ -3302,6 +3348,25 @@ function openLogModal(setEl) {
   document.getElementById('logTitle').textContent = exName;
   document.getElementById('logSub').textContent = `Set ${setIndex + 1} of ${totalSets}`;
 
+  const cardio = isCardioCard(ex);
+  pendingLog.cardio = cardio;
+  document.getElementById('cardioFields').style.display = cardio ? 'block' : 'none';
+  document.getElementById('liftFields').style.display = cardio ? 'none' : 'block';
+  if (cardio) {
+    const existingC = state.currentSession?.logs?.[exKey]?.[setIndex];
+    if (existingC && existingC.mode === 'cardio') {
+      cardioMachine = existingC.machine || cardioMachine;
+      cardioZone = existingC.zone || cardioZone;
+      document.getElementById('logMinutes').value = existingC.min ?? '';
+    } else {
+      document.getElementById('logMinutes').value = 20;
+    }
+    document.getElementById('logPrev').style.display = 'none';
+    renderCardioPickers();
+    document.getElementById('logModal').classList.add('active');
+    return;
+  }
+
   const wInput = document.getElementById('logWeight');
   const rInput = document.getElementById('logReps');
   const restInput = document.getElementById('logRest');
@@ -3355,6 +3420,31 @@ function cancelLogSet() {
 function saveLogSet() {
   if (!pendingLog) return;
   const { exKey, exName, setIndex, setEl, restDefault } = pendingLog;
+
+  if (pendingLog.cardio) {
+    const min = parseInt(document.getElementById('logMinutes').value);
+    if (isNaN(min) || min <= 0) { showToast('Enter minutes'); return; }
+    const dayKeyC = setEl.closest('.day').dataset.day;
+    const sessionC = ensureSession(dayKeyC);
+    if (!sessionC.logs[exKey]) sessionC.logs[exKey] = [];
+    if (!sessionC.exNames) sessionC.exNames = {};
+    sessionC.exNames[exKey] = exName;
+    sessionC.logs[exKey][setIndex] = {
+      mode: 'cardio', machine: cardioMachine, min, zone: cardioZone, ts: Date.now()
+    };
+    setEl.classList.add('done');
+    setEl.querySelector('.set-weight').textContent = min + 'm';
+    const exC = setEl.closest('.ex');
+    exC.classList.toggle('complete',
+      [...exC.querySelectorAll('.set')].every(s => s.classList.contains('done')));
+    saveState();
+    updateProgress();
+    document.getElementById('logModal').classList.remove('active');
+    showToast(`Logged · ${cardioMachine} ${min} min ${cardioZone}`);
+    pendingLog = null;
+    return;
+  }
+
   const w = parseFloat(document.getElementById('logWeight').value);
   const r = parseInt(document.getElementById('logReps').value);
   const rest = parseInt(document.getElementById('logRest').value) || restDefault;
@@ -3408,7 +3498,8 @@ function restoreSetUI() {
     sets.forEach((log, i) => {
       if (log && setEls[i]) {
         setEls[i].classList.add('done');
-        setEls[i].querySelector('.set-weight').textContent = `${log.w}kg`;
+        setEls[i].querySelector('.set-weight').textContent =
+          isCardioSet(log) ? `${log.min}m` : `${log.w}kg`;
       }
     });
     const allDone = [...setEls].every(s => s.classList.contains('done'));
@@ -3868,6 +3959,7 @@ function escapeJs(s) {
 
 function renderLogView() {
   applyTheme(state.theme);
+  renderBackupNotice();
   renderLibrary();
   renderHistory();
   renderSuggestSummary();
@@ -3913,7 +4005,7 @@ function renderHistory() {
             <span class="ex-name">${escapeHtml(ex.name)}</span>${
               (ex.rir !== undefined && ex.rir !== null)
                 ? `<span class="rir-badge${ex.rir === 0 ? ' zero' : ''}">RIR ${ex.rir}</span>` : ''}
-            <span class="ex-data">${ex.sets.map(set => `${set.w}×${set.r}`).join(' · ')}</span>
+            <span class="ex-data">${ex.sets.map(set => isCardioSet(set) ? escapeHtml(describeCardioSet(set)) : `${set.w}×${set.r}`).join(' · ')}</span>
           </div>
         `).join('')}
         ${!isCurrent ? `<div style="text-align:right;margin-top:8px;"><button class="session-del" onclick="deleteSession(${idx - (state.currentSession ? 1 : 0)})">DELETE</button></div>` : ''}
@@ -3965,6 +4057,7 @@ function exportMarkdown(days) {
   lines.push('');
   lines.push('## Format');
   lines.push('Each set: `weight kg × reps (rest taken in seconds)`');
+  lines.push('Conditioning entries are logged as `machine: minutes · zone` instead.');
   lines.push('Where present, `RIR` is reps in reserve on the hardest set of that exercise —');
   lines.push('how many more reps were available. `RIR 0` means the set went to failure.');
   lines.push('Exercises without an RIR value were not rated.');
@@ -3980,7 +4073,11 @@ function exportMarkdown(days) {
         : '';
       lines.push(`**${ex.name}**${tag}`);
       ex.sets.forEach((set, i) => {
-        lines.push(`- Set ${i+1}: ${set.w}kg × ${set.r} reps (rest ${set.rest}s)`);
+        if (set && set.mode === 'cardio') {
+          lines.push(`- ${set.machine || 'Cardio'}: ${set.min} min · ${set.zone || 'zone n/a'}`);
+        } else {
+          lines.push(`- Set ${i+1}: ${set.w}kg × ${set.r} reps (rest ${set.rest}s)`);
+        }
       });
       lines.push('');
     });
@@ -4035,7 +4132,10 @@ function downloadJSON() {
   a.download = `training-log-${todayISO()}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  showToast('JSON downloaded');
+  state.lastBackup = Date.now();
+  saveState();
+  renderBackupNotice();
+  showToast('Backup saved');
 }
 
 function confirmReset() {
@@ -4109,6 +4209,111 @@ function formatDate(iso) {
   const d = new Date(iso + 'T00:00:00');
   return d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
 }
+
+function sessionKey(s) {
+  return `${s.date}|${s.day}|${s.dayTitle || ''}`;
+}
+
+function mergeState(incoming) {
+  const before = state.sessions.length;
+
+  const map = new Map();
+  state.sessions.forEach(s => map.set(sessionKey(s), s));
+  (incoming.sessions || []).forEach(s => {
+    const k = sessionKey(s);
+    const cur = map.get(k);
+    if (!cur || (s.exercises || []).length > (cur.exercises || []).length) map.set(k, s);
+  });
+  state.sessions = [...map.values()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 200);
+
+  const exMap = new Map(state.customExercises.map(e => [e.id, e]));
+  (incoming.customExercises || []).forEach(e => { if (!exMap.has(e.id)) exMap.set(e.id, e); });
+  state.customExercises = [...exMap.values()];
+
+  ['1', '2', '3', '4'].forEach(d => {
+    const cur = state.dayCustoms[d] || [];
+    const inc = (incoming.dayCustoms && incoming.dayCustoms[d]) || [];
+    const seen = new Set(cur.map(i => (typeof i === 'string' ? i : i.iid)));
+    inc.forEach(i => {
+      const iid = (typeof i === 'string' ? i : i.iid);
+      if (!seen.has(iid)) { cur.push(i); seen.add(iid); }
+    });
+    state.dayCustoms[d] = cur;
+  });
+
+  Object.entries(incoming.suggestionOverrides || {}).forEach(([k, v]) => {
+    if (v) {
+      state.suggestionOverrides[k] = true;
+      if (incoming.suggestions && incoming.suggestions[k]) state.suggestions[k] = incoming.suggestions[k];
+    }
+  });
+
+  if (incoming.theme) state.theme = incoming.theme;
+  if (!state.currentSession && incoming.currentSession) state.currentSession = incoming.currentSession;
+
+  return { added: state.sessions.length - before, total: state.sessions.length };
+}
+
+function daysSinceBackup() {
+  if (!state.lastBackup) return null;
+  return Math.floor((Date.now() - state.lastBackup) / 86400000);
+}
+
+function renderBackupNotice() {
+  const el = document.getElementById('backup-notice');
+  if (!el) return;
+  const sessions = state.sessions.length;
+  const d = daysSinceBackup();
+  if (sessions === 0) { el.innerHTML = ''; return; }
+  if (d === null) {
+    el.innerHTML = `<div class="backup-warn"><strong>${sessions} sessions stored, never backed up.</strong>
+      Browser storage is tied to this exact file location — open a new copy and this history won't follow.
+      Save a backup now, then restore it into any future version.</div>`;
+  } else if (d >= 14) {
+    el.innerHTML = `<div class="backup-warn"><strong>Last backup ${d} days ago.</strong>
+      ${sessions} sessions stored. Worth saving a fresh one.</div>`;
+  } else {
+    el.innerHTML = `<div class="backup-ok">${sessions} sessions stored · backed up ${d === 0 ? 'today' : d + ' day' + (d === 1 ? '' : 's') + ' ago'}</div>`;
+  }
+}
+
+const CARDIO_MACHINES = ['Row', 'Bike', 'Treadmill', 'Elliptical', 'Other'];
+const CARDIO_ZONES = ['Z1', 'Z2', 'Z3', 'Z4'];
+let cardioMachine = 'Bike';
+let cardioZone = 'Z2';
+
+function isCardioCard(ex) {
+  return !!ex && ex.dataset.logMode === 'cardio';
+}
+
+function renderCardioPickers() {
+  const mRow = document.getElementById('cardioMachines');
+  const zRow = document.getElementById('cardioZones');
+  if (mRow) {
+    mRow.innerHTML = CARDIO_MACHINES.map(m =>
+      `<button type="button" class="chip${m === cardioMachine ? ' active' : ''}" data-machine="${m}">${m}</button>`).join('');
+    mRow.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+      cardioMachine = c.dataset.machine; renderCardioPickers();
+    });
+  }
+  if (zRow) {
+    zRow.innerHTML = CARDIO_ZONES.map(z =>
+      `<button type="button" class="chip${z === cardioZone ? ' active' : ''}" data-zone="${z}">${z}</button>`).join('');
+    zRow.querySelectorAll('.chip').forEach(c => c.onclick = () => {
+      cardioZone = c.dataset.zone; renderCardioPickers();
+    });
+  }
+}
+
+function describeCardioSet(s) {
+  const bits = [];
+  if (s.machine) bits.push(s.machine);
+  if (s.min) bits.push(s.min + ' min');
+  if (s.zone) bits.push(s.zone);
+  return bits.join(' · ') || 'Cardio';
+}
+
+function isCardioSet(s) { return !!s && s.mode === 'cardio'; }
 
 function applyTheme(theme) {
   const t = theme === 'dark' ? 'dark' : 'light';
@@ -4216,7 +4421,7 @@ function allSessions() {
 }
 
 function validSets(sets) {
-  return (sets || []).filter(s => s && s.r > 0);
+  return (sets || []).filter(s => s && s.mode !== 'cardio' && s.r > 0);
 }
 
 function est1RM(w, r) {
@@ -4481,9 +4686,9 @@ function importJSON(input) {
     }
     const incoming = parsed.sessions.length;
     const existing = state.sessions.length;
-    if (!confirm(`Restore ${incoming} sessions from this backup?\n\nThis replaces the ${existing} sessions currently on this device.`)) return;
-    state = Object.assign(defaultState(), parsed);
-    state.suggestionsRev = 0;   // re-apply current coach suggestions over restored data
+    if (!confirm(`Merge ${incoming} sessions from this backup?\n\nNothing is deleted — the ${existing} sessions already here are kept and anything new is added.`)) return;
+    const res = mergeState(parsed);
+    state.suggestionsRev = 0;   // re-apply this version's coach suggestions over merged data
     saveState();
     applyCoachSuggestions();
     renderAllCustomExercises();
@@ -4491,7 +4696,7 @@ function importJSON(input) {
     restoreSetUI();
     updateProgress();
     renderLogView();
-    showToast(`Restored ${incoming} sessions`);
+    showToast(res.added > 0 ? `Merged · ${res.added} new, ${res.total} total` : `Already up to date · ${res.total} sessions`);
   };
   reader.onerror = () => showToast('Could not read that file');
   reader.readAsText(file);
@@ -4521,56 +4726,53 @@ const SUGGESTIONS_REV = 1;
 
 const coachSuggestions = {
   "hammer iso-lateral row (back)":
-    "90kg × 6-8, RIR 1-2 — stop 1-2 reps short; never grind the last rep.",
+    "92.5kg × 6-8, RIR 1-2 — stop 1-2 reps short; never grind the last rep.",
   "hammer incline press":
-    "50kg × 6-8, RIR 1-2 — stop before form degrades, not after.",
+    "52.5kg × 6-8, RIR 1-2 — stop before form degrades, not after.",
   "lat pulldown, neutral (back)":
-    "60kg × 8-10, RIR 2 — stop the set if you start leaning back.",
+    "60kg × 8-10, RIR 2 — even the sets out before adding load.",
   "hammer shoulder press":
     "22.5kg/side × 8-10, RIR 2 — keep 2 reps in the tank.",
   "cable triceps pushdown, rope":
-    "17.5kg × 10-12, RIR 2 — elbows pinned to ribs, forearm only.",
+    "17.5kg × 10-12, RIR 2 — elbows pinned to ribs; stop with 2 left.",
   "incline db curl":
     "6kg × 10-12, RIR 2 — controlled tempo, no swing.",
   "zone 2 cardio (conditioning)":
-    "20-30 min, conversational pace, 2×/week — easy effort throughout. An off day counts.",
-
+    "20-30 min, Zone 2, 2×/week — conversational pace throughout.",
   "deadlift (conventional)":
-    "110-120kg × 6, RIR 2 — reset the breath between every rep. If you can't, that's your ceiling.",
+    "120kg × 6 across, RIR 2 — reset the breath between every rep; four consistent sets before adding.",
   "belt squat (spine-free)":
-    "120kg × 6-8, RIR 1-2 — build reps to 8 before adding load.",
+    "125kg × 6-8, RIR 1-2 — build reps before adding load.",
   "iso-lateral kneeling leg curl":
-    "Str 17.5kg × 10-12 · Hyp 12.5kg × 12-15, RIR 2 — same movement, two different days.",
+    "Str 17.5kg × 10-12 · Hyp 12.5kg × 12-15, RIR 2 — stop 2 short on both.",
   "bulgarian split squat":
-    "16kg × 8-10, RIR 2 — limited by balance, not strength. Build reps before load.",
+    "18kg × 8-10, RIR 2 — technique before load.",
   "hanging knee raise":
-    "Bodyweight × 12-15 — superset during calf or leg-curl rest, not last in the session.",
+    "Bodyweight × 12-15 — superset during rest periods if time is short.",
   "single-leg calf raise on leg press":
-    "32.5kg × 10-12, RIR 2 — soleus is fatigue-resistant; higher reps beat heavy low ones.",
-
+    "37.5kg × 10-12, RIR 2 — higher reps beat heavy low ones here.",
   "hammer high row (back)":
-    "52.5kg × 10-11, RIR 2 — stop earlier; a flat 10-11 across beats 12 then a collapse.",
+    "52.5kg × 10-12, RIR 2 — build set 4 before adding load.",
   "hammer iso-lat lat pulldown (back)":
-    "52.5kg × 10-12, RIR 2 — full stretch at the top of every rep.",
+    "55kg × 10-12, RIR 2 — full stretch at the top of every rep.",
   "cable lat pullover":
-    "15kg × 12-15, RIR 2 — controlled through the whole arc.",
+    "15kg × 12-15, RIR 2 — stop 2 short so the last set holds.",
   "hammer flat press":
-    "50kg × 10 across, RIR 2 — a flat 10/10/10 beats 12 then two 8s.",
+    "52.5kg × 10-12, RIR 2 — controlled eccentric, stop with 2 left.",
   "db lateral raise":
-    "6kg × 15 across, RIR 2 — when that's easy, jump to 8 and accept 10-12 reps.",
+    "8kg × 10-12, RIR 2 — lead with the elbow, no shrug.",
   "overhead cable triceps ext.":
-    "12.5kg × 12-15, RIR 2 — anchor the scapulae, no forward roll.",
+    "12.5kg × 12-15, RIR 2 — anchor the scapulae, stop 2 short.",
   "hammer curl":
     "7kg × 12-15, RIR 2 — small steps; don't jump two sizes.",
-
-  "pendulum squat (quad isolation)":
-    "22.5kg × 12 across, RIR 2 — even out the sets before adding load.",
+  "hack squat (quad isolation)":
+    "22.5kg × 10-12, RIR 2 — shoulder-loaded: breathe through every rep.",
   "standing hip thrust (glute iso)":
-    "90kg × 12, RIR 2 — squeeze at lockout, ribs down.",
+    "80kg × 10-12, RIR 2 — if the arms start pulling, the load is too high.",
   "walking lunge (long stride)":
-    "12kg × 10-12/leg, RIR 2 — light first pass before the working sets.",
+    "14kg × 10-12/leg, RIR 2 — long stride, torso tall.",
   "smith machine seated calf raise":
-    "50kg × 12-15, RIR 2 — reach the top of the range before adding load."
+    "55kg × 12-15, RIR 2 — reach the top of the range before adding load."
 };
 
 function applyCoachSuggestions() {
