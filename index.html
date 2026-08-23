@@ -13,8 +13,6 @@
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABm0lEQVR42u3dQQ5FMBRAUcSGLMRKrMdKLMRqDBiZq0i8Qatxzlzkv9xU8ivVHvvWwJ3OCBAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDhAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+Lgf/pSN16nMXbhMC/1jruuX23lQByIA3EgDsSBOBAH4kAciAMSwb2VwB5B1XsiX5Nn/lYOxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHPxPe+xb4LLwISSU4gVjPFYQB+JAHIgDcSAOxAHi4IV8Z59f/r519nmR6Vk5EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxMGj4AvGvuZXVp75WzkQB+JAHIgDcSAOxIE4EAfigETw7HOsHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+JAHIgDcYA4EAfiQByIA3EgDmp2AphyJRggw0XIAAAAAElFTkSuQmCC">
 <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAABm0lEQVR42u3dQQ5FMBRAUcSGLMRKrMdKLMRqDBiZq0i8Qatxzlzkv9xU8ivVHvvWwJ3OCBAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDhAH4kAciANxIA7EgTgQB+IAcSAOxIE4EAfiQByIA3EgDsQB4kAciANxIA7EgTgQB+Lgf/pSN16nMXbhMC/1jruuX23lQByIA3EgDsSBOBAH4kAciAMSwb2VwB5B1XsiX5Nn/lYOxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHPxPe+xb4LLwISSU4gVjPFYQB+JAHIgDcSAOxAHi4IV8Z59f/r519nmR6Vk5EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxMGj4AvGvuZXVp75WzkQB+JAHIgDcSAOxIE4EAfigETw7HOsHIgDxIE4EAfiQByIA3EgDsSBOEAciANxIA7EgTgQB+JAHIgDxIE4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+JAHIgDcYA4EAfiQByIA3EgDmp2AphyJRggw0XIAAAAAElFTkSuQmCC">
 <script>
-/* Applied before first paint so the app never flashes the wrong theme.
-   Reads storage directly — the main state module loads later. */
 (function () {
   var t = 'light';
   try {
@@ -1248,6 +1246,55 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
   margin: 10px 0 4px;
 }
 
+/* ============ MUSCLE VOLUME ROWS ============ */
+.mrow { margin-bottom: 13px; }
+.mrow-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+.mname { font-size: 13px; font-weight: 600; color: var(--ink); }
+.mval {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.mval.low { color: var(--muted); }
+.mval.high { color: var(--warn); }
+.munit { font-weight: 500; color: var(--muted); font-size: 10px; margin-left: 2px; }
+.mbar {
+  position: relative;
+  height: 9px;
+  background: var(--surface-2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.mband {
+  position: absolute;
+  top: 0; bottom: 0;
+  background: var(--accent-fade);
+  border-left: 1px solid var(--accent-dim);
+  border-right: 1px solid var(--accent-dim);
+}
+.mfill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--accent);
+  border-radius: 5px;
+}
+.mfill.low { background: var(--muted); }
+.mfill.high { background: var(--warn); }
+.mnote {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  margin-top: 3px;
+  color: var(--muted);
+}
+.mnote.high { color: var(--warn); }
+
 /* ============ EFFORT (RIR) CONTROL ============ */
 .ex-effort {
   display: flex;
@@ -1819,7 +1866,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
-        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">EYE HEALTH</span></div>
+        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">CONDITIONING</span></div>
       </div>
       <div class="ex-targets">
         <span>1 block</span><span class="sep">·</span>
@@ -1841,7 +1888,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Why it&#39;s here:</strong> resistance training transiently raises eye pressure. Regular aerobic work is one of the few things associated with <em>lowering</em> baseline pressure. This is the counterweight.</p>
+          <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
           <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
           <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
           <p><strong>Logging:</strong> tap the circle and enter machine, minutes and zone.</p>
@@ -1849,7 +1896,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <div class="tab-content act-content">
           <ul class="bullet-list">
             <li>Cardiovascular &#8212; the primary target</li>
-            <li>Associated with lower baseline intraocular pressure</li>
+            <li>Aerobic base &#8212; supports work capacity between lifting days</li>
             <li>Aids recovery between lifting days</li>
             <li>Zero added fatigue at this intensity</li>
           </ul>
@@ -1879,7 +1926,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </ul>
     </div>
     <div class="panel warn">
-      <h3>Glaucoma Protocol</h3>
+      <h3>Breathing Protocol</h3>
       <ul>
         <li>Exhale forcefully through every concentric — never hold through a set</li>
         <li>No belt cinched tight</li>
@@ -1921,7 +1968,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>IOP note:</strong> conventional is a higher intra-abdominal/intrathoracic pressure movement than the trap bar high-handle it replaced. Breathing discipline matters more here, not less. <em>Keep loads submaximal — this slot is not for grinding singles.</em></p>
+          <p><strong>Breathing note:</strong> conventional generates more intra-abdominal pressure than most machine work. Breathing discipline matters more here, not less. <em>Keep loads submaximal — this slot is not for grinding singles.</em></p>
           <p>Feet hip-width, bar over mid-foot, shins ~2cm from bar. Hinge hips back, shins come forward to touch bar. Grip just outside knees. <em>Pull slack out of the bar</em> — pre-tension lats, chest up, ribs down.</p>
           <p>Half-breath into the belly — <strong>not a maximal breath-hold</strong>. Eyes on a point ~2m forward, neutral neck. Drive: push the floor away through mid-foot, hips and shoulders rise at the same rate. <em>Exhale forcefully as the bar passes the knees, finishing the breath at lockout.</em> Reset the breath between every rep — no held-breath multi-rep sets.</p>
         </div>
@@ -1935,7 +1982,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li><strong>Holding breath through a full set — highest IOP risk.</strong> Reset between reps</li>
+            <li><strong>Holding breath through a full set.</strong> Reset between reps</li>
             <li>Grinding a maximal rep — stop the set instead</li>
             <li>Hips rising faster than shoulders — turns it into a stiff-leg</li>
             <li>Head dropping toward the floor, or craning up at the ceiling — stay neutral</li>
@@ -1975,10 +2022,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Best squat option for your IOP.</strong> Load hangs from your waist via belt — zero spinal compression, no axial load, no need to brace abdomen hard. Replaces traditional barbell squatting safely.</p>
+          <p><strong>Best squat option here.</strong> Load hangs from your waist via belt — zero spinal compression, no axial load, no need to brace abdomen hard. Replaces traditional barbell squatting safely.</p>
           <p>Strap belt around hips (sit on hip bones, not waist). Stand on platform, feet shoulder-width, toes ~15° out. Hold the upper rails for balance only — <strong>don't pull yourself up with arms</strong>. Stand fully tall to start.</p>
           <p>Descend in 2 sec — hips travel back and down, knees track over toes. Go to ~parallel or to where you maintain neutral spine (no lumbar rounding). Drive up through mid-foot. <em>Exhale forcefully through the drive.</em> Stand tall, squeeze glutes, no hyperextension.</p>
-          <p>Without spinal load, you can train this harder than a back squat without IOP risk. Push to RIR 1.</p>
+          <p>Without spinal load you can train this harder than a back squat. Push to RIR 2.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
@@ -2163,9 +2210,9 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </ul>
     </div>
     <div class="panel warn">
-      <h3>Glaucoma Protocol</h3>
+      <h3>Breathing Protocol</h3>
       <ul>
-        <li>Conventional pull replaces trap bar (no trap bar at gym) — <strong>higher pressure, so keep load submaximal</strong></li>
+        <li>Conventional pull — <strong>keep load submaximal</strong></li>
         <li>Cap deadlifts at 6 reps · no grinding</li>
         <li><strong>Reset the breath every rep</strong> — never hold through a set</li>
         <li>Forceful exhale through sticking point</li>
@@ -2517,7 +2564,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
-        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">EYE HEALTH</span></div>
+        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">CONDITIONING</span></div>
       </div>
       <div class="ex-targets">
         <span>1 block</span><span class="sep">·</span>
@@ -2539,7 +2586,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Why it&#39;s here:</strong> resistance training transiently raises eye pressure. Regular aerobic work is one of the few things associated with <em>lowering</em> baseline pressure. This is the counterweight.</p>
+          <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
           <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
           <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
           <p><strong>Logging:</strong> tap the circle and enter machine, minutes and zone.</p>
@@ -2547,7 +2594,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <div class="tab-content act-content">
           <ul class="bullet-list">
             <li>Cardiovascular &#8212; the primary target</li>
-            <li>Associated with lower baseline intraocular pressure</li>
+            <li>Aerobic base &#8212; supports work capacity between lifting days</li>
             <li>Aids recovery between lifting days</li>
             <li>Zero added fatigue at this intensity</li>
           </ul>
@@ -2590,7 +2637,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 </main>
 
 <!-- ========== DAY 4 ========== -->
-<main class="day" data-day="4" data-title="Lower · Hypertrophy" data-sub="Quad-led. Machine-anchored. Lower IOP load.">
+<main class="day" data-day="4" data-title="Lower · Hypertrophy" data-sub="Quad-led. Machine-anchored. Lower spinal load.">
 
   <div class="ex priority" data-rest="180" data-step="2.5">
     <div class="ex-head">
@@ -2673,7 +2720,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Best glute-isolation tool you have.</strong> Pure hip extension under load — no spinal involvement, no axial compression. IOP-friendly by design. Replaces cable pull-through with a more direct stimulus.</p>
+          <p><strong>Best glute-isolation tool you have.</strong> Pure hip extension under load — no spinal involvement, no axial compression. Replaces cable pull-through with a more direct stimulus.</p>
           <p>Stand on platform, chest pad against your front (sternum/upper abs). Hold rails for stability. Adjust pad height so the lever arm/pad presses against your <strong>upper glutes / lower back where the glute insertion is</strong> — not on lumbar spine.</p>
           <p>Setup: feet shoulder-width, slight knee bend (~15°, locked). Brace against chest pad. Start position: hips slightly flexed forward.</p>
           <p>Drive hips forward by squeezing glutes hard — <em>finish with posterior pelvic tilt at top</em> (tuck tailbone under, ribs down). 1-sec peak squeeze. 2-sec eccentric back to start, never let glutes fully relax.</p>
@@ -2866,7 +2913,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </ul>
     </div>
     <div class="panel warn">
-      <h3>Glaucoma Protocol</h3>
+      <h3>Breathing Protocol</h3>
       <ul>
         <li>Machine-anchored day — no axial loading anywhere</li>
         <li>Pendulum squat: fixed arc, no spinal compression. Stop at RIR 2</li>
@@ -2918,6 +2965,23 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       <div class="chart-sub" id="adherence-sub">Last 12 weeks</div>
     </div>
     <div id="adherence-chart"></div>
+  </div>
+
+  <div class="chart-block">
+    <div class="chart-head">
+      <div class="chart-title">By muscle group</div>
+      <div class="chart-sub">Weekly average</div>
+    </div>
+    <div class="chip-row" id="muscle-window">
+      <button class="chip active" data-win="7" onclick="setMuscleWindow(7)">Last 7 days</button>
+      <button class="chip" data-win="28" onclick="setMuscleWindow(28)">4-week avg</button>
+      <button class="chip" data-win="84" onclick="setMuscleWindow(84)">12-week avg</button>
+    </div>
+    <div class="metric-row" id="muscle-metric" style="grid-template-columns:1fr 1fr;">
+      <button class="metric-btn active" data-mm="sets" onclick="setMuscleMetric('sets')">Sets</button>
+      <button class="metric-btn" data-mm="tonnage" onclick="setMuscleMetric('tonnage')">Tonnage</button>
+    </div>
+    <div id="muscle-chart"></div>
   </div>
 
   <div class="chart-block">
@@ -3165,21 +3229,6 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 <div class="toast" id="toast">Set complete</div>
 
 <script>
-/* ============================================================
-   TRAINING APP — DATA LAYER
-   ============================================================
-   All persistent state lives in localStorage under one key.
-   Schema is versioned so future migrations are possible.
-
-   Shape:
-   {
-     version: 1,
-     customExercises: [{ id, name, sets, reps, rest, tag, how, act, comp }],
-     dayCustoms: { "1": [exId, ...], "2": [...], ... }   // which custom exercises are added to each day
-     currentSession: { day: "1", date: "2026-04-29", logs: { exKey: [{w, r, rest, ts}, ...] } }
-     sessions: [{ date, day, dayTitle, exercises: [{name, sets:[{w,r,rest,ts}]}] }]
-   }
-============================================================ */
 
 const STORAGE_KEY = 'training_app_v1';
 
@@ -3204,7 +3253,6 @@ function loadState() {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultState();
     const parsed = JSON.parse(raw);
-    // Light migration safety
     return Object.assign(defaultState(), parsed);
   } catch (e) {
     console.warn('State load failed, resetting', e);
@@ -3225,21 +3273,12 @@ function todayISO() {
   return d.toISOString().split('T')[0];
 }
 
-/* ============================================================
-   SESSION LIFECYCLE
-   A "session" is one day's workout. It auto-starts when you
-   log the first set, and auto-archives at midnight or when you
-   switch to a different day after logging.
-============================================================ */
-
 function ensureSession(dayKey) {
-  // If existing session matches today + this day, keep it.
   if (state.currentSession
       && state.currentSession.day === dayKey
       && state.currentSession.date === todayISO()) {
     return state.currentSession;
   }
-  // Archive any prior unfinished session
   if (state.currentSession && Object.keys(state.currentSession.logs || {}).length > 0) {
     archiveSession(state.currentSession);
   }
@@ -3258,7 +3297,6 @@ function archiveSession(session) {
   const exercises = [];
   Object.entries(session.logs).forEach(([exKey, sets]) => {
     if (!sets.length) return;
-    // exKey format: "day1-ex0" or "custom-<id>"
     const name = session.exNames?.[exKey] || exKey;
     const entry = { name, sets };
     const rir = session.rir?.[exKey];
@@ -3272,7 +3310,6 @@ function archiveSession(session) {
     dayTitle,
     exercises
   });
-  // Cap history to 200 sessions
   if (state.sessions.length > 200) state.sessions.length = 200;
 }
 
@@ -3284,12 +3321,6 @@ function finalizeAndArchiveCurrent() {
   }
 }
 
-/* ============================================================
-   EXERCISE KEYS — stable identifier per card
-   For built-in cards, we assign on first render: "day{N}-ex{i}"
-   For custom cards, key is "custom-{id}"
-============================================================ */
-
 function assignExerciseKeys() {
   document.querySelectorAll('.day[data-day]').forEach(day => {
     const dKey = day.dataset.day;
@@ -3300,10 +3331,6 @@ function assignExerciseKeys() {
   });
 }
 
-/* ============================================================
-   SET CIRCLES — wrap number in span so we can show weight under it
-============================================================ */
-
 function decorateSets() {
   document.querySelectorAll('.set').forEach(set => {
     if (set.querySelector('.set-num')) return;
@@ -3312,9 +3339,6 @@ function decorateSets() {
   });
 }
 
-/* ============================================================
-   TAB SWITCHING (unchanged from original)
-============================================================ */
 function switchTab(btn, tab) {
   const detail = btn.closest('.detail-inner');
   detail.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -3329,12 +3353,6 @@ function toggleDetail(btn) {
   btn.querySelector('.btn-icon').textContent = ex.classList.contains('open') ? '↑' : '↓';
 }
 
-/* ============================================================
-   SET CLICK — opens log modal (replaces old toggle behavior)
-   Click set circle -> log weight/reps/rest -> mark done + start timer
-   Click already-done set -> show modal pre-filled to edit
-============================================================ */
-
 let pendingLog = null;  // { exKey, exName, setIndex, setEl, restDefault, prevValues }
 
 function openLogModal(setEl) {
@@ -3346,11 +3364,9 @@ function openLogModal(setEl) {
   const restDefault = parseInt(ex.dataset.rest) || 90;
   const stepSize = parseFloat(ex.dataset.step) || 2.5;
 
-  // Look up existing log for this exact set (if editing)
   const session = state.currentSession;
   const existing = session?.logs?.[exKey]?.[setIndex];
 
-  // Find a sensible prev value: previous set this session, or last session's same exercise
   const prev = findPreviousSet(exKey, setIndex);
 
   pendingLog = { exKey, exName, setIndex, setEl, restDefault, step: stepSize };
@@ -3360,7 +3376,6 @@ function openLogModal(setEl) {
   document.getElementById('logTitle').textContent = exName;
   document.getElementById('logSub').textContent = `Set ${setIndex + 1} of ${totalSets}`;
 
-  // Conditioning logs minutes and effort, not weight and reps.
   const cardio = isCardioCard(ex);
   pendingLog.cardio = cardio;
   document.getElementById('cardioFields').style.display = cardio ? 'block' : 'none';
@@ -3394,7 +3409,6 @@ function openLogModal(setEl) {
     restInput.value = restDefault;
   }
 
-  // Show prev hint if available and we're not editing
   const prevEl = document.getElementById('logPrev');
   if (prev && !existing) {
     prevEl.style.display = 'block';
@@ -3404,25 +3418,21 @@ function openLogModal(setEl) {
   }
 
   document.getElementById('logModal').classList.add('active');
-  // Focus weight on small delay so keyboard rises after modal animation
   setTimeout(() => wInput.focus(), 150);
 }
 
 function findPreviousSet(exKey, setIndex) {
-  // 1. Same session, prior set on this exercise
   const cur = state.currentSession?.logs?.[exKey];
   if (cur && cur[setIndex - 1]) {
     const p = cur[setIndex - 1];
     return { w: p.w, r: p.r, source: 'prev set' };
   }
-  // 2. Look up exercise name and search recent sessions
   const ex = document.querySelector(`.ex[data-ex-key="${exKey}"]`);
   if (!ex) return null;
   const exName = getExerciseName(ex);
   for (const sess of state.sessions) {
     const hit = sess.exercises.find(e => e.name === exName);
     if (hit && hit.sets.length) {
-      // Prefer same set index, fall back to last set
       const s = hit.sets[setIndex] || hit.sets[hit.sets.length - 1];
       return { w: s.w, r: s.r, source: sess.date };
     }
@@ -3479,11 +3489,9 @@ function saveLogSet() {
   session.exNames[exKey] = exName;
   session.logs[exKey][setIndex] = { w, r, rest, ts: Date.now() };
 
-  // Visual update
   setEl.classList.add('done');
   setEl.querySelector('.set-weight').textContent = `${w}kg`;
 
-  // Mark exercise complete if all sets done
   const ex = setEl.closest('.ex');
   const allDone = [...ex.querySelectorAll('.set')].every(s => s.classList.contains('done'));
   ex.classList.toggle('complete', allDone);
@@ -3496,13 +3504,8 @@ function saveLogSet() {
   pendingLog = null;
 }
 
-/* ============================================================
-   RESTORE UI from session state (called on load + day switch)
-============================================================ */
-
 function restoreSetUI() {
   renderAllEffortControls();
-  // Clear all done states first
   document.querySelectorAll('.set.done').forEach(s => {
     s.classList.remove('done');
     const sw = s.querySelector('.set-weight');
@@ -3510,7 +3513,6 @@ function restoreSetUI() {
   });
   document.querySelectorAll('.ex.complete').forEach(e => e.classList.remove('complete'));
 
-  // Apply current session if it matches today
   const sess = state.currentSession;
   if (!sess || sess.date !== todayISO()) return;
 
@@ -3556,10 +3558,6 @@ function updateProgress() {
   if (resetBtn) resetBtn.style.display = done > 0 ? 'inline-block' : 'none';
 }
 
-/* ============================================================
-   DAY SWITCHING
-============================================================ */
-
 document.querySelectorAll('.navbtn').forEach(btn => {
   btn.addEventListener('click', () => {
     const day = btn.dataset.day;
@@ -3583,9 +3581,6 @@ document.querySelectorAll('.navbtn').forEach(btn => {
   });
 });
 
-/* ============================================================
-   REST TIMER (unchanged)
-============================================================ */
 let timerInterval = null;
 let timerSeconds = 0;
 let timerPaused = false;
@@ -3649,9 +3644,6 @@ function playBeep() {
   } catch(e) {}
 }
 
-/* ============================================================
-   TOAST
-============================================================ */
 let toastTimer = null;
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -3660,10 +3652,6 @@ function showToast(msg) {
   if (toastTimer) clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-/* ============================================================
-   CUSTOM EXERCISES — library (CRUD)
-============================================================ */
 
 let editingId = null;
 
@@ -3717,7 +3705,6 @@ function saveExercise() {
 function deleteExercise(id) {
   if (!confirm('Delete this exercise from your library?')) return;
   state.customExercises = state.customExercises.filter(e => e.id !== id);
-  // Also remove from any day it was added to
   Object.keys(state.dayCustoms).forEach(d => {
     state.dayCustoms[d] = (state.dayCustoms[d] || []).filter(item => {
       const itemId = typeof item === 'string' ? item : item.exId;
@@ -3749,10 +3736,6 @@ function renderLibrary() {
   `).join('');
 }
 
-/* ============================================================
-   ADD CUSTOM EXERCISE TO A DAY
-============================================================ */
-
 function openPicker() {
   const dayKey = document.querySelector('.day.active')?.dataset.day;
   if (!dayKey || dayKey === 'log') return;
@@ -3781,7 +3764,6 @@ function closePickerModal() {
 
 function addCustomToDay(dayKey, exId) {
   if (!state.dayCustoms[dayKey]) state.dayCustoms[dayKey] = [];
-  // Store as object with stable instance id so removing one doesn't renumber others' log keys
   state.dayCustoms[dayKey].push({ exId, iid: 'i_' + Date.now().toString(36) + Math.floor(Math.random()*1000) });
   saveState();
   renderCustomExercisesForDay(dayKey);
@@ -3808,7 +3790,6 @@ function renderCustomExercisesForDay(dayKey) {
   const container = dayEl.querySelector('.custom-ex-container');
   if (!container) return;
 
-  // Migrate legacy strings to {exId, iid} objects (back-compat for existing localStorage)
   const items = (state.dayCustoms[dayKey] || []).map(item =>
     typeof item === 'string' ? { exId: item, iid: 'legacy_' + Math.random().toString(36).slice(2,8) } : item
   );
@@ -3866,13 +3847,6 @@ function renderCustomExercisesForDay(dayKey) {
   if (dayEl.classList.contains('active')) restoreSetUI();
 }
 
-/* ============================================================
-   COACH SUGGESTIONS
-   Per-exercise short notes (e.g. "80×8, 80×8, 85×6-8, 85×6-8")
-   that show up as a banner on the exercise card during workouts.
-   Keyed by exercise name (lowercased, trimmed) for stability.
-============================================================ */
-
 let suggestEditingName = null;
 
 function suggestKey(name) {
@@ -3884,7 +3858,6 @@ function getSuggestion(name) {
 }
 
 function renderSuggestionBanners() {
-  // For every visible .ex card, render or remove the suggestion banner
   document.querySelectorAll('.day .ex').forEach(ex => {
     const name = getExerciseName(ex);
     const text = getSuggestion(name);
@@ -3893,7 +3866,6 @@ function renderSuggestionBanners() {
     const targetsEl = ex.querySelector('.ex-targets');
     if (!targetsEl) return;
 
-    // Cleanup existing
     if (banner) banner.remove();
     if (addBtn) addBtn.remove();
 
@@ -3909,10 +3881,8 @@ function renderSuggestionBanners() {
       `;
       banner.querySelector('.ex-suggest-text').textContent = text;
       banner.querySelector('.ex-suggest-edit').onclick = () => openSuggestModal(name);
-      // Insert AFTER targets, BEFORE sets
       targetsEl.insertAdjacentElement('afterend', banner);
     } else {
-      // Add the dashed "+ Add suggestion" button (visible only in edit mode via CSS)
       addBtn = document.createElement('button');
       addBtn.className = 'ex-suggest-add';
       addBtn.type = 'button';
@@ -4015,10 +3985,6 @@ function escapeJs(s) {
   return String(s).replace(/['"\\]/g, '\\$&');
 }
 
-/* ============================================================
-   LOG VIEW RENDERING
-============================================================ */
-
 function renderLogView() {
   applyTheme(state.theme);
   renderBackupNotice();
@@ -4031,7 +3997,6 @@ function renderHistory() {
   const list = document.getElementById('history-list');
   document.getElementById('history-count').textContent = state.sessions.length;
 
-  // Include current in-progress session at the top
   const items = [];
   if (state.currentSession && Object.keys(state.currentSession.logs || {}).length > 0) {
     const cs = state.currentSession;
@@ -4084,12 +4049,7 @@ function deleteSession(archiveIdx) {
   renderHistory();
 }
 
-/* ============================================================
-   MARKDOWN EXPORT — for pasting into Claude
-============================================================ */
-
 function exportMarkdown(days) {
-  // Pull current session + recent sessions within window
   const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
   const sessions = [];
 
@@ -4192,16 +4152,8 @@ function fallbackCopy(text) {
   document.body.removeChild(ta);
 }
 
-/* ============================================================
-   JSON EXPORT / RESET
-============================================================ */
-
 function downloadJSON() {
-  // Stamp the timestamp BEFORE serialising, or the exported file always
-  // claims it was never backed up.
   state.lastBackup = Date.now();
-  // Fold any in-progress session into history so a backup taken mid-workout
-  // still carries today's sets even if it's restored into a fresh install.
   const snapshot = JSON.parse(JSON.stringify(state));
   const cs = snapshot.currentSession;
   if (cs && Object.keys(cs.logs || {}).length) {
@@ -4254,10 +4206,8 @@ function resetCurrentDay() {
 
   if (!confirm(`Reset ${dayTitle}?\n\nThis clears today's logged sets on this day. Archived history is kept.`)) return;
 
-  // If currentSession is on this day, archive what's there (so it goes to history) then clear
   if (state.currentSession && state.currentSession.day === dayKey) {
     if (Object.keys(state.currentSession.logs || {}).length > 0) {
-      // Don't archive — user explicitly wants to discard this attempt
       state.currentSession = null;
     } else {
       state.currentSession = null;
@@ -4265,7 +4215,6 @@ function resetCurrentDay() {
   }
   saveState();
 
-  // Clear UI on this day
   dayEl.querySelectorAll('.set.done').forEach(s => {
     s.classList.remove('done');
     const sw = s.querySelector('.set-weight');
@@ -4277,10 +4226,6 @@ function resetCurrentDay() {
   showToast(`${dayTitle} reset`);
 }
 
-/* ============================================================
-   UTILITIES
-============================================================ */
-
 function escapeHtml(s) {
   if (s == null) return '';
   return String(s).replace(/[&<>"']/g, c =>
@@ -4289,10 +4234,8 @@ function escapeHtml(s) {
 }
 
 function getExerciseName(ex) {
-  // Build name with a space before any tag span, so "Lat Pulldown<tag>BACK</tag>" -> "Lat Pulldown (BACK)"
   const titleEl = ex.querySelector('.ex-title');
   if (!titleEl) return '';
-  // Clone, find tag, format separately
   const clone = titleEl.cloneNode(true);
   const tag = clone.querySelector('.ex-tag');
   let tagText = '';
@@ -4316,33 +4259,6 @@ function formatDate(iso) {
   return d.toLocaleDateString(undefined, { weekday:'short', month:'short', day:'numeric' });
 }
 
-
-
-
-
-/* ============================================================
-   HISTORICAL NAME MIGRATION
-   Two cards were mislabelled from the start — the gym has a hack
-   squat (never a pendulum), and the Day 4 calf raise is done on
-   the leg press (never a Smith). Charts key on exercise NAME, so
-   sessions logged under the old labels would split away from the
-   renamed cards into separate short series. Rewrites them once.
-============================================================ */
-
-/* Two kinds of rename:
-
-   ALWAYS — the card was simply mislabelled and every past entry under
-   the old name refers to the same movement. Safe to rewrite wholesale.
-
-   BEFORE <date> — the old label described a DIFFERENT exercise than the
-   card does now, so only entries predating the change may be rewritten.
-   The Day 4 calf slot is the live case: through 2026-08-15 the user
-   logged "Smith Machine Seated Calf Raise" while actually training on
-   the leg press, so those entries are renamed to reflect what he did.
-   From 2026-08-16 he trains the Smith version for real, and those
-   entries must be left alone — a Smith bar across the thighs and a leg
-   press platform are not comparable loads, and merging them would
-   produce a nonsense trend line. */
 const NAME_MIGRATIONS = [
   { from: 'pendulum squat (quad isolation)', to: 'Hack Squat (QUAD ISOLATION)' },
   { from: 'smith machine seated calf raise', to: 'Calf Raise on Leg Press (BOTH LEGS)', before: '2026-08-16' }
@@ -4366,7 +4282,6 @@ function migrateExerciseNames() {
       if (m) state.currentSession.exNames[k] = m.to;
     });
   }
-  // Retired suggestion keys that no card can reach any more.
   ['pendulum squat (quad isolation)', 'hanging knee raise'].forEach(k => {
     delete state.suggestions[k];
     if (state.suggestionOverrides) delete state.suggestionOverrides[k];
@@ -4375,16 +4290,6 @@ function migrateExerciseNames() {
   saveState();
 }
 
-/* ============================================================
-   BACKUP MERGE
-   Browser storage is tied to the exact page address. Open a newly
-   downloaded copy of this file, or publish it to a different URL,
-   and the browser treats it as a different site with empty
-   storage — the old history still exists under the old address.
-   So restoring MERGES by default and never discards what is
-   already here.
-============================================================ */
-
 function sessionKey(s) {
   return `${s.date}|${s.day}|${s.dayTitle || ''}`;
 }
@@ -4392,7 +4297,6 @@ function sessionKey(s) {
 function mergeState(incoming) {
   const before = state.sessions.length;
 
-  // Sessions: union, keeping whichever copy holds more exercises.
   const map = new Map();
   state.sessions.forEach(s => map.set(sessionKey(s), s));
   (incoming.sessions || []).forEach(s => {
@@ -4402,12 +4306,10 @@ function mergeState(incoming) {
   });
   state.sessions = [...map.values()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 200);
 
-  // Custom exercises: union by id.
   const exMap = new Map(state.customExercises.map(e => [e.id, e]));
   (incoming.customExercises || []).forEach(e => { if (!exMap.has(e.id)) exMap.set(e.id, e); });
   state.customExercises = [...exMap.values()];
 
-  // Day assignments: union by instance id.
   ['1', '2', '3', '4'].forEach(d => {
     const cur = state.dayCustoms[d] || [];
     const inc = (incoming.dayCustoms && incoming.dayCustoms[d]) || [];
@@ -4419,7 +4321,6 @@ function mergeState(incoming) {
     state.dayCustoms[d] = cur;
   });
 
-  // User-edited coach suggestions survive; authored ones are re-applied after.
   Object.entries(incoming.suggestionOverrides || {}).forEach(([k, v]) => {
     if (v) {
       state.suggestionOverrides[k] = true;
@@ -4455,15 +4356,6 @@ function renderBackupNotice() {
     el.innerHTML = `<div class="backup-ok">${sessions} sessions stored · backed up ${d === 0 ? 'today' : d + ' day' + (d === 1 ? '' : 's') + ' ago'}</div>`;
   }
 }
-
-/* ============================================================
-   CARDIO LOGGING
-   Conditioning is measured in minutes and effort, not weight and
-   reps. Cardio sets are stored with mode:'cardio' so history,
-   export and charts can treat them correctly — in particular the
-   strength charts skip them rather than plotting a meaningless
-   estimated 1RM.
-============================================================ */
 
 const CARDIO_MACHINES = ['Row', 'Bike', 'Treadmill', 'Elliptical', 'Other'];
 const CARDIO_ZONES = ['Z1', 'Z2', 'Z3', 'Z4'];
@@ -4503,13 +4395,6 @@ function describeCardioSet(s) {
 
 function isCardioSet(s) { return !!s && s.mode === 'cardio'; }
 
-/* ============================================================
-   THEME
-   Light by default. The choice lives in state so it travels with
-   a backup, and is also applied pre-paint by the inline script in
-   <head> to avoid a flash on load.
-============================================================ */
-
 function applyTheme(theme) {
   const t = theme === 'dark' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', t);
@@ -4525,19 +4410,9 @@ function setTheme(theme) {
   state.theme = (theme === 'dark') ? 'dark' : 'light';
   saveState();
   applyTheme(state.theme);
-  // Charts draw with theme colours baked into the SVG, so redraw them.
   const active = document.querySelector('.day.active');
   if (active && active.classList.contains('stats-view')) renderStats();
 }
-
-/* ============================================================
-   EFFORT LOGGING (RIR)
-   One optional entry per exercise, tapped after the last set.
-   RIR = reps in reserve: how many more you could have done on
-   your hardest set. 0 means you went to failure.
-   Stored per exercise key on the current session and carried
-   into history, the markdown export and the stats view.
-============================================================ */
 
 const RIR_CHOICES = [0, 1, 2, 3, 4];
 
@@ -4555,7 +4430,6 @@ function setRIR(exKey, value) {
   if (!session.exNames) session.exNames = {};
   session.exNames[exKey] = getExerciseName(ex);
 
-  // Tapping the selected value again clears it
   if (session.rir[exKey] === value) {
     delete session.rir[exKey];
   } else {
@@ -4567,7 +4441,6 @@ function setRIR(exKey, value) {
 }
 
 function renderEffortControl(ex) {
-  // Conditioning is minutes and zone; reps-in-reserve is meaningless there.
   if (isCardioCard(ex)) {
     const stale = ex.querySelector('.ex-effort');
     if (stale) stale.remove();
@@ -4611,14 +4484,6 @@ function rirLabel(v) {
   return v + ' left';
 }
 
-/* ============================================================
-   PROGRESS STATS
-   Reads archived sessions plus the in-progress one and derives
-   per-exercise series. Sets logged as 0 reps are skipped rather
-   than counted, so an exercise you didn't do never becomes a
-   data point.
-============================================================ */
-
 let statMetric = 'e1rm';
 let statExercise = null;
 
@@ -4637,16 +4502,13 @@ function allSessions() {
     });
   }
   out.push(...state.sessions);
-  // Oldest first for charting
   return out.slice().sort((a, b) => a.date.localeCompare(b.date));
 }
 
 function validSets(sets) {
-  // Cardio has no load or reps, so it never enters the strength charts.
   return (sets || []).filter(s => s && s.mode !== 'cardio' && s.r > 0);
 }
 
-// Epley. Lets us compare a heavy 6 against a lighter 12 on one axis.
 function est1RM(w, r) {
   if (!w || !r) return 0;
   return r === 1 ? w : w * (1 + r / 30);
@@ -4685,8 +4547,6 @@ function exercisesWithData() {
     .sort((a, b) => (lastSeen[b] || '').localeCompare(lastSeen[a] || ''))
     .map(n => ({ name: n, n: counts[n] }));
 }
-
-/* ---------- SVG chart primitives ---------- */
 
 function svgLineChart(values, labels, opts = {}) {
   const W = 320, H = 150, PL = 34, PR = 8, PT = 12, PB = 22;
@@ -4764,12 +4624,149 @@ function shortDate(iso) {
   return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-/* ---------- Stats view rendering ---------- */
+
+/* ============================================================
+   MUSCLE-GROUP VOLUME
+   Sets are counted FRACTIONALLY. A row is a set for the back, but
+   it is also meaningful stimulus for the biceps and rear delts —
+   counting it as a whole set for each would triple-count, and
+   ignoring it entirely understates arm volume. The convention here
+   is the standard one: 1.0 for a prime mover, 0.5 for a
+   significant secondary, 0.25 for a minor contributor.
+============================================================ */
+
+const MUSCLE_MAP = {
+  'hammer iso-lateral row (back)':        { back: 1, biceps: 0.5, shoulders: 0.25 },
+  'hammer high row (back)':               { back: 1, biceps: 0.5, shoulders: 0.25 },
+  'hammer iso-lat lat pulldown (back)':   { back: 1, biceps: 0.5 },
+  'lat pulldown, neutral (back)':         { back: 1, biceps: 0.5 },
+  'cable lat pullover':                   { back: 1, chest: 0.25 },
+  'hammer incline press':                 { chest: 1, shoulders: 0.5, triceps: 0.5 },
+  'hammer flat press':                    { chest: 1, shoulders: 0.25, triceps: 0.5 },
+  'hammer shoulder press':                { shoulders: 1, triceps: 0.5 },
+  'db lateral raise':                     { shoulders: 1 },
+  'cable triceps pushdown, rope':         { triceps: 1 },
+  'overhead cable triceps ext.':          { triceps: 1 },
+  'incline db curl':                      { biceps: 1 },
+  'hammer curl':                          { biceps: 1 },
+  'deadlift (conventional)':              { hamstrings: 1, glutes: 1, back: 0.5 },
+  'trap bar deadlift (high handles)':     { hamstrings: 1, glutes: 1, quads: 0.5, back: 0.5 },
+  'belt squat (spine-free)':              { quads: 1, glutes: 0.5 },
+  'hack squat (quad isolation)':          { quads: 1, glutes: 0.5 },
+  'pendulum squat (quad isolation)':      { quads: 1, glutes: 0.5 },
+  'bulgarian split squat':                { quads: 0.75, glutes: 0.75 },
+  'walking lunge (long stride)':          { glutes: 1, quads: 0.5 },
+  'standing hip thrust (glute iso)':      { glutes: 1, hamstrings: 0.25 },
+  'iso-lateral kneeling leg curl':        { hamstrings: 1 },
+  'single-leg calf raise on leg press':   { calves: 1 },
+  'calf raise on leg press (both legs)':  { calves: 1 },
+  'smith machine seated calf raise (soleus)': { calves: 1 },
+  'smith machine seated calf raise':      { calves: 1 },
+  'hanging knee raise':                   { core: 1 },
+  'cable crunch':                         { core: 1 }
+};
+
+const MUSCLES = ['back','chest','shoulders','biceps','triceps','quads','hamstrings','glutes','calves','core'];
+const MUSCLE_LABEL = { back:'Back', chest:'Chest', shoulders:'Shoulders', biceps:'Biceps',
+  triceps:'Triceps', quads:'Quads', hamstrings:'Hamstrings', glutes:'Glutes', calves:'Calves', core:'Core' };
+
+/* Weekly working-set guidelines for hypertrophy. These are population
+   heuristics, not laws — individual tolerance varies widely, and a
+   number below the band is only a problem if that muscle is a goal. */
+const VOL_LOW = 8;    // below this, closer to maintenance than growth
+const VOL_HIGH = 20;  // above this, recovery becomes the limiter
+
+let muscleMetric = 'sets';
+let muscleWindow = 7;
+
+function muscleTotals(days) {
+  const cutoff = Date.now() - days * 86400000;
+  const out = {}; MUSCLES.forEach(m => out[m] = { sets: 0, tonnage: 0 });
+  let unmapped = 0;
+  allSessions().forEach(sess => {
+    if (new Date(sess.date + 'T00:00:00').getTime() < cutoff) return;
+    sess.exercises.forEach(ex => {
+      const sets = validSets(ex.sets);
+      if (!sets.length) return;
+      const map = MUSCLE_MAP[(ex.name || '').toLowerCase().trim()];
+      if (!map) { unmapped += sets.length; return; }
+      const tonnage = sets.reduce((a, s) => a + s.w * s.r, 0);
+      Object.entries(map).forEach(([m, frac]) => {
+        if (!out[m]) return;
+        out[m].sets += sets.length * frac;
+        out[m].tonnage += tonnage * frac;
+      });
+    });
+  });
+  return { out, unmapped };
+}
+
+function renderMuscleVolume() {
+  const root = document.getElementById('muscle-chart');
+  if (!root) return;
+  const { out, unmapped } = muscleTotals(muscleWindow);
+  const weeks = muscleWindow / 7;
+  const rows = MUSCLES.map(m => ({
+    m,
+    sets: out[m].sets / weeks,
+    tonnage: out[m].tonnage / weeks
+  }));
+  const anyData = rows.some(r => r.sets > 0);
+  if (!anyData) {
+    root.innerHTML = '<div class="chart-empty"><strong>No sets in this window</strong>Log some training and your weekly volume by muscle appears here.</div>';
+    return;
+  }
+  const key = muscleMetric === 'sets' ? 'sets' : 'tonnage';
+  const max = Math.max(...rows.map(r => r[key]), key === 'sets' ? VOL_HIGH : 1);
+
+  root.innerHTML = rows.map(r => {
+    const v = r[key];
+    const pct = max ? (v / max) * 100 : 0;
+    let band = 'ok', note = '';
+    if (key === 'sets') {
+      if (v < VOL_LOW) { band = 'low'; note = 'below growth range'; }
+      else if (v > VOL_HIGH) { band = 'high'; note = 'high — watch recovery'; }
+    }
+    const shown = key === 'sets' ? (Math.round(v * 10) / 10) : fmtNum(Math.round(v));
+    const unit = key === 'sets' ? ' sets' : ' kg';
+    return `
+      <div class="mrow">
+        <div class="mrow-top">
+          <span class="mname">${MUSCLE_LABEL[r.m]}</span>
+          <span class="mval ${band}">${shown}<span class="munit">${unit}/wk</span></span>
+        </div>
+        <div class="mbar">
+          ${key === 'sets' ? `<span class="mband" style="left:${(VOL_LOW/max)*100}%;width:${((Math.min(VOL_HIGH,max)-VOL_LOW)/max)*100}%"></span>` : ''}
+          <span class="mfill ${band}" style="width:${Math.min(100, pct).toFixed(1)}%"></span>
+        </div>
+        ${note ? `<div class="mnote ${band}">${note}</div>` : ''}
+      </div>`;
+  }).join('')
+  + `<div class="chart-note">${key === 'sets'
+      ? `Sets are counted fractionally — a prime mover scores 1.0, a significant secondary 0.5, a minor contributor 0.25. The shaded band marks roughly ${VOL_LOW}–${VOL_HIGH} sets per week, a common working range for hypertrophy. These are population guidelines, not targets: a low number only matters if that muscle is a goal.`
+      : `Tonnage is weight × reps × sets, split by the same fractional weighting. Compare a muscle against itself over time — comparing tonnage between muscles is meaningless, since a deadlift and a lateral raise operate on different scales.`}${
+      unmapped ? ` <strong>${unmapped} set${unmapped === 1 ? '' : 's'} from unrecognised exercises are not counted.</strong>` : ''}</div>`;
+}
+
+function setMuscleMetric(m) {
+  muscleMetric = m;
+  document.querySelectorAll('#muscle-metric .metric-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.mm === m));
+  renderMuscleVolume();
+}
+
+function setMuscleWindow(d) {
+  muscleWindow = d;
+  document.querySelectorAll('#muscle-window .chip').forEach(b =>
+    b.classList.toggle('active', +b.dataset.win === d));
+  renderMuscleVolume();
+}
 
 function renderStats() {
   const sessions = allSessions();
   renderStatStrip(sessions);
   renderAdherence(sessions);
+  renderMuscleVolume();
   renderExerciseChips();
   renderExerciseChart();
 }
@@ -4885,12 +4882,6 @@ function renderExerciseChart() {
       : `<div class="chart-note">Top set is the heaviest load used that session, regardless of reps.</div>`);
 }
 
-/* ============================================================
-   LOG MODAL STEPPERS
-============================================================ */
-/* Each card declares the smallest plate jump its machine actually allows
-   (data-step). A 2.5kg step is meaningless on a dumbbell rack that runs
-   6 / 8 / 10, and a 2kg step is meaningless on a loaded barbell. */
 function nudgeWeight(dir) {
   const step = pendingLog?.step || 2.5;
   nudgeField('logWeight', dir * step);
@@ -4905,9 +4896,6 @@ function nudgeField(id, delta) {
   if (navigator.vibrate) navigator.vibrate(8);
 }
 
-/* ============================================================
-   RESTORE FROM BACKUP
-============================================================ */
 function importJSON(input) {
   const file = input.files && input.files[0];
   input.value = '';
@@ -4945,11 +4933,6 @@ function importJSON(input) {
   reader.readAsText(file);
 }
 
-/* ============================================================
-   INSTALL TO HOME SCREEN
-   The manifest is generated at runtime so the app stays a single
-   file with no external requests.
-============================================================ */
 (function injectManifest() {
   try {
     const icon = document.querySelector('link[rel="apple-touch-icon"]');
@@ -4970,130 +4953,61 @@ function importJSON(input) {
   } catch (e) { /* install is a bonus, never block the app */ }
 })();
 
-/* ============================================================
-   INITIALIZATION
-============================================================ */
+const SUGGESTIONS_REV = 1;
 
-/* ============================================================
-   COACH SUGGESTIONS — AUTHORED DIRECTLY
-   This is a single-user file. Suggestions below are the current
-   week's plan. Edit this object to change them; on next page
-   load they'll overwrite the stored values UNLESS the stored
-   value differs from BOTH the current text AND no marker is set.
-   Simpler model: bump SUGGESTIONS_REV whenever this block is
-   edited. The migration then forces all keys to current text.
-   To make a manual in-app edit persist, the EDIT button in the
-   app writes a per-key override marker.
-============================================================ */
-const SUGGESTIONS_REV = 15;  // bump when editing the block below
-
-// REV 15 — WEEK OF AUG 17-23.
-//
-// DEADLIFT REGRESSED AT 130: 6/5/4/4 at RIR 2, against a flat 120x6/6/6/6 the
-// week before. Descending reps at a claimed RIR 2 means the load is past the
-// point where he can hold position and breathing across four sets. HELD AT
-// 125 rather than pushed. This is the highest-pressure lift in the program
-// and the one to be least ambitious with.
-//
-// THREE RIR 0s, all end-of-session again, all on Day 1: Shoulder Press,
-// Triceps Pushdown, Incline DB Curl. Same pattern flagged at rev 11 and
-// resolved at rev 13 — it has come back on the strength day specifically.
-// Loads held with explicit stop instructions rather than reduced.
-//
-// SMITH CALF LOAD HUNT: 40x15 then 60x20, 60x20, 60x37 at RIR 4. The 37-rep
-// set says 60 is far too light for soleus even at high reps. Jumped to 80.
-// Expect another correction next week; this lift is still being calibrated.
-//
-// HIP THRUST at 85 came back RIR 3 (easier than 80 the week before at RIR 2),
-// so the arm-compensation ceiling at 90 is about position, not strength.
-// Holding 85 and adding reps rather than probing 90 again.
-//
-// WEIGHT INCREMENTS: every card now carries data-step, the smallest plate
-// jump its machine actually allows, inferred from the loads in his history
-// (dumbbells 2kg, Hammer/cable 2.5kg, barbell/belt squat/hip thrust 5kg).
-// The log modal steppers use it. Prescribe in multiples of the card's step.
-//
-// Banner format: <load> × <reps> — <one-line why>. Tiered rep scheme and RIR
-// targets unchanged since rev 9. Units mirror what the user logs.
 const coachSuggestions = {
-  // ===== UPPER STRENGTH (Day 1) =====
   "hammer iso-lateral row (back)":
-    "100kg × 6-8, RIR 1-2 — you took 100×8 on sets 3-4 already. Start there across all four.",
+    "100kg × 6-8, RIR 1-2 — stop 1-2 reps short; never grind the last rep.",
   "hammer incline press":
-    "55kg × 6-8, RIR 1-2 — 8/8/8/6 at RIR 2. Build set 4 to 8 before adding.",
+    "55kg × 6-8, RIR 1-2 — build the last set before adding load.",
   "lat pulldown, neutral (back)":
-    "62.5kg × 8-10, RIR 2 — 8 across all four, dead flat. Build toward 10 before adding.",
+    "62.5kg × 8-10, RIR 2 — stop the set if you start leaning back.",
   "hammer shoulder press":
-    "25kg/side × 8-10, RIR 2 — hit RIR 0 (8/8/6). Same load, STOP with 2 left.",
+    "25kg/side × 8-10, RIR 2 — stop with 2 reps left.",
   "cable triceps pushdown, rope":
-    "17.5kg × 10-12, RIR 2 — RIR 0 again (12/11/10). Same load, stop 2 short. This is the third flag.",
+    "17.5kg × 10-12, RIR 2 — elbows pinned to ribs; stop 2 short.",
   "incline db curl":
-    "8kg × 10-12, RIR 2 — RIR 0 (8/8/7). Same load, stop at 8 clean rather than grinding.",
-  "zone 2 cardio (eye health)":
-    "20-30 min, Zone 2, 2×/week — only one session logged in 14 days. Second one is where the benefit is.",
-
-  // ===== LOWER STRENGTH (Day 2) =====
+    "8kg × 10-12, RIR 2 — controlled tempo, no swing.",
+  "zone 2 cardio (conditioning)":
+    "20-30 min, Zone 2, 2×/week — conversational pace throughout.",
   "deadlift (conventional)":
-    "125kg × 6, RIR 2 — HOLD. 130 gave 6/5/4/4, descending. Four flat 6s at 125 before trying 130 again.",
+    "125kg × 6, RIR 2 — four flat sets before adding. Reset the breath every rep.",
   "belt squat (spine-free)":
-    "130kg × 6-8, RIR 1-2 — 6 across all four at your ceiling load. Build to 8 before anything else.",
+    "130kg × 6-8, RIR 1-2 — if the arms start pulling, the load is too high.",
   "iso-lateral kneeling leg curl":
-    "Str 20kg × 10-12 · Hyp 12.5kg × 12-15, RIR 2 — strength side 10 across twice running, ready. Hyp side hit 15 across, hold and add next week.",
+    "Str 20kg × 10-12 · Hyp 12.5kg × 12-15, RIR 2 — build reps before load.",
   "bulgarian split squat":
-    "20kg × 8-10, RIR 2 — 18×10 across at RIR 2. Ready.",
+    "20kg × 8-10, RIR 2 — technique before load.",
   "single-leg calf raise on leg press":
-    "42.5kg × 10-12, RIR 2 — 40×12 across all four. Earned it.",
-
-  // ===== UPPER HYPERTROPHY (Day 3) =====
+    "42.5kg × 10-12, RIR 2 — full stretch at the bottom.",
   "hammer high row (back)":
-    "57.5kg × 10-12, RIR 2 — 55×11 across all four, perfectly flat at RIR 2. Ready.",
+    "57.5kg × 10-12, RIR 2 — hold the rep count across all four sets.",
   "hammer iso-lat lat pulldown (back)":
-    "57.5kg × 10-12, RIR 2 — 55×12 across all four at RIR 2. Ready.",
+    "57.5kg × 10-12, RIR 2 — full stretch at the top of every rep.",
   "cable lat pullover":
-    "17.5kg × 12-15, RIR 2 — 15×14/13/13 at RIR 2. Ready.",
+    "17.5kg × 12-15, RIR 2 — controlled through the whole arc.",
   "hammer flat press":
-    "57.5kg × 10-12, RIR 2 — 55×10/10/9 at RIR 1. Small step; keep it at RIR 2 this time.",
+    "57.5kg × 10-12, RIR 2 — controlled eccentric, stop with 2 left.",
   "db lateral raise":
-    "10kg × 10-12, RIR 2 — 8×12 across all four at RIR 2, textbook. Next dumbbell up.",
+    "10kg × 10-12, RIR 2 — lead with the elbow, no shrug.",
   "overhead cable triceps ext.":
-    "15kg × 12-15, RIR 2 — 12/12/10 at RIR 1. Hold and even out to 12 across.",
+    "15kg × 12-15, RIR 2 — anchor the scapulae, no forward roll.",
   "hammer curl":
-    "8kg × 12-15, RIR 2 — hit RIR 0 (13/13/10). Same load, stop 2 short.",
-
-  // ===== LOWER HYPERTROPHY (Day 4) =====
+    "8kg × 12-15, RIR 2 — stop 2 short; build reps before load.",
   "hack squat (quad isolation)":
-    "25kg × 10-12, RIR 2 — 22.5×12 across all four at RIR 2. Ready. Shoulder-loaded: breathe every rep.",
+    "25kg × 10-12, RIR 2 — shoulder-loaded: breathe through every rep.",
   "standing hip thrust (glute iso)":
-    "85kg × 12, RIR 2 — 85×10 came back RIR 3, easier than 80 did. Build reps to 12 here; the 90 ceiling is about position, not strength.",
+    "85kg × 12, RIR 2 — if the arms start pulling, drop back.",
   "walking lunge (long stride)":
-    "16kg × 12/leg, RIR 2 — 10 across at RIR 2. Build to 12 before adding.",
+    "16kg × 12/leg, RIR 2 — long stride, torso tall.",
   "smith machine seated calf raise (soleus)":
-    "80kg × 15-20, RIR 2 — 60 gave you a 37-rep set at RIR 4, far too light. Big jump; expect to adjust again."
-  // Note: iso-lateral kneeling leg curl appears on both Day 2 (strength)
-  // and Day 4 (hypertrophy). The single key covers both cards via name-based
-  // matching; the text addresses both day contexts.
-  //
-  // KEY WATCH ITEM for next coach: Iso-Lateral Row load history ran hot —
-  // 85 (pre-vacation) → 90 → 100 → 105 grindy across 3 sessions back from a
-  // ~6-week disruption. User confirmed the 105×6 reps were short/grindy.
-  // Rev 6 sets 95×6 as the clean 6-rep number. If this lift runs hot again,
-  // check full ROM and whether lower-back bracing is creeping in (IOP).
-  //
-  // Vacation maintenance plan (NOT in banners — kept here for reference):
-  //   Goal is groove retention, not maintaining numbers. 2 weeks off loses
-  //   almost no strength. Either: (A) hotel gym ~2x — 1 push / 1 pull / 1
-  //   squat pattern, 3 sets each RIR 2-3, ~20 min; (B) bodyweight — pushups,
-  //   improvised rows, split squats, calf raises; or (C) just walk Italy.
-  //   All three are fine. IOP: keep head neutral, no straining/inversions,
-  //   stay RIR 2-3.
+    "80kg × 15-20, RIR 2 — knees at 90°, 2-sec pause at the bottom."
 };
 
 function applyCoachSuggestions() {
   const storedRev = state.suggestionsRev || 0;
 
   if (storedRev >= SUGGESTIONS_REV) {
-    // Already on this revision — only fill in any keys missing
-    // (e.g. user cleared one and we want it back).
     let added = 0;
     Object.entries(coachSuggestions).forEach(([k, v]) => {
       if (state.suggestions[k] == null) {
@@ -5105,15 +5019,11 @@ function applyCoachSuggestions() {
     return;
   }
 
-  // New revision: force-overwrite ALL keys to current authored text,
-  // EXCEPT any key marked as user-edited in state.suggestionOverrides.
   const overrides = state.suggestionOverrides || {};
   Object.entries(coachSuggestions).forEach(([k, v]) => {
     if (!overrides[k]) state.suggestions[k] = v;
   });
 
-  // Drop stored suggestions for exercises no longer in the program
-  // (e.g. Trap Bar Deadlift, removed at rev 7 when the gym had no trap bar).
   Object.keys(state.suggestions).forEach(k => {
     if (!(k in coachSuggestions) && !overrides[k]) {
       delete state.suggestions[k];
@@ -5136,7 +5046,6 @@ renderAllEffortControls();
 restoreSetUI();
 updateProgress();
 
-// Auto-archive old in-progress sessions on page load
 if (state.currentSession && state.currentSession.date !== todayISO()) {
   finalizeAndArchiveCurrent();
   saveState();
