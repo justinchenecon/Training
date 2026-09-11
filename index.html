@@ -1246,6 +1246,31 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
   margin: 10px 0 4px;
 }
 
+.ex-note { margin-top: 8px; }
+.ex-note-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 9px 11px;
+}
+.ex-note-input::placeholder { color: var(--muted); }
+.ex-note-input:focus { outline: none; border-color: var(--accent); }
+.ex-note.has-note .ex-note-input { border-color: var(--accent); background: var(--accent-fade); }
+.note-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--surface-2);
+  color: var(--ink-2);
+  margin-left: 6px;
+  font-style: italic;
+}
+
 /* ============ CARDIO FORM ============ */
 .cardio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .cardio-grid input {
@@ -2039,7 +2064,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 <!-- ========== DAY 2 ========== -->
 <main class="day" data-day="2" data-title="Lower · Strength" data-sub="Deadlift leads. Posterior chain anchored.">
 
-  <div class="ex priority" data-rest="180" data-step="5">
+  <div class="ex priority" data-rest="180" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">01</div>
@@ -3440,6 +3465,8 @@ function archiveSession(session) {
     const entry = { name, sets };
     const rir = session.rir?.[exKey];
     if (rir !== undefined && rir !== null) entry.rir = rir;
+    const note = session.notes?.[exKey];
+    if (note) entry.note = note;
     exercises.push(entry);
   });
   if (exercises.length === 0) return;
@@ -4019,14 +4046,28 @@ function suggestKey(name) {
   return (name || '').toLowerCase().trim();
 }
 
-function getSuggestion(name) {
-  return state.suggestions[suggestKey(name)] || null;
+/* An exercise that appears on more than one day needs a prescription per
+   day — the leg curl is heavy and low-rep on the strength day, light and
+   high-rep on the hypertrophy day. A single name-keyed suggestion made
+   those two collapse into the same instruction, so a key may be scoped
+   as `day<N>::<name>`, which takes precedence over the bare name. */
+function suggestionKeyFor(ex) {
+  const base = suggestKey(getExerciseName(ex));
+  const dayKey = ex.closest('.day')?.dataset.day;
+  if (!dayKey) return base;
+  const scoped = `day${dayKey}::${base}`;
+  return (state.suggestions[scoped] !== undefined) ? scoped : base;
+}
+
+function getSuggestion(key) {
+  return state.suggestions[suggestKey(key)] || null;
 }
 
 function renderSuggestionBanners() {
   document.querySelectorAll('.day .ex').forEach(ex => {
     const name = getExerciseName(ex);
-    const text = getSuggestion(name);
+    const key = suggestionKeyFor(ex);
+    const text = getSuggestion(key);
     let banner = ex.querySelector('.ex-suggest');
     let addBtn = ex.querySelector('.ex-suggest-add');
     const targetsEl = ex.querySelector('.ex-targets');
@@ -4046,14 +4087,14 @@ function renderSuggestionBanners() {
         <button class="ex-suggest-edit" type="button">EDIT</button>
       `;
       banner.querySelector('.ex-suggest-text').textContent = text;
-      banner.querySelector('.ex-suggest-edit').onclick = () => openSuggestModal(name);
+      banner.querySelector('.ex-suggest-edit').onclick = () => openSuggestModal(key, name);
       targetsEl.insertAdjacentElement('afterend', banner);
     } else {
       addBtn = document.createElement('button');
       addBtn.className = 'ex-suggest-add';
       addBtn.type = 'button';
       addBtn.textContent = '+ Add coach suggestion';
-      addBtn.onclick = () => openSuggestModal(name);
+      addBtn.onclick = () => openSuggestModal(key, name);
       targetsEl.insertAdjacentElement('afterend', addBtn);
     }
   });
@@ -4069,11 +4110,13 @@ function toggleSuggestEditMode() {
   }
 }
 
-function openSuggestModal(exerciseName) {
-  suggestEditingName = exerciseName;
-  document.getElementById('suggestTitle').textContent = exerciseName;
-  document.getElementById('suggestSub').textContent = 'Weight/rep targets or coach notes';
-  document.getElementById('suggestText').value = getSuggestion(exerciseName) || '';
+function openSuggestModal(key, displayName) {
+  suggestEditingName = key;
+  const shown = displayName || key;
+  const scoped = key.includes('::') ? ` · Day ${key.match(/^day(\d+)::/)?.[1] || ''} only` : '';
+  document.getElementById('suggestTitle').textContent = shown;
+  document.getElementById('suggestSub').textContent = 'Weight/rep targets or coach notes' + scoped;
+  document.getElementById('suggestText').value = getSuggestion(key) || '';
   document.getElementById('suggestModal').classList.add('active');
   setTimeout(() => document.getElementById('suggestText').focus(), 150);
 }
@@ -4125,7 +4168,7 @@ function renderSuggestSummary() {
   root.innerHTML = entries.map(([k, text]) => `
     <div class="lib-card">
       <div class="lib-info">
-        <div class="lib-name">${escapeHtml(titleCase(k))}</div>
+        <div class="lib-name">${escapeHtml(k.includes('::') ? titleCase(k.split('::')[1]) + ' · Day ' + k.match(/^day(\d+)/)[1] : titleCase(k))}</div>
         <div class="lib-meta" style="white-space:normal;line-height:1.4;margin-top:2px;color:var(--ink-2);text-transform:none;letter-spacing:0;font-size:11px;">${escapeHtml(text)}</div>
       </div>
       <div class="lib-actions">
@@ -4172,6 +4215,8 @@ function renderHistory() {
       const e = { name: cs.exNames?.[exKey] || exKey, sets: sets.filter(Boolean) };
       const r = cs.rir?.[exKey];
       if (r !== undefined && r !== null) e.rir = r;
+      const nt = cs.notes?.[exKey];
+      if (nt) e.note = nt;
       return e;
     }).filter(e => e.sets.length);
     items.push({ date: cs.date, day: cs.day, dayTitle, exercises, isCurrent: true });
@@ -4198,7 +4243,8 @@ function renderHistory() {
           <div class="session-ex-row">
             <span class="ex-name">${escapeHtml(ex.name)}</span>${
               (ex.rir !== undefined && ex.rir !== null)
-                ? `<span class="rir-badge${ex.rir === 0 ? ' zero' : ''}">RIR ${ex.rir}</span>` : ''}
+                ? `<span class="rir-badge${ex.rir === 0 ? ' zero' : ''}">RIR ${ex.rir}</span>` : ''}${
+              ex.note ? `<span class="note-badge">${escapeHtml(ex.note)}</span>` : ''}
             <span class="ex-data">${ex.sets.map(set => isCardioSet(set) ? escapeHtml(describeCardioDetail(set)) : escapeHtml(describeSet(set))).join(' · ')}</span>
             ${ex.sets.filter(s => s && s.img).map(s => `<div class="session-shot"><img src="${s.img}" alt="Cardio snapshot"></div>`).join('')}
           </div>
@@ -4231,6 +4277,8 @@ function exportMarkdown(days) {
         const e = { name: cs.exNames?.[exKey] || exKey, sets: sets.filter(Boolean) };
         const r = cs.rir?.[exKey];
         if (r !== undefined && r !== null) e.rir = r;
+        const nt = cs.notes?.[exKey];
+        if (nt) e.note = nt;
         return e;
       }).filter(e => e.sets.length)
     });
@@ -4269,7 +4317,7 @@ function exportMarkdown(days) {
       const tag = (ex.rir !== undefined && ex.rir !== null)
         ? ` — RIR ${ex.rir}${ex.rir === 0 ? ' (to failure)' : ''}`
         : '';
-      lines.push(`**${ex.name}**${tag}`);
+      lines.push(`**${ex.name}**${tag}${ex.note ? `  _(${ex.note})_` : ''}`);
       ex.sets.forEach((set, i) => {
         if (set && set.mode === 'cardio') {
           const zs = set.zones
@@ -4634,6 +4682,7 @@ function renderEffortControl(ex) {
     actions.insertAdjacentElement('afterend', row);
   }
   const current = getRIR(exKey);
+  const noteVal = state.currentSession?.notes?.[exKey] || '';
   row.innerHTML = `
     <span class="ex-effort-label">Reps left</span>
     <div class="rir-scale" role="group" aria-label="Reps in reserve for this exercise">
@@ -4645,6 +4694,21 @@ function renderEffortControl(ex) {
   row.querySelectorAll('.rir-dot').forEach(btn => {
     btn.onclick = () => setRIR(exKey, parseInt(btn.dataset.rir));
   });
+
+  /* Free-text note. Mostly used to flag a substitution — a machine was
+     taken, a different implement was used — so the loads aren't read as
+     progression on the usual lift. */
+  let noteRow = ex.querySelector('.ex-note');
+  if (noteRow) noteRow.remove();
+  noteRow = document.createElement('div');
+  noteRow.className = 'ex-note';
+  noteRow.innerHTML = `<input type="text" class="ex-note-input" maxlength="90"
+      placeholder="Note — e.g. machine taken, used DB instead"
+      value="${escapeHtml(noteVal)}">`;
+  row.insertAdjacentElement('afterend', noteRow);
+  const inp = noteRow.querySelector('input');
+  inp.onchange = () => setExerciseNote(exKey, inp.value, ex);
+  if (noteVal) noteRow.classList.add('has-note');
 }
 
 function renderAllEffortControls() {
@@ -4653,6 +4717,20 @@ function renderAllEffortControls() {
     if (d === 'log' || d === 'stats') return;
     renderEffortControl(ex);
   });
+}
+
+
+function setExerciseNote(exKey, text, ex) {
+  const dayKey = ex.closest('.day').dataset.day;
+  const session = ensureSession(dayKey);
+  if (!session.notes) session.notes = {};
+  if (!session.exNames) session.exNames = {};
+  session.exNames[exKey] = getExerciseName(ex);
+  const v = (text || '').trim();
+  if (v) session.notes[exKey] = v; else delete session.notes[exKey];
+  saveState();
+  const row = ex.querySelector('.ex-note');
+  if (row) row.classList.toggle('has-note', !!v);
 }
 
 function rirLabel(v) {
@@ -5343,55 +5421,57 @@ function importJSON(input) {
   } catch (e) { /* install is a bonus, never block the app */ }
 })();
 
-const SUGGESTIONS_REV = 2;
+const SUGGESTIONS_REV = 3;
 
 const coachSuggestions = {
   "hammer iso-lateral row (back)":
-    "100kg × 6-8, RIR 1-2 — stop 1-2 reps short; never grind the last rep.",
+    "102.5kg × 6-8, RIR 1-2 — 100×8 across all four at RIR 1. Small step; this lift has moved a long way.",
   "hammer incline press":
-    "55kg × 6-8, RIR 1-2 — build the last set before adding load. No drop sets here; too heavy for it.",
+    "60kg × 6-8, RIR 1-2 — 6 across all four at RIR 1. Hold and build toward 8 before adding.",
   "lat pulldown, neutral (back)":
-    "62.5kg × 8-10, RIR 2 — stop the set if you start leaning back.",
+    "65kg × 8-10, RIR 2 — 62.5×9 across all four, dead flat. Ready.",
   "hammer shoulder press":
-    "25kg/side × 8-10, RIR 2 — stop with 2 reps left.",
+    "22.5kg/side × 8-10, RIR 2 — last session was seated DB (machine taken), so the numbers aren't comparable. Use the note field when you substitute.",
   "cable triceps pushdown, rope":
-    "17.5kg × 10-12, RIR 2 — elbows pinned to ribs; stop 2 short.",
+    "20kg × 10-12, RIR 2 — 17.5×12 across all three at RIR 2. Ready.",
   "incline db curl":
-    "8kg × 10-12, RIR 2 — controlled tempo, no swing.",
+    "8kg × 10-12, RIR 2 — hit RIR 0 (10/10/8). Same load, stop with 2 left.",
   "zone 2 cardio (conditioning)":
-    "20-30 min, Zone 2, 2×/week — conversational pace throughout.",
+    "20-30 min, Zone 2, 2×/week — 30 min logged with a proper zone split. One session in 14 days though; the second is where the benefit is.",
   "deadlift (conventional)":
-    "125kg × 6, RIR 2 — four flat sets before adding. Reset the breath every rep.",
+    "125kg × 6, RIR 2 — HOLD. 6/6/6/5, one rep short of four flat sets. From here go up 2.5kg at a time, not 5.",
   "belt squat (spine-free)":
-    "130kg × 6-8, RIR 1-2 — if the arms start pulling, the load is too high.",
-  "iso-lateral kneeling leg curl":
-    "Str 20kg × 10-12 · Hyp 12.5kg × 12-15, RIR 2 — build reps before load.",
+    "135kg × 6-8, RIR 1-2 — 130×8 across all four at RIR 2. Ready; 140 remains the ceiling.",
   "bulgarian split squat":
-    "20kg × 8-10, RIR 2 — technique before load.",
+    "20kg × 8-10, RIR 2 — 8 across. Build to 10 before adding.",
   "single-leg calf raise on leg press":
-    "42.5kg × 10-12, RIR 2 — full stretch at the bottom.",
+    "45kg × 10-12, RIR 2 — 42.5×10/10/10/15 at RIR 2. Ready.",
   "hammer high row (back)":
-    "57.5kg × 10-12, RIR 2 — hold the rep count across all four sets.",
+    "60kg × 10-12, RIR 2 — you took 60 and hit RIR 0 (10/10/10/8). Hold 60, stop with 2 left.",
   "hammer iso-lat lat pulldown (back)":
-    "57.5kg × 10-12, RIR 2 — full stretch at the top of every rep.",
+    "62.5kg × 10-12, RIR 2 — 60×10 across all four at RIR 2. Ready.",
   "cable lat pullover":
-    "17.5kg × 12-15, RIR 2 — controlled through the whole arc.",
+    "17.5kg × 12-15, RIR 2 — hit RIR 0 (12 across). Same load, stop 2 short and build toward 15.",
   "hammer flat press":
-    "57.5kg × 10-12, RIR 2 for sets 1-2. LAST SET is a drop set: 57.5 to failure, strip to ~42.5, continue to failure. Breathe through the burn — if you hold it, the set is over.",
+    "57.5kg × 10-12, RIR 2 for sets 1-2. LAST SET drop: to failure, strip to ~42.5, continue. 60 gave 10/10/3 — too heavy to drop from.",
   "db lateral raise":
-    "10kg × 10-12, RIR 2 — lead with the elbow, no shrug.",
+    "10kg × 10-12, RIR 2 — 10 across all four. Build to 12 before adding.",
   "overhead cable triceps ext.":
-    "15kg × 12-15, RIR 2 — anchor the scapulae, no forward roll.",
+    "15kg × 12-15, RIR 2 — 12 across at RIR 2. Build to 15 before adding.",
   "hammer curl":
-    "8kg × 12-15, RIR 2 — stop 2 short; build reps before load.",
+    "8kg × 12-15, RIR 2 — 12 across at RIR 2. Build to 15 before adding.",
   "hack squat (quad isolation)":
-    "25kg × 10-12, RIR 2 — shoulder-loaded: breathe through every rep.",
+    "25kg × 10-12, RIR 2 — 10 across all four. Build to 12. Shoulder-loaded: breathe every rep.",
   "standing hip thrust (glute iso)":
-    "85kg × 12, RIR 2 — if the arms start pulling, drop back.",
+    "85kg × 12, RIR 2 — 12 across, clean. Holding here; 90 is the arm-compensation ceiling.",
   "walking lunge (long stride)":
-    "16kg × 12/leg, RIR 2 — long stride, torso tall.",
+    "18kg × 10-12/leg, RIR 2 — 16×12 across at RIR 2. Ready.",
   "smith machine seated calf raise (soleus)":
-    "80kg × 15-20, RIR 2 — knees at 90°, 2-sec pause at the bottom."
+    "80kg × 15-20, RIR 2 — 15 across all four at RIR 2. Load found. Build toward 20 before adding.",
+  "day2::iso-lateral kneeling leg curl":
+    "STRENGTH DAY · 22.5kg × 8-10, RIR 2 — heavy and low. Deliberately different from the hypertrophy day.",
+  "day4::iso-lateral kneeling leg curl":
+    "HYPERTROPHY DAY · 12.5kg × 15-18, RIR 2 — light and high. Both days ran 20×8 last week; that defeats the split."
 };
 
 function applyCoachSuggestions() {
