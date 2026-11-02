@@ -1271,6 +1271,89 @@ body.suggest-edit-mode .day.active .suggest-mode-banner { display: block; }
   font-style: italic;
 }
 
+/* ============ SWIPE ACTIONS ============ */
+.ex { position: relative; overflow: hidden; }
+.ex-head {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  transition: transform 0.22s cubic-bezier(.2,.8,.2,1);
+}
+.ex.swiped .ex-head { transform: translateX(-132px); }
+@media (prefers-reduced-motion: reduce) {
+  .ex-head { transition: none; }
+}
+.ex-actions-tray {
+  position: absolute;
+  top: 0; right: 0;
+  height: 100%;
+  width: 132px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 14px 10px 0 0;
+  justify-content: flex-end;
+  z-index: 1;
+}
+.tray-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center;
+}
+.tray-btn:active { background: var(--accent-dim); border-color: var(--accent); }
+.tray-btn.danger { color: var(--red); border-color: var(--warn-dim); }
+.tray-btn.danger:active { background: var(--warn-fade); border-color: var(--red); }
+.tray-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Hint that a card can be swiped — a thin edge marker, not an instruction. */
+.ex:not(.custom) .ex-head::after {
+  content: '';
+  position: absolute;
+  right: 3px; top: 50%;
+  transform: translateY(-50%);
+  width: 2px; height: 22px;
+  border-radius: 2px;
+  background: var(--border);
+  opacity: 0.8;
+}
+.ex.swiped .ex-head::after { opacity: 0; }
+
+/* ============ REMOVED / RESTORE TRAY ============ */
+.hidden-tray {
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 4px 0 16px;
+  background: var(--surface);
+}
+.hidden-tray-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.hidden-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
 /* ============ CARDIO FORM ============ */
 .cardio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .cardio-grid input {
@@ -1694,12 +1777,66 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 </header>
 
 <!-- ========== DAY 1 ========== -->
-<main class="day active" data-day="1" data-title="Upper · Strength" data-sub="Back-led. Heavy compounds. Controlled tempo.">
+<main class="day active" data-day="1" data-title="Legs + Push · Strength" data-sub="Quads lead, back second. Heavy compounds, controlled tempo.">
+
+  <div class="ex priority" data-rest="180" data-step="2.5">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">01</div>
+        <div class="ex-title">Hack Squat<span class="ex-tag">QUAD ISOLATION</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>3 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Machine-supported quad work with a fixed path</strong> — back braced against the pad, so no balance or hip-drive cheating. Note the load sits on your shoulders, so this carries more axial compression than a pendulum or belt squat: <em>keep it in the 10–12 range and off the grinding end.</em></p>
+          <p>Shoulder pads on top of shoulders/traps, back flat against the pad the whole set. Feet on platform — <strong>low-to-mid placement for full quad emphasis</strong> (high placement shortens ROM and turns it into a partial). Toes 15° out.</p>
+          <p>Unrack. Lower in 2 sec to ~95° knee flexion, or to where the lumbar starts to peel off the pad — whichever comes first. Drive up through <strong>mid-foot</strong>. <em>Exhale forcefully through the drive — do not hold the breath through the rep.</em> Stop 5cm short of lockout.</p>
+          <p>Because the torso is supported, most people can load this heavily. That is exactly why the rep target sits at 10–12 rather than lower: the goal here is quad stimulus, not a maximal effort.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Quads (vastus lat., intermedius, rectus fem.) — primary target</li>
+            <li>Glutes and adductors assist out of the bottom</li>
+            <li>Core braced isometrically against the pad, minimal spinal movement</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li><strong>Holding the breath through the rep</strong> — the main thing to avoid on a shoulder-loaded machine</li>
+            <li>Lumbar peel at depth — non-negotiable hard stop</li>
+            <li>Knee valgus — actively press knees out toward toes</li>
+            <li>Heels lifting — ankle mobility limit; elevate 1–2cm or limit depth</li>
+            <li>Foot too high on platform — turns into a partial, kills quad stretch</li>
+            <li>Bouncing out of the bottom — controlled descent instead</li>
+            <li>Chasing a heavy low-rep set here — wrong lift for it</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="ex priority" data-rest="150" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">01</div>
+        <div class="ex-num">02</div>
         <div class="ex-title">Hammer Iso-Lateral Row<span class="ex-tag">BACK</span></div>
       </div>
       <div class="ex-targets">
@@ -1748,13 +1885,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="150" data-step="2">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">02</div>
-        <div class="ex-title">Hammer Incline Press</div>
+        <div class="ex-num">03</div>
+        <div class="ex-title">DB Incline Press<span class="ex-tag">CHEST</span></div>
       </div>
       <div class="ex-targets">
         <span>4 sets</span><span class="sep">·</span>
         <span class="reps">6–8 reps</span><span class="sep">·</span>
-        <span>2–3 min</span>
+        <span>2:30</span>
       </div>
       <div class="sets">
         <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
@@ -1772,32 +1909,36 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p>Seat: handles align at <strong>lower pec border</strong> (~1 inch below nipple). Optimal length-tension for upper pec at 30°. Feet flat, drive heels into floor.</p>
-          <p>Scapulae retracted + depressed, <em>stay there throughout</em>. Half-breath into chest, not Valsalva. 2-sec eccentric to deep pec stretch (feel tendon load at humeral insertion). <em>Exhale forcefully starting at the bottom and through the press.</em> Stop 5cm short of lockout.</p>
+          <p><strong>Replaces the Hammer incline</strong> — the machine's fixed angle didn't sit well on your shoulder. Dumbbells let the arc find your own path.</p>
+          <p>Bench at 30°, not 45° — steeper turns it into a shoulder press. Plant your feet, shoulder blades pulled back and <em>down</em>, slight natural arch.</p>
+          <p>Dumbbells start at the bottom of the chest, elbows about 45° from the torso — not flared to 90°. Press up and slightly inward; the bells end over the upper chest, not touching.</p>
+          <p>Lower under control for 2 seconds to a real stretch. <em>Exhale through the press, inhale at the top.</em> Never hold the breath through a rep.</p>
+          <p><strong>Load note:</strong> weight per hand, so your Hammer numbers don't transfer. Expect roughly half the machine load as a starting guess, then adjust.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Upper pec (clavicular fibers) primary</li>
-            <li>30° + low handle alignment biases hard</li>
-            <li>Anterior delt + triceps secondary</li>
+            <li>Pectoralis major, clavicular (upper) head — the point of the incline</li>
+            <li>Anterior deltoid and triceps assist</li>
+            <li>Each side works independently, so a strength asymmetry shows up here</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li>Scapulae unpacking at lockout — ant. delt takes over</li>
-            <li>Head pushing into pad — Valsalva proxy</li>
-            <li>Pressing to full lockout — tension dumps to elbow</li>
-            <li>Half-breath becoming a hold — drop a plate</li>
+            <li>Holding the breath through a press — exhale on the way up</li>
+            <li>Bench angle above 30–35° — shifts the work to the front delt</li>
+            <li>Elbows flared to 90° — loads the shoulder joint, not the chest</li>
+            <li>Clanging the dumbbells together at the top</li>
+            <li>Grinding a failed rep with weight overhead — rack it instead</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="ex priority" data-rest="120" data-step="2.5">
+  <div class="ex" data-rest="120" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">03</div>
+        <div class="ex-num">04</div>
         <div class="ex-title">Lat Pulldown, Neutral<span class="ex-tag">BACK</span></div>
       </div>
       <div class="ex-targets">
@@ -1846,7 +1987,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="120" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">04</div>
+        <div class="ex-num">05</div>
         <div class="ex-title">Hammer Shoulder Press</div>
       </div>
       <div class="ex-targets">
@@ -1894,7 +2035,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="60" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">05</div>
+        <div class="ex-num">06</div>
         <div class="ex-title">Cable Triceps Pushdown, Rope</div>
       </div>
       <div class="ex-targets">
@@ -1941,7 +2082,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="60" data-step="2">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">06</div>
+        <div class="ex-num">07</div>
         <div class="ex-title">Incline DB Curl</div>
       </div>
       <div class="ex-targets">
@@ -1989,12 +2130,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
-        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">CONDITIONING</span></div>
+        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">OFF-DAY RUN</span></div>
       </div>
       <div class="ex-targets">
         <span>1 block</span><span class="sep">·</span>
-        <span class="reps">20–30 min</span><span class="sep">·</span>
-        <span>2&#215;/week</span>
+        <span class="reps">30 min</span><span class="sep">·</span>
+        <span>2-3&#215;/week</span>
       </div>
       <div class="sets">
         <div class="set">1</div>
@@ -2013,7 +2154,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <div class="tab-content exec-content active">
           <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
           <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
-          <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
+          <p><strong>Now an off-day run:</strong> 30 minutes, 2&#8211;3&#215; a week, on days you are not lifting. Log it here on the day you run. Upright bike or incline walk work equally well if you would rather not run.</p>
           <p><strong>Logging:</strong> tap the circle and enter machine, minutes and zone.</p>
         </div>
         <div class="tab-content act-content">
@@ -2062,13 +2203,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 </main>
 
 <!-- ========== DAY 2 ========== -->
-<main class="day" data-day="2" data-title="Lower · Strength" data-sub="Deadlift leads. Posterior chain anchored.">
+<main class="day" data-day="2" data-title="Legs + Pull · Strength" data-sub="Elevated pull leads. Posterior chain anchored.">
 
   <div class="ex priority" data-rest="180" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">01</div>
-        <div class="ex-title">Deadlift<span class="ex-tag">CONVENTIONAL</span></div>
+        <div class="ex-title">Pad-Elevated Deadlift<span class="ex-tag">SHORT ROM</span></div>
       </div>
       <div class="ex-targets">
         <span>4 sets</span><span class="sep">·</span>
@@ -2080,7 +2221,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3:00</button>
+        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3 min</button>
       </div>
     </div>
     <div class="detail">
@@ -2091,27 +2232,76 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Breathing note:</strong> conventional generates more intra-abdominal pressure than most machine work. Breathing discipline matters more here, not less. <em>Keep loads submaximal — this slot is not for grinding singles.</em></p>
-          <p>Feet hip-width, bar over mid-foot, shins ~2cm from bar. Hinge hips back, shins come forward to touch bar. Grip just outside knees. <em>Pull slack out of the bar</em> — pre-tension lats, chest up, ribs down.</p>
-          <p>Half-breath into the belly — <strong>not a maximal breath-hold</strong>. Eyes on a point ~2m forward, neutral neck. Drive: push the floor away through mid-foot, hips and shoulders rise at the same rate. <em>Exhale forcefully as the bar passes the knees, finishing the breath at lockout.</em> Reset the breath between every rep — no held-breath multi-rep sets.</p>
+          <p><strong>Why elevated:</strong> standing the plates on pads or blocks raises the bar 5–10cm, which shortens the pull and keeps the torso more upright. Less range out of the bottom means less of the deep-hinge strain where breath-holding is hardest to avoid.</p>
+          <p><strong>Be clear what it does and doesn't do:</strong> the elevation reduces range and improves position. It does <em>not</em> reduce bracing on its own — that comes from keeping the load moderate. Submaximal is the point of this slot.</p>
+          <p>Bar over mid-foot, shins close. Hinge back, chest up, ribs down. <em>Pull the slack out of the bar</em> before anything moves — lats tight, no jerk off the floor.</p>
+          <p>Half-breath into the belly, <strong>not a maximal breath-hold</strong>. Eyes on a point 2m ahead, neutral neck. Push the floor away; hips and shoulders rise together.</p>
+          <p><strong>Reset the breath between every single rep.</strong> Exhale as the bar passes the knees. Put it down, breathe, reset, go again — no touch-and-go sets.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Glutes + hamstrings primary</li>
-            <li>Erectors isometric (spinal position, not movement)</li>
-            <li>Lats isometric — keep bar tight to body</li>
-            <li>Quads assist off the floor only</li>
+            <li>Glutes and hamstrings primary</li>
+            <li>Erectors isometric — holding position, not producing movement</li>
+            <li>Lats isometric, keeping the bar against the body</li>
+            <li>Quads contribute less than a floor pull because of the shorter range</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li><strong>Holding breath through a full set.</strong> Reset between reps</li>
-            <li>Grinding a maximal rep — stop the set instead</li>
-            <li>Hips rising faster than shoulders — turns it into a stiff-leg</li>
-            <li>Head dropping toward the floor, or craning up at the ceiling — stay neutral</li>
-            <li>Bar drifting away from shins — costs the low back</li>
-            <li>Belt cinched tight — keep it loose enough to breathe normally</li>
-            <li>Bouncing reps off the floor — reset each rep</li>
+            <li><strong>Holding the breath through a set — the single thing to avoid here.</strong> Reset every rep</li>
+            <li>Grinding a maximal rep. Stop the set instead; this slot is not for testing</li>
+            <li>Hips shooting up first — turns it into a stiff-leg</li>
+            <li>Head dropping toward the floor or craning at the ceiling</li>
+            <li>Bar drifting away from the shins</li>
+            <li>Belt cinched tight enough to restrict breathing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ex priority" data-rest="120" data-step="2.5">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">02</div>
+        <div class="ex-title">Hammer High Row<span class="ex-tag">BACK</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>4 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 reps</span><span class="sep">·</span>
+        <span>2 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Pad at upper sternum height. Pronated grip (palms down) for upper-back bias. Sit tall, scapulae pre-retracted.</p>
+          <p>Path: handles come <strong>down and back, toward collarbone level</strong>. Drive elbows up and out — humerus to ~70° abduction at peak. This high path smokes upper traps, rhomboids, rear delts. 1-sec peak hold. <em>3-sec eccentric to overhead-ish stretch</em> — let scapulae fully protract and slightly elevate.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Lower lats (when handles low)</li>
+            <li>Upper lats, rhomboids, lower traps (eccentric stretch)</li>
+            <li>Rear delts</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Pulling to belly button — that's a low row</li>
+            <li>Shrugging at peak — upper traps eat the work</li>
+            <li>Cutting eccentric short — missing loaded stretch</li>
           </ul>
         </div>
       </div>
@@ -2121,7 +2311,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="150" data-step="5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">02</div>
+        <div class="ex-num">03</div>
         <div class="ex-title">Belt Squat<span class="ex-tag">SPINE-FREE</span></div>
       </div>
       <div class="ex-targets">
@@ -2173,7 +2363,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="120" data-step="2">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">03</div>
+        <div class="ex-num">04</div>
         <div class="ex-title">Bulgarian Split Squat</div>
       </div>
       <div class="ex-targets">
@@ -2221,7 +2411,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="90" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">04</div>
+        <div class="ex-num">05</div>
         <div class="ex-title">Iso-Lateral Kneeling Leg Curl</div>
       </div>
       <div class="ex-targets">
@@ -2271,7 +2461,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="60" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">05</div>
+        <div class="ex-num">06</div>
         <div class="ex-title">Single-Leg Calf Raise on Leg Press</div>
       </div>
       <div class="ex-targets">
@@ -2335,7 +2525,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="panel warn">
       <h3>Breathing Protocol</h3>
       <ul>
-        <li>Conventional pull — <strong>keep load submaximal</strong></li>
+        <li>Pad-elevated pull — shorter range, more upright. <strong>Elevation helps position; keeping the load submaximal is what keeps pressure down</strong></li>
         <li>Cap deadlifts at 6 reps · no grinding</li>
         <li><strong>Reset the breath every rep</strong> — never hold through a set</li>
         <li>Forceful exhale through sticking point</li>
@@ -2347,25 +2537,25 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 </main>
 
 <!-- ========== DAY 3 ========== -->
-<main class="day" data-day="3" data-title="Upper · Hypertrophy" data-sub="Volume day. Two back movements lead.">
+<main class="day" data-day="3" data-title="Legs + Push · Volume" data-sub="Adductors lead, back second. Volume day.">
 
-  <div class="ex priority" data-rest="120" data-step="2.5">
+  <div class="ex priority" data-rest="90" data-step="5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">01</div>
-        <div class="ex-title">Hammer High Row<span class="ex-tag">BACK</span></div>
+        <div class="ex-title">Machine Hip Adduction<span class="ex-tag">ADDUCTORS</span></div>
       </div>
       <div class="ex-targets">
-        <span>4 sets</span><span class="sep">·</span>
-        <span class="reps">10–12 reps</span><span class="sep">·</span>
-        <span>2 min</span>
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1:30</span>
       </div>
       <div class="sets">
-        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
       </div>
     </div>
     <div class="detail">
@@ -2376,21 +2566,24 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p>Pad at upper sternum height. Pronated grip (palms down) for upper-back bias. Sit tall, scapulae pre-retracted.</p>
-          <p>Path: handles come <strong>down and back, toward collarbone level</strong>. Drive elbows up and out — humerus to ~70° abduction at peak. This high path smokes upper traps, rhomboids, rear delts. 1-sec peak hold. <em>3-sec eccentric to overhead-ish stretch</em> — let scapulae fully protract and slightly elevate.</p>
+          <p><strong>New, and it fills a genuine gap.</strong> Squats, lunges and hip thrusts load the adductors only indirectly. They are a large muscle group contributing to hip stability and to thigh thickness from the inside.</p>
+          <p>Sit upright, back against the pad, knees against the inner pads. Set the start position to a <em>comfortable</em> stretch — far enough to feel it, not so far that you're prying the hip open.</p>
+          <p>Squeeze the knees together under control. 1-second hold at full adduction, then <em>3-second return</em> against the resistance. The eccentric is where most of the benefit sits.</p>
+          <p>Seated, upright, head neutral, modest loads — a straightforwardly breathing-friendly movement.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Lower lats (when handles low)</li>
-            <li>Upper lats, rhomboids, lower traps (eccentric stretch)</li>
-            <li>Rear delts</li>
+            <li>Adductor magnus, longus and brevis</li>
+            <li>Gracilis and pectineus assist</li>
+            <li>Adductor magnus also contributes to hip extension, so it supports the deadlift and hip thrust</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li>Pulling to belly button — that's a low row</li>
-            <li>Shrugging at peak — upper traps eat the work</li>
-            <li>Cutting eccentric short — missing loaded stretch</li>
+            <li>Setting the opening stretch too wide — strain at end range, no extra benefit</li>
+            <li>Slamming the pads shut and letting them fly back open</li>
+            <li>Leaning forward or rounding the back to get leverage</li>
+            <li>Chasing heavy loads — this is a tempo-and-range exercise</li>
           </ul>
         </div>
       </div>
@@ -2492,58 +2685,10 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     </div>
   </div>
 
-  <div class="ex" data-rest="90" data-step="2.5">
-    <div class="ex-head">
-      <div class="ex-row1">
-        <div class="ex-num">04</div>
-        <div class="ex-title">Cable Lat Pullover</div>
-      </div>
-      <div class="ex-targets">
-        <span>3 sets</span><span class="sep">·</span>
-        <span class="reps">12–15 reps</span><span class="sep">·</span>
-        <span>1:30</span>
-      </div>
-      <div class="sets">
-        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
-      </div>
-      <div class="actions">
-        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
-      </div>
-    </div>
-    <div class="detail">
-      <div class="detail-inner">
-        <div class="tabs">
-          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
-          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
-          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
-        </div>
-        <div class="tab-content exec-content active">
-          <p>Rope at high pulley. Stand 1m back. <strong>Slight hinge ~20°, eyes fixed forward</strong> — head must stay above heart. If can't keep eyes forward, kneel.</p>
-          <p>Arms slightly bent (~15° elbow flexion) — <em>lock that angle for the entire set.</em> Any change converts it into a triceps press. Pull cable in arc to hips — arc generated entirely by <strong>shoulder extension</strong>; humerus rotates around shoulder, elbow stays fixed-bent. Squeeze lat, 1-sec hold. Slow return to overhead full stretch.</p>
-        </div>
-        <div class="tab-content act-content">
-          <ul class="bullet-list">
-            <li>Lats in pure shoulder-extension function</li>
-            <li>One of few exercises lat works without bicep secondary</li>
-            <li>High-quality lat-isolated stimulus</li>
-          </ul>
-        </div>
-        <div class="tab-content comp-content">
-          <ul class="bullet-list">
-            <li>Elbow angle changing — biggest error. Triceps pumped after = wrong</li>
-            <li>Hinging too far forward — head drops</li>
-            <li>Shoulders shrugging up at top — keep depressed</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="ex" data-rest="60" data-step="2">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">05</div>
+        <div class="ex-num">04</div>
         <div class="ex-title">DB Lateral Raise</div>
       </div>
       <div class="ex-targets">
@@ -2590,7 +2735,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="60" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">06</div>
+        <div class="ex-num">05</div>
         <div class="ex-title">Overhead Cable Triceps Ext.</div>
       </div>
       <div class="ex-targets">
@@ -2638,7 +2783,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
   <div class="ex" data-rest="60" data-step="2">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">07</div>
+        <div class="ex-num">06</div>
         <div class="ex-title">Hammer Curl</div>
       </div>
       <div class="ex-targets">
@@ -2687,12 +2832,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
-        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">CONDITIONING</span></div>
+        <div class="ex-title">Zone 2 Cardio<span class="ex-tag">OFF-DAY RUN</span></div>
       </div>
       <div class="ex-targets">
         <span>1 block</span><span class="sep">·</span>
-        <span class="reps">20–30 min</span><span class="sep">·</span>
-        <span>2&#215;/week</span>
+        <span class="reps">30 min</span><span class="sep">·</span>
+        <span>2-3&#215;/week</span>
       </div>
       <div class="sets">
         <div class="set">1</div>
@@ -2711,7 +2856,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <div class="tab-content exec-content active">
           <p><strong>Why it&#39;s here:</strong> four days of heavy resistance work with no aerobic base is an incomplete program. This is the counterweight &#8212; low intensity, high return.</p>
           <p><strong>Pace:</strong> conversational. You should be able to speak a full sentence without gasping. Roughly 60&#8211;70% of max heart rate. If you&#39;re grinding, it&#39;s too hard &#8212; intensity is not the point here.</p>
-          <p><strong>Modes:</strong> upright bike, incline treadmill walk, or elliptical. 20&#8211;30 minutes, twice a week. <em>Doesn&#39;t have to be attached to this session</em> &#8212; an off day works just as well and keeps your lifting sessions short.</p>
+          <p><strong>Now an off-day run:</strong> 30 minutes, 2&#8211;3&#215; a week, on days you are not lifting. Log it here on the day you run. Upright bike or incline walk work equally well if you would rather not run.</p>
           <p><strong>Logging:</strong> tap the circle and enter machine, minutes and zone.</p>
         </div>
         <div class="tab-content act-content">
@@ -2760,25 +2905,25 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 </main>
 
 <!-- ========== DAY 4 ========== -->
-<main class="day" data-day="4" data-title="Lower · Hypertrophy" data-sub="Quad-led. Machine-anchored. Lower spinal load.">
+<main class="day" data-day="4" data-title="Legs + Pull · Volume" data-sub="Glute-led. Machine-anchored. Lower spinal load.">
 
-  <div class="ex priority" data-rest="180" data-step="2.5">
+  <div class="ex priority" data-rest="120" data-step="5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">01</div>
-        <div class="ex-title">Hack Squat<span class="ex-tag">QUAD ISOLATION</span></div>
+        <div class="ex-title">Machine Hip Thrust<span class="ex-tag">GLUTE ISO</span></div>
       </div>
       <div class="ex-targets">
         <span>4 sets</span><span class="sep">·</span>
         <span class="reps">10–12 reps</span><span class="sep">·</span>
-        <span>3 min</span>
+        <span>2 min</span>
       </div>
       <div class="sets">
         <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3:00</button>
+        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2 min</button>
       </div>
     </div>
     <div class="detail">
@@ -2789,50 +2934,49 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Machine-supported quad work with a fixed path</strong> — back braced against the pad, so no balance or hip-drive cheating. Note the load sits on your shoulders, so this carries more axial compression than a pendulum or belt squat: <em>keep it in the 10–12 range and off the grinding end.</em></p>
-          <p>Shoulder pads on top of shoulders/traps, back flat against the pad the whole set. Feet on platform — <strong>low-to-mid placement for full quad emphasis</strong> (high placement shortens ROM and turns it into a partial). Toes 15° out.</p>
-          <p>Unrack. Lower in 2 sec to ~95° knee flexion, or to where the lumbar starts to peel off the pad — whichever comes first. Drive up through <strong>mid-foot</strong>. <em>Exhale forcefully through the drive — do not hold the breath through the rep.</em> Stop 5cm short of lockout.</p>
-          <p>Because the torso is supported, most people can load this heavily. That is exactly why the rep target sits at 10–12 rather than lower: the goal here is quad stimulus, not a maximal effort.</p>
+          <p><strong>Replaces the standing version</strong> — the machine fixes your torso against a pad, so you can't recruit the arms to stabilise. That was the limiter at 90kg standing, and it's the reason this swap matters more than it looks.</p>
+          <p>Back flat against the pad, feet shoulder-width and far enough forward that your shins are vertical at the top. Belt or lap pad across the hip crease, not the stomach.</p>
+          <p>Drive through the heels. <strong>At the top, ribs down and glutes squeezed hard</strong> — stop at a straight line from knee to shoulder, do not hyperextend the lower back. 1-second hold at lockout.</p>
+          <p>Lower under control for 2 seconds. <em>Exhale through the drive.</em> Because the torso is supported, this is one of the more breathing-friendly heavy lower-body movements available to you.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Quads (vastus lat., intermedius, rectus fem.) — primary target</li>
-            <li>Glutes and adductors assist out of the bottom</li>
-            <li>Core braced isometrically against the pad, minimal spinal movement</li>
+            <li>Gluteus maximus — the most direct loading available</li>
+            <li>Hamstrings assist through hip extension</li>
+            <li>Quads minimal if the shin stays vertical at lockout</li>
+            <li>No arm or trunk stabilisation demand — that is the point of the machine</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li><strong>Holding the breath through the rep</strong> — the main thing to avoid on a shoulder-loaded machine</li>
-            <li>Lumbar peel at depth — non-negotiable hard stop</li>
-            <li>Knee valgus — actively press knees out toward toes</li>
-            <li>Heels lifting — ankle mobility limit; elevate 1–2cm or limit depth</li>
-            <li>Foot too high on platform — turns into a partial, kills quad stretch</li>
-            <li>Bouncing out of the bottom — controlled descent instead</li>
-            <li>Chasing a heavy low-rep set here — wrong lift for it</li>
+            <li>Hyperextending the lumbar spine at lockout — ribs stay down</li>
+            <li>Pushing through the toes instead of the heels</li>
+            <li>Shortening the range at the bottom</li>
+            <li>Chin tucking toward the chest, or the head dropping back</li>
+            <li>Holding the breath on a heavy set — exhale through the drive</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="ex" data-rest="120" data-step="5">
+  <div class="ex priority" data-rest="90" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">02</div>
-        <div class="ex-title">Standing Hip Thrust<span class="ex-tag">GLUTE ISO</span></div>
+        <div class="ex-title">Cable Lat Pullover</div>
       </div>
       <div class="ex-targets">
         <span>3 sets</span><span class="sep">·</span>
-        <span class="reps">10–12 reps</span><span class="sep">·</span>
-        <span>2 min</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1:30</span>
       </div>
       <div class="sets">
         <div class="set">1</div><div class="set">2</div><div class="set">3</div>
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(120)"><span class="btn-icon">⏱</span>Rest 2:00</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
       </div>
     </div>
     <div class="detail">
@@ -2843,25 +2987,21 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Best glute-isolation tool you have.</strong> Pure hip extension under load — no spinal involvement, no axial compression. Replaces cable pull-through with a more direct stimulus.</p>
-          <p>Stand on platform, chest pad against your front (sternum/upper abs). Hold rails for stability. Adjust pad height so the lever arm/pad presses against your <strong>upper glutes / lower back where the glute insertion is</strong> — not on lumbar spine.</p>
-          <p>Setup: feet shoulder-width, slight knee bend (~15°, locked). Brace against chest pad. Start position: hips slightly flexed forward.</p>
-          <p>Drive hips forward by squeezing glutes hard — <em>finish with posterior pelvic tilt at top</em> (tuck tailbone under, ribs down). 1-sec peak squeeze. 2-sec eccentric back to start, never let glutes fully relax.</p>
+          <p>Rope at high pulley. Stand 1m back. <strong>Slight hinge ~20°, eyes fixed forward</strong> — head must stay above heart. If can't keep eyes forward, kneel.</p>
+          <p>Arms slightly bent (~15° elbow flexion) — <em>lock that angle for the entire set.</em> Any change converts it into a triceps press. Pull cable in arc to hips — arc generated entirely by <strong>shoulder extension</strong>; humerus rotates around shoulder, elbow stays fixed-bent. Squeeze lat, 1-sec hold. Slow return to overhead full stretch.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Glutes — gluteus maximus primarily, in pure shortened-position contraction</li>
-            <li>Standing position with pad on glutes = direct loading, no leverage loss</li>
-            <li>Hamstrings minimal (different from hip thrust on bench)</li>
+            <li>Lats in pure shoulder-extension function</li>
+            <li>One of few exercises lat works without bicep secondary</li>
+            <li>High-quality lat-isolated stimulus</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li>Pad on lower back/lumbar — should be on glutes, adjust height</li>
-            <li>Hyperextending lumbar at top — <em>posterior pelvic tilt</em>, don't arch back</li>
-            <li>Knees bending through rep — knee angle stays fixed</li>
-            <li>Pushing with arms on rails — they're for balance only</li>
-            <li>Cutting reps short — squeeze glutes hard at top, full lockout</li>
+            <li>Elbow angle changing — biggest error. Triceps pumped after = wrong</li>
+            <li>Hinging too far forward — head drops</li>
+            <li>Shoulders shrugging up at top — keep depressed</li>
           </ul>
         </div>
       </div>
@@ -2918,7 +3058,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     </div>
   </div>
 
-  <div class="ex" data-rest="90">
+  <div class="ex" data-rest="90" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">04</div>
@@ -2926,7 +3066,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
       <div class="ex-targets">
         <span>3 sets</span><span class="sep">·</span>
-        <span class="reps">12–15 / leg</span><span class="sep">·</span>
+        <span class="reps">10–12 / leg</span><span class="sep">·</span>
         <span>1:30</span>
       </div>
       <div class="sets">
@@ -2945,22 +3085,23 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p>Same machine as Day 2, but <strong>higher reps for hypertrophy stimulus</strong>. Keep all the same execution: kneel, brace torso against chest pad, hips neutral, ankle pad above heel.</p>
-          <p>Toes dorsiflexed throughout. <em>3-sec eccentric, no stack rest, 1-sec peak hold.</em> Push the reps deep into the burn — hamstrings respond to high-rep work especially in this stretched position.</p>
-          <p>Day 2 (10-12 reps) trains strength + stretch; Day 4 (12-15 reps) trains metabolic stress + stretch — different stimuli on the same exercise.</p>
+          <p>Kneel on the platform, support leg pad against the working thigh. Working leg's knee aligned with machine pivot, ankle pad just above heel on Achilles. <strong>Brace torso against chest pad — hips stay neutral, don't let them flex forward.</strong></p>
+          <p>The kneeling position <em>extends the hip while flexing the knee</em> — this lengthens the hamstring across both joints, especially the long head of biceps femoris. That makes this a superior stretch position vs. seated.</p>
+          <p><strong>Toes dorsiflexed throughout</strong> (pulled toward shins). Curl heel under butt, 1-sec peak hold. <em>3-sec eccentric, never let stack rest.</em> Train weaker leg first, match reps on stronger.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
-            <li>Biceps femoris (long head) — kneeling position lengthens it across both joints</li>
-            <li>Higher rep range = metabolic + stretch-mediated hypertrophy</li>
+            <li>Hamstrings — biceps femoris (long head) heavily biased due to hip extension</li>
+            <li>Stronger stretch stimulus than seated curl</li>
+            <li>Iso-lateral exposes/fixes left-right strength asymmetry</li>
           </ul>
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li>Hip flexing forward — kills stretch advantage</li>
-            <li>Plantar flexion — hamstring deactivates</li>
-            <li>Stack resting — kills tension</li>
-            <li>Cutting reps short of burn — high-rep day requires pushing past discomfort</li>
+            <li>Hips flexing forward — shortens hamstring, kills stretch advantage</li>
+            <li>Plantar-flexing toes — instant deactivation</li>
+            <li>Letting stack rest at bottom — kills tension</li>
+            <li>Using torso to pull weight up — only knee should flex</li>
           </ul>
         </div>
       </div>
@@ -3053,19 +3194,19 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 <nav class="bottomnav cols-6">
   <button class="navbtn active" data-day="1">
     <div class="nav-num">01</div>
-    <div class="nav-label">UPP·STR</div>
+    <div class="nav-label">PUSH·STR</div>
   </button>
   <button class="navbtn" data-day="2">
     <div class="nav-num">02</div>
-    <div class="nav-label">LOW·STR</div>
+    <div class="nav-label">PULL·STR</div>
   </button>
   <button class="navbtn" data-day="3">
     <div class="nav-num">03</div>
-    <div class="nav-label">UPP·HYP</div>
+    <div class="nav-label">PUSH·VOL</div>
   </button>
   <button class="navbtn" data-day="4">
     <div class="nav-num">04</div>
-    <div class="nav-label">LOW·HYP</div>
+    <div class="nav-label">PULL·VOL</div>
   </button>
   <button class="navbtn" data-day="stats">
     <div class="nav-num">◪</div>
@@ -3381,6 +3522,7 @@ const defaultState = () => ({
   theme: 'light',           // 'light' | 'dark'
   lastBackup: null,         // timestamp of the last downloaded backup
   nameMigration: 0,         // historical exercise-name rewrites applied
+  layout: {},               // per-day visible exercise order (slugs)
   suggestions: {},          // keyed by exercise name (lowercased) → coach text
   suggestionsRev: 0,        // matches SUGGESTIONS_REV when storage is current
   suggestionOverrides: {},  // keys here are user-edited and won't be overwritten by rev bumps
@@ -3487,14 +3629,302 @@ function finalizeAndArchiveCurrent() {
   }
 }
 
+/* Keys are derived from the exercise NAME, not its position. Cards can be
+   reordered or removed without logged sets detaching from the exercise they
+   belong to. Archived history already stores by name, so only an
+   in-progress session needs migrating off the old positional keys. */
+function exSlug(name) {
+  return (name || '').toLowerCase().trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function assignExerciseKeys() {
   document.querySelectorAll('.day[data-day]').forEach(day => {
     const dKey = day.dataset.day;
     if (dKey === 'log' || dKey === 'stats') return;
-    day.querySelectorAll('.ex').forEach((ex, i) => {
-      if (!ex.dataset.exKey) ex.dataset.exKey = `day${dKey}-ex${i}`;
+    day.querySelectorAll('.ex:not(.custom)').forEach(ex => {
+      ex.dataset.exKey = `day${dKey}::${exSlug(getExerciseName(ex))}`;
     });
   });
+}
+
+/* Positional keys (day1-ex0) predate the reorder feature. Remap any
+   in-progress session onto name-based keys using the names it recorded. */
+function migrateExerciseKeys() {
+  const cs = state.currentSession;
+  if (!cs || !cs.exNames) return;
+  const stale = Object.keys(cs.exNames).filter(k => /^day\d+-ex\d+$/.test(k));
+  if (!stale.length) return;
+  stale.forEach(oldKey => {
+    const dayNum = oldKey.match(/^day(\d+)/)[1];
+    const newKey = `day${dayNum}::${exSlug(cs.exNames[oldKey])}`;
+    if (newKey === oldKey) return;
+    ['logs', 'rir', 'notes', 'exNames'].forEach(bucket => {
+      if (cs[bucket] && cs[bucket][oldKey] !== undefined) {
+        cs[bucket][newKey] = cs[bucket][oldKey];
+        delete cs[bucket][oldKey];
+      }
+    });
+  });
+  saveState();
+}
+
+
+/* ============================================================
+   DAY LAYOUT — reorder and remove
+   state.layout[day] is the visible exercise order as a list of
+   slugs. Absent means "use the order baked into the HTML".
+   A slug missing from a present list is hidden, not deleted —
+   removal has to be reversible, and logged history for a hidden
+   exercise stays untouched either way.
+   Scope: built-in cards. Custom exercises live in their own
+   container and keep their existing add/remove control.
+============================================================ */
+
+function builtInCards(dayEl) {
+  return [...dayEl.querySelectorAll('.ex:not(.custom)')];
+}
+
+/* The program's own order, snapshotted at load BEFORE applyLayout starts
+   moving nodes around. Without this, "original position" drifts to
+   whatever the last reorder left behind. */
+const PROGRAM_ORDER = {};
+
+function captureProgramOrder() {
+  document.querySelectorAll('.day[data-day]').forEach(day => {
+    const k = day.dataset.day;
+    if (k === 'log' || k === 'stats') return;
+    PROGRAM_ORDER[k] = builtInCards(day).map(ex => exSlug(getExerciseName(ex)));
+  });
+}
+
+function defaultOrder(dayEl) {
+  const k = dayEl.dataset.day;
+  if (PROGRAM_ORDER[k]) return PROGRAM_ORDER[k].slice();
+  return builtInCards(dayEl).map(ex => exSlug(getExerciseName(ex)));
+}
+
+function dayOf(slugOrEx) {
+  return typeof slugOrEx === 'string' ? slugOrEx : slugOrEx.closest('.day')?.dataset.day;
+}
+
+function getLayout(dayKey) {
+  const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+  if (!dayEl) return [];
+  const stored = state.layout?.[dayKey];
+  const all = defaultOrder(dayEl);
+  if (!Array.isArray(stored)) return all;
+  // Keep only slugs that still exist as cards, then append anything new
+  // the program has gained since the layout was saved.
+  const kept = stored.filter(s => all.includes(s));
+  return kept;
+}
+
+function hiddenFor(dayKey) {
+  const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+  if (!dayEl) return [];
+  const stored = state.layout?.[dayKey];
+  if (!Array.isArray(stored)) return [];
+  return defaultOrder(dayEl).filter(s => !stored.includes(s));
+}
+
+function setLayout(dayKey, order) {
+  if (!state.layout) state.layout = {};
+  state.layout[dayKey] = order;
+  saveState();
+  applyLayout(dayKey);
+}
+
+/* New exercises added to the program after a layout was saved would
+   otherwise be invisible. Append them on load rather than silently
+   dropping them. */
+function reconcileLayouts() {
+  if (!state.layout) return;
+  let changed = false;
+  Object.keys(state.layout).forEach(dayKey => {
+    const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+    if (!dayEl) return;
+    const all = defaultOrder(dayEl);
+    const stored = state.layout[dayKey].filter(s => all.includes(s));
+    const known = new Set(stored.concat(hiddenFor(dayKey)));
+    const fresh = all.filter(s => !known.has(s));
+    if (fresh.length || stored.length !== state.layout[dayKey].length) {
+      state.layout[dayKey] = stored.concat(fresh);
+      changed = true;
+    }
+  });
+  if (changed) saveState();
+}
+
+function applyLayout(dayKey) {
+  const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+  if (!dayEl) return;
+  const order = getLayout(dayKey);
+  const bySlug = {};
+  builtInCards(dayEl).forEach(ex => { bySlug[exSlug(getExerciseName(ex))] = ex; });
+
+  // Anchor: custom-exercise container marks the end of the built-in block.
+  const anchor = dayEl.querySelector('.custom-ex-container');
+  order.forEach(slug => {
+    const ex = bySlug[slug];
+    if (!ex) return;
+    ex.style.display = '';
+    if (anchor) dayEl.insertBefore(ex, anchor);
+  });
+  Object.entries(bySlug).forEach(([slug, ex]) => {
+    if (!order.includes(slug)) ex.style.display = 'none';
+  });
+
+  renumberDay(dayEl);
+  renderHiddenTray(dayKey);
+  updateProgress();
+}
+
+function renumberDay(dayEl) {
+  let n = 0;
+  builtInCards(dayEl).forEach(ex => {
+    if (ex.style.display === 'none') return;
+    const numEl = ex.querySelector('.ex-num');
+    if (!numEl) return;
+    if (ex.dataset.logMode === 'cardio') { numEl.textContent = 'CV'; return; }
+    n += 1;
+    numEl.textContent = String(n).padStart(2, '0');
+  });
+}
+
+function applyAllLayouts() {
+  ['1', '2', '3', '4'].forEach(applyLayout);
+}
+
+/* ---------- reorder / remove actions ---------- */
+
+function moveExercise(dayKey, slug, dir) {
+  const order = getLayout(dayKey).slice();
+  const i = order.indexOf(slug);
+  const j = i + dir;
+  if (i < 0 || j < 0 || j >= order.length) return;
+  [order[i], order[j]] = [order[j], order[i]];
+  setLayout(dayKey, order);
+  closeAllTrays();
+  const ex = document.querySelector(`.day[data-day="${dayKey}"] .ex[data-ex-key="day${dayKey}::${slug}"]`);
+  if (ex) ex.scrollIntoView({ block: 'center', behavior: 'smooth' });
+}
+
+function removeExercise(dayKey, slug) {
+  const order = getLayout(dayKey).filter(s => s !== slug);
+  if (!order.length) { showToast('That would empty the day'); return; }
+  setLayout(dayKey, order);
+  closeAllTrays();
+  showToast('Removed · restore at the bottom of the day');
+}
+
+/* Restore puts the exercise back near where the program originally had
+   it, rather than tacking it onto the end after the cardio block. */
+function restoreExercise(dayKey, slug) {
+  const order = getLayout(dayKey).slice();
+  if (order.includes(slug)) return;
+  const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+  const base = defaultOrder(dayEl);
+  const home = base.indexOf(slug);
+  let at = order.length;
+  for (let i = 0; i < order.length; i++) {
+    if (base.indexOf(order[i]) > home) { at = i; break; }
+  }
+  order.splice(at, 0, slug);
+  setLayout(dayKey, order);
+  showToast('Restored');
+}
+
+function renderHiddenTray(dayKey) {
+  const dayEl = document.querySelector(`.day[data-day="${dayKey}"]`);
+  if (!dayEl) return;
+  let tray = dayEl.querySelector('.hidden-tray');
+  const hidden = hiddenFor(dayKey);
+  if (!hidden.length) { if (tray) tray.remove(); return; }
+  if (!tray) {
+    tray = document.createElement('div');
+    tray.className = 'hidden-tray';
+    const anchor = dayEl.querySelector('.custom-ex-container');
+    if (anchor) dayEl.insertBefore(tray, anchor); else dayEl.appendChild(tray);
+  }
+  const label = s => {
+    const ex = dayEl.querySelector(`.ex[data-ex-key="day${dayKey}::${s}"]`);
+    return ex ? getExerciseName(ex) : s;
+  };
+  tray.innerHTML = `<div class="hidden-tray-label">Removed from this day</div>` +
+    hidden.map(s => `
+      <div class="hidden-row">
+        <span>${escapeHtml(label(s))}</span>
+        <button class="lib-btn" type="button" onclick="restoreExercise('${dayKey}','${escapeJs(s)}')">RESTORE</button>
+      </div>`).join('');
+}
+
+/* ---------- swipe ---------- */
+
+function closeAllTrays() {
+  document.querySelectorAll('.ex.swiped').forEach(e => e.classList.remove('swiped'));
+}
+
+function attachSwipe() {
+  document.querySelectorAll('.day[data-day] .ex:not(.custom)').forEach(ex => {
+    if (ex.dataset.swipeBound) return;
+    const head = ex.querySelector('.ex-head');
+    if (!head) return;
+    ex.dataset.swipeBound = '1';
+
+    // Action tray sits behind the card head and is revealed by the swipe.
+    if (!ex.querySelector('.ex-actions-tray')) {
+      const dayKey = ex.closest('.day').dataset.day;
+      const slug = exSlug(getExerciseName(ex));
+      const tray = document.createElement('div');
+      tray.className = 'ex-actions-tray';
+      tray.innerHTML = `
+        <button type="button" class="tray-btn" data-act="up" aria-label="Move up">&#8593;</button>
+        <button type="button" class="tray-btn" data-act="down" aria-label="Move down">&#8595;</button>
+        <button type="button" class="tray-btn danger" data-act="del" aria-label="Remove from this day">&times;</button>`;
+      ex.insertBefore(tray, ex.firstChild);
+      tray.querySelectorAll('.tray-btn').forEach(b => {
+        b.onclick = e => {
+          e.stopPropagation();
+          const a = b.dataset.act;
+          if (a === 'up') moveExercise(dayKey, slug, -1);
+          else if (a === 'down') moveExercise(dayKey, slug, 1);
+          else removeExercise(dayKey, slug);
+        };
+      });
+    }
+
+    let x0 = null, y0 = null, locked = null;
+    head.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) return;
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; locked = null;
+    }, { passive: true });
+
+    head.addEventListener('touchmove', e => {
+      if (x0 === null) return;
+      const dx = e.touches[0].clientX - x0;
+      const dy = e.touches[0].clientY - y0;
+      // Decide once whether this is a horizontal swipe or a vertical scroll,
+      // so a normal scroll never pops the tray open.
+      if (locked === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+        locked = Math.abs(dx) > Math.abs(dy) * 1.5 ? 'x' : 'y';
+      }
+      if (locked !== 'x') return;
+      if (dx < -40) { closeAllTrays(); ex.classList.add('swiped'); }
+      else if (dx > 20) { ex.classList.remove('swiped'); }
+    }, { passive: true });
+
+    head.addEventListener('touchend', () => { x0 = null; y0 = null; locked = null; }, { passive: true });
+  });
+
+  // Tapping anywhere else closes an open tray.
+  if (!document.body.dataset.trayCloseBound) {
+    document.body.dataset.trayCloseBound = '1';
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.ex.swiped')) closeAllTrays();
+    });
+  }
 }
 
 function decorateSets() {
@@ -5124,6 +5554,10 @@ const MUSCLE_MAP = {
   'bulgarian split squat':                { quads: 0.75, glutes: 0.75 },
   'walking lunge (long stride)':          { glutes: 1, quads: 0.5 },
   'standing hip thrust (glute iso)':      { glutes: 1, hamstrings: 0.25 },
+  'machine hip thrust (glute iso)':       { glutes: 1, hamstrings: 0.25 },
+  'machine hip adduction (adductors)':    { adductors: 1 },
+  'db incline press (chest)':             { chest: 1, shoulders: 0.5, triceps: 0.5 },
+  'pad-elevated deadlift (short rom)':    { hamstrings: 1, glutes: 1, back: 0.5 },
   'iso-lateral kneeling leg curl':        { hamstrings: 1 },
   'single-leg calf raise on leg press':   { calves: 1 },
   'calf raise on leg press (both legs)':  { calves: 1 },
@@ -5133,9 +5567,9 @@ const MUSCLE_MAP = {
   'cable crunch':                         { core: 1 }
 };
 
-const MUSCLES = ['back','chest','shoulders','biceps','triceps','quads','hamstrings','glutes','calves','core'];
+const MUSCLES = ['back','chest','shoulders','biceps','triceps','quads','hamstrings','glutes','adductors','calves','core'];
 const MUSCLE_LABEL = { back:'Back', chest:'Chest', shoulders:'Shoulders', biceps:'Biceps',
-  triceps:'Triceps', quads:'Quads', hamstrings:'Hamstrings', glutes:'Glutes', calves:'Calves', core:'Core' };
+  triceps:'Triceps', quads:'Quads', hamstrings:'Hamstrings', glutes:'Glutes', adductors:'Adductors', calves:'Calves', core:'Core' };
 
 /* Weekly working-set guidelines for hypertrophy. These are population
    heuristics, not laws — individual tolerance varies widely, and a
@@ -5421,57 +5855,62 @@ function importJSON(input) {
   } catch (e) { /* install is a bonus, never block the app */ }
 })();
 
-const SUGGESTIONS_REV = 3;
+const SUGGESTIONS_REV = 4;
 
 const coachSuggestions = {
-  "hammer iso-lateral row (back)":
-    "102.5kg × 6-8, RIR 1-2 — 100×8 across all four at RIR 1. Small step; this lift has moved a long way.",
-  "hammer incline press":
-    "60kg × 6-8, RIR 1-2 — 6 across all four at RIR 1. Hold and build toward 8 before adding.",
-  "lat pulldown, neutral (back)":
-    "65kg × 8-10, RIR 2 — 62.5×9 across all four, dead flat. Ready.",
-  "hammer shoulder press":
-    "22.5kg/side × 8-10, RIR 2 — last session was seated DB (machine taken), so the numbers aren't comparable. Use the note field when you substitute.",
-  "cable triceps pushdown, rope":
-    "20kg × 10-12, RIR 2 — 17.5×12 across all three at RIR 2. Ready.",
-  "incline db curl":
-    "8kg × 10-12, RIR 2 — hit RIR 0 (10/10/8). Same load, stop with 2 left.",
-  "zone 2 cardio (conditioning)":
-    "20-30 min, Zone 2, 2×/week — 30 min logged with a proper zone split. One session in 14 days though; the second is where the benefit is.",
-  "deadlift (conventional)":
-    "125kg × 6, RIR 2 — HOLD. 6/6/6/5, one rep short of four flat sets. From here go up 2.5kg at a time, not 5.",
-  "belt squat (spine-free)":
-    "135kg × 6-8, RIR 1-2 — 130×8 across all four at RIR 2. Ready; 140 remains the ceiling.",
-  "bulgarian split squat":
-    "20kg × 8-10, RIR 2 — 8 across. Build to 10 before adding.",
-  "single-leg calf raise on leg press":
-    "45kg × 10-12, RIR 2 — 42.5×10/10/10/15 at RIR 2. Ready.",
-  "hammer high row (back)":
-    "60kg × 10-12, RIR 2 — you took 60 and hit RIR 0 (10/10/10/8). Hold 60, stop with 2 left.",
-  "hammer iso-lat lat pulldown (back)":
-    "62.5kg × 10-12, RIR 2 — 60×10 across all four at RIR 2. Ready.",
-  "cable lat pullover":
-    "17.5kg × 12-15, RIR 2 — hit RIR 0 (12 across). Same load, stop 2 short and build toward 15.",
-  "hammer flat press":
-    "57.5kg × 10-12, RIR 2 for sets 1-2. LAST SET drop: to failure, strip to ~42.5, continue. 60 gave 10/10/3 — too heavy to drop from.",
-  "db lateral raise":
-    "10kg × 10-12, RIR 2 — 10 across all four. Build to 12 before adding.",
-  "overhead cable triceps ext.":
-    "15kg × 12-15, RIR 2 — 12 across at RIR 2. Build to 15 before adding.",
-  "hammer curl":
-    "8kg × 12-15, RIR 2 — 12 across at RIR 2. Build to 15 before adding.",
   "hack squat (quad isolation)":
-    "25kg × 10-12, RIR 2 — 10 across all four. Build to 12. Shoulder-loaded: breathe every rep.",
-  "standing hip thrust (glute iso)":
-    "85kg × 12, RIR 2 — 12 across, clean. Holding here; 90 is the arm-compensation ceiling.",
-  "walking lunge (long stride)":
-    "18kg × 10-12/leg, RIR 2 — 16×12 across at RIR 2. Ready.",
-  "smith machine seated calf raise (soleus)":
-    "80kg × 15-20, RIR 2 — 15 across all four at RIR 2. Load found. Build toward 20 before adding.",
+    "20kg × 10-12, RIR 3 — NEW ROUND, first week back. Down from 25 after 7 weeks off. Shoulder-loaded: breathe through every rep.",
+  "hammer iso-lateral row (back)":
+    "85kg × 6-8, RIR 3 — reset from 100. Rebuild the groove for a week before chasing the old number.",
+  "db incline press (chest)":
+    "20kg per hand × 6-8, RIR 3 — NEW LIFT. Per hand, so the Hammer numbers don't transfer. Bench at 30°; expect to adjust after the first set.",
+  "lat pulldown, neutral (back)":
+    "55kg × 8-10, RIR 3 — reset from 62.5. Stop the set if you start leaning back.",
+  "hammer shoulder press":
+    "20kg/side × 8-10, RIR 3 — reset. If the machine is taken, use the note field so the DB numbers aren't read as progression.",
+  "cable triceps pushdown, rope":
+    "15kg × 10-12, RIR 3 — reset from 17.5. Elbows pinned to ribs.",
+  "incline db curl":
+    "6kg × 10-12, RIR 3 — reset from 8. Controlled tempo, no swing.",
+  "zone 2 cardio (off-day run)":
+    "30 min easy run on OFF days, 2-3×/week — the highest-value item in this program for you right now. Conversational pace throughout; log it here on the day you run.",
+
+  "pad-elevated deadlift (short rom)":
+    "90kg × 6, RIR 3 — NEW SETUP, start well under the old 125. Plates on pads, shorter pull, more upright. Reset the breath EVERY rep; put it down between reps.",
+  "hammer high row (back)":
+    "52.5kg × 10-12, RIR 3 — reset from 60. You hit failure here last round; stop with 3 left this week.",
+  "belt squat (spine-free)":
+    "110kg × 6-8, RIR 3 — reset from 130. 140 remains the ceiling where the arms take over.",
+  "bulgarian split squat":
+    "16kg × 8-10, RIR 3 — reset from 20. Balance limits this lift, not strength.",
   "day2::iso-lateral kneeling leg curl":
-    "STRENGTH DAY · 22.5kg × 8-10, RIR 2 — heavy and low. Deliberately different from the hypertrophy day.",
+    "STRENGTH DAY · 15kg × 8-10, RIR 3 — heavy and low. Deliberately different from Day 4.",
+  "single-leg calf raise on leg press":
+    "35kg × 10-12, RIR 3 — reset from 42.5. Full stretch at the bottom.",
+
+  "machine hip adduction (adductors)":
+    "NEW — find your load at 12-15 reps, RIR 3. Set a comfortable opening stretch, 3-sec return. Fills a real gap: adductors got nothing before this.",
+  "hammer iso-lat lat pulldown (back)":
+    "52.5kg × 10-12, RIR 3 — reset from 60. Full stretch at the top of every rep.",
+  "hammer flat press":
+    "52.5kg × 10-12, RIR 3 — reset from 60. No drop set this week; rebuild the base first.",
+  "db lateral raise":
+    "8kg × 10-12, RIR 3 — reset from 10. Lead with the elbow, no shrug.",
+  "overhead cable triceps ext.":
+    "12.5kg × 12-15, RIR 3 — reset from 15. Anchor the scapulae.",
+  "hammer curl":
+    "6kg × 12-15, RIR 3 — reset from 8. Build reps before load.",
+
+  "machine hip thrust (glute iso)":
+    "NEW MACHINE — find your load at 10-12 reps, RIR 3. The pad holds your torso, so the arm compensation that capped you at 90kg standing shouldn't appear. Ribs down at lockout.",
+  "cable lat pullover":
+    "15kg × 12-15, RIR 3 — reset from 17.5. You hit failure here last round; stop 3 short.",
+  "walking lunge (long stride)":
+    "14kg × 10-12/leg, RIR 3 — reset from 16. Long stride, torso tall.",
   "day4::iso-lateral kneeling leg curl":
-    "HYPERTROPHY DAY · 12.5kg × 15-18, RIR 2 — light and high. Both days ran 20×8 last week; that defeats the split."
+    "VOLUME DAY · 10kg × 15-18, RIR 3 — light and high, the opposite end from Day 2.",
+  "smith machine seated calf raise (soleus)":
+    "70kg × 15-20, RIR 3 — reset from 80. Knees at 90°, 2-sec pause at the bottom."
 };
 
 function applyCoachSuggestions() {
@@ -5507,12 +5946,17 @@ function applyCoachSuggestions() {
 migrateExerciseNames();
 applyCoachSuggestions();
 assignExerciseKeys();
+migrateExerciseKeys();
 decorateSets();
 renderAllCustomExercises();  // re-renders custom cards from state
 attachSetListeners();
 applyTheme(state.theme);
 renderSuggestionBanners();
 renderAllEffortControls();
+captureProgramOrder();
+reconcileLayouts();
+applyAllLayouts();
+attachSwipe();
 restoreSetUI();
 updateProgress();
 
