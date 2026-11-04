@@ -288,9 +288,21 @@ body {
   flex-wrap: wrap;
 }
 
+/* On the narrowest phones, buy the buttons a few px back from the gaps so a
+   5-set row still clears a 44px tap target. */
+@media (max-width: 374px) {
+  .sets { gap: 7px; }
+}
+
 .set {
-  width: 56px;
-  height: 56px;
+  /* Share the row instead of wrapping. Five sets at 320px would overflow at a
+     fixed 56px, so the buttons flex down and stay square via aspect-ratio,
+     capped at 56 so a 2-set exercise doesn't get giant buttons. */
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 56px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   border-radius: 14px;
   background: var(--surface-2);
   border: 2px solid var(--border);
@@ -821,6 +833,13 @@ body {
 .set .set-weight { display: none; }
 .set.done .set-num { font-size: 14px; line-height: 1; }
 .set .set-num { font-size: 22px; }
+
+/* Narrowest phones: a 5-set row shrinks the buttons to ~45px, and a logged
+   "107.5kg" has to still fit inside one. Must sit after the rule above to win
+   on source order. */
+@media (max-width: 374px) {
+  .set.done .set-weight { font-size: 8px; letter-spacing: -0.03em; }
+}
 
 /* ============ LOG VIEW (5th tab) ============ */
 .day.log-view { padding: 16px 14px 30px; }
