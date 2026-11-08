@@ -2222,6 +2222,60 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
 
 <main class="day" data-day="2" data-title="Body B · Weeknight" data-sub="The light night. Nothing heavy, nothing near failure.">
 
+                <div class="ex" data-rest="90" data-step="5" data-default-hidden="1">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">01</div>
+        <div class="ex-title">Horizontal Leg Press<span class="ex-tag">QUADS</span></div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p><strong>Why this exists:</strong> you reported needing a hand on the knee to finish hack squat reps, and said it's fatigue rather than the knee. Five hard quad sets back to back is the cause. This is the same weekly quad volume, moved to a second day so no single session has to carry it all.</p>
+          <p>The Life Fitness selectorized horizontal press, same station as your single-leg calf raise. Back flat against the pad, feet mid-platform about shoulder width.</p>
+          <p>Lower until the knees reach roughly 90°, or until <strong>the hips start to curl off the pad</strong> — whichever comes first. That curl is lumbar flexion under load and it is the real depth limit, not the machine's.</p>
+          <p>Drive through the whole foot. <strong>Exhale on the push, every rep.</strong> Don't lock the knees out at the top; stop just short and keep tension on the quads.</p>
+          <p>Seated and back-supported, so there's no axial load and no reason to brace hard. If a rep needs a held breath, the load is too high.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Quadriceps — primary</li>
+            <li>Glutes — secondary, more so the deeper you go</li>
+            <li>Adductors assist out of the bottom</li>
+            <li>Hamstrings contribute little; that's what the leg curl is for</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li><strong>Hips curling off the pad</strong> — that's your depth limit, stop above it</li>
+            <li>Locking the knees out at the top — rests the quads and risks the joint</li>
+            <li>Holding the breath — no need on a supported machine</li>
+            <li>Pushing through the toes — whole foot, heels down</li>
+            <li>Hands pulling on the handles to help — same compensation as a hand on the knee</li>
+            <li>Knees caving inward under load</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="ex priority" data-rest="90" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
@@ -2271,56 +2325,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex" data-rest="60" data-step="2.5">
-    <div class="ex-head">
-      <div class="ex-row1">
-        <div class="ex-num">08</div>
-        <div class="ex-title">Single-Leg Calf Raise on Leg Press</div>
-      </div>
-      <div class="ex-targets">
-        <span>5 sets</span><span class="sep">·</span>
-        <span class="reps">10–12 / leg</span><span class="sep">·</span>
-        <span>1 min</span>
-      </div>
-      <div class="sets">
-        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div><div class="set">5</div>
-      </div>
-      <div class="actions">
-        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
-      </div>
-    </div>
-    <div class="detail">
-      <div class="detail-inner">
-        <div class="tabs">
-          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
-          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
-          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
-        </div>
-        <div class="tab-content exec-content active">
-          <p>On lying leg press. Place <strong>ball of one foot</strong> on bottom edge of platform — heel free to drop below platform edge. Other leg crosses behind or rests aside. <strong>Knee nearly straight (5° bend, locked)</strong> — this biases gastrocnemius. Fully locked overstretches, fully bent removes gastroc.</p>
-          <p>Drop heel toward floor for <em>2-sec pause at full stretch</em> — this is where gastroc grows. Drive up onto big toe to full plantar flexion, 1-sec squeeze at top. Slow tempo. The 2-sec pause kills the stretch-shortening cycle so muscle does the work, not tendon.</p>
-          <p>Unilateral = better stimulus per leg, exposes/fixes side-to-side imbalances.</p>
-        </div>
-        <div class="tab-content act-content">
-          <ul class="bullet-list">
-            <li>Gastrocnemius (medial + lateral heads)</li>
-            <li>Knee mostly straight = gastroc focus</li>
-            <li>Single-leg loading exposes weak-side asymmetry</li>
-          </ul>
-        </div>
-        <div class="tab-content comp-content">
-          <ul class="bullet-list">
-            <li>Bouncing — calves are 70% tendon, bouncing skips muscle work</li>
-            <li>Knee bending under load — shifts work to soleus</li>
-            <li>Rolling to outer foot — push through big toe</li>
-            <li>Cutting the stretch — deep stretch is the growth signal</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="ex priority" data-rest="90" data-step="2.5">
+  <div class="ex" data-rest="90" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">02</div>
@@ -2366,7 +2371,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex priority" data-rest="120" data-step="2.5">
+    <div class="ex" data-rest="120" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">03</div>
@@ -2413,10 +2418,59 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex" data-rest="60" data-step="2">
+  <div class="ex" data-rest="60" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">04</div>
+        <div class="ex-title">Single-Leg Calf Raise on Leg Press</div>
+      </div>
+      <div class="ex-targets">
+        <span>5 sets</span><span class="sep">·</span>
+        <span class="reps">10–12 / leg</span><span class="sep">·</span>
+        <span>1 min</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div><div class="set">5</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>On lying leg press. Place <strong>ball of one foot</strong> on bottom edge of platform — heel free to drop below platform edge. Other leg crosses behind or rests aside. <strong>Knee nearly straight (5° bend, locked)</strong> — this biases gastrocnemius. Fully locked overstretches, fully bent removes gastroc.</p>
+          <p>Drop heel toward floor for <em>2-sec pause at full stretch</em> — this is where gastroc grows. Drive up onto big toe to full plantar flexion, 1-sec squeeze at top. Slow tempo. The 2-sec pause kills the stretch-shortening cycle so muscle does the work, not tendon.</p>
+          <p>Unilateral = better stimulus per leg, exposes/fixes side-to-side imbalances.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Gastrocnemius (medial + lateral heads)</li>
+            <li>Knee mostly straight = gastroc focus</li>
+            <li>Single-leg loading exposes weak-side asymmetry</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Bouncing — calves are 70% tendon, bouncing skips muscle work</li>
+            <li>Knee bending under load — shifts work to soleus</li>
+            <li>Rolling to outer foot — push through big toe</li>
+            <li>Cutting the stretch — deep stretch is the growth signal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ex" data-rest="60" data-step="2">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">05</div>
         <div class="ex-title">DB Lateral Raise</div>
       </div>
       <div class="ex-targets">
@@ -2459,23 +2513,23 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex" data-rest="60" data-step="2">
+  <div class="ex" data-rest="90" data-step="2">
     <div class="ex-head">
       <div class="ex-row1">
-        <div class="ex-num">05</div>
+        <div class="ex-num">06</div>
         <div class="ex-title">Incline DB Curl</div>
       </div>
       <div class="ex-targets">
         <span>3 sets</span><span class="sep">·</span>
         <span class="reps">10–12 reps</span><span class="sep">·</span>
-        <span>1 min</span>
+        <span>1:30</span>
       </div>
       <div class="sets">
         <div class="set">1</div><div class="set">2</div><div class="set">3</div>
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
       </div>
     </div>
     <div class="detail">
@@ -2505,54 +2559,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex" data-rest="60" data-step="2">
-    <div class="ex-head">
-      <div class="ex-row1">
-        <div class="ex-num">06</div>
-        <div class="ex-title">Hammer Curl</div>
-      </div>
-      <div class="ex-targets">
-        <span>3 sets</span><span class="sep">·</span>
-        <span class="reps">12–15 reps</span><span class="sep">·</span>
-        <span>1 min</span>
-      </div>
-      <div class="sets">
-        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
-      </div>
-      <div class="actions">
-        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(60)"><span class="btn-icon">⏱</span>Rest 1:00</button>
-      </div>
-    </div>
-    <div class="detail">
-      <div class="detail-inner">
-        <div class="tabs">
-          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
-          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
-          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
-        </div>
-        <div class="tab-content exec-content active">
-          <p>Neutral grip throughout (palms facing each other). Stand tall, shoulders pulled back. <strong>Elbows pinned to ribs the entire set.</strong></p>
-          <p>Curl by flexing elbow only — humerus does not move. Full ROM up, 1-sec squeeze, <em>3-sec eccentric to full extension</em>. Don't relax at bottom.</p>
-        </div>
-        <div class="tab-content act-content">
-          <ul class="bullet-list">
-            <li>Brachialis primary — sits between biceps and humerus, pushes biceps up = thicker arm</li>
-            <li>Brachioradialis (forearm)</li>
-            <li>Biceps long head secondary</li>
-          </ul>
-        </div>
-        <div class="tab-content comp-content">
-          <ul class="bullet-list">
-            <li>Elbows drifting forward — anterior delt assists</li>
-            <li>Swinging — momentum cheating</li>
-            <li>Cutting bottom range — brachialis stretch is the growth signal</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="ex" data-rest="60" data-log-mode="cardio">
+<div class="ex" data-rest="60" data-log-mode="cardio">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">CV</div>
@@ -2681,7 +2688,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">01</div>
-        <div class="ex-title">Pad-Elevated Deadlift<span class="ex-tag">SHORT ROM</span></div>
+        <div class="ex-title">Romanian Deadlift<span class="ex-tag">PAD-ELEVATED</span></div>
       </div>
       <div class="ex-targets">
         <span>4 sets</span><span class="sep">·</span>
@@ -2704,11 +2711,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
           <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
         </div>
         <div class="tab-content exec-content active">
-          <p><strong>Why elevated:</strong> standing the plates on pads or blocks raises the bar 5–10cm, which shortens the pull and keeps the torso more upright. Less range out of the bottom means less of the deep-hinge strain where breath-holding is hardest to avoid.</p>
-          <p><strong>Be clear what it does and doesn't do:</strong> the elevation reduces range and improves position. It does <em>not</em> reduce bracing on its own — that comes from keeping the load moderate. Submaximal is the point of this slot.</p>
-          <p>Bar over mid-foot, shins close. Hinge back, chest up, ribs down. <em>Pull the slack out of the bar</em> before anything moves — lats tight, no jerk off the floor.</p>
-          <p>Half-breath into the belly, <strong>not a maximal breath-hold</strong>. Eyes on a point 2m ahead, neutral neck. Push the floor away; hips and shoulders rise together.</p>
-          <p><strong>Reset the breath between every single rep.</strong> Exhale as the bar passes the knees. Put it down, breathe, reset, go again — no touch-and-go sets.</p>
+          <p><strong>Renamed to match what you actually did.</strong> You ran this as an RDL on Nov 8, and that is the better lift here — the hamstrings get loaded through a stretch instead of a floor pull, and it carries far less systemic cost than a conventional deadlift.</p>
+          <p>Start standing, bar at the hips. Push the hips <em>back</em>, not down. Bar stays in contact with the thighs the whole way. Soft knees, but the knees do not travel forward — this is a hinge, not a squat.</p>
+          <p>Lower until you feel a strong hamstring stretch, usually mid-shin with the plates on pads. <strong>Stop when the back wants to round, not when the bar reaches a height.</strong> That point is the bottom of your range and it will move as your hamstrings loosen.</p>
+          <p>Drive the hips forward to stand. Exhale on the way up, every rep.</p>
+          <p><strong>Don't hold at the top.</strong> A loaded pause standing upright is a static brace, which is exactly where a held breath creeps in — and it adds nothing to a hamstring exercise, because the hard part is the stretch at the bottom. Reach the top, breathe, go again.</p>
         </div>
         <div class="tab-content act-content">
           <ul class="bullet-list">
@@ -2720,12 +2727,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         </div>
         <div class="tab-content comp-content">
           <ul class="bullet-list">
-            <li><strong>Holding the breath through a set — the single thing to avoid here.</strong> Reset every rep</li>
-            <li>Grinding a maximal rep. Stop the set instead; this slot is not for testing</li>
-            <li>Hips shooting up first — turns it into a stiff-leg</li>
-            <li>Head dropping toward the floor or craning at the ceiling</li>
-            <li>Bar drifting away from the shins</li>
-            <li>Belt cinched tight enough to restrict breathing</li>
+            <li><strong>Pausing/holding at the top under load</strong> — invites a held breath for no benefit</li>
+            <li>Turning it into a squat — knees drifting forward kills the hamstring stretch</li>
+            <li>Bar drifting away from the thighs — loads the lower back instead</li>
+            <li>Chasing depth past where the back rounds</li>
+            <li>Bouncing out of the bottom instead of controlling it</li>
+            <li>Any rep that needs a held breath — that's the load ceiling, whatever it feels like</li>
           </ul>
         </div>
       </div>
@@ -2738,16 +2745,16 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <div class="ex-title">Belt Squat<span class="ex-tag">SPINE-FREE</span></div>
       </div>
       <div class="ex-targets">
-        <span>5 sets</span><span class="sep">·</span>
+        <span>4 sets</span><span class="sep">·</span>
         <span class="reps">8–10 reps</span><span class="sep">·</span>
         <span>3 min</span>
       </div>
       <div class="sets">
-        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div><div class="set">5</div>
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div>
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
-        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3:00</button>
+        <button class="btn primary" onclick="startTimer(180)"><span class="btn-icon">⏱</span>Rest 3 min</button>
       </div>
     </div>
     <div class="detail">
@@ -2938,12 +2945,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
         <div class="ex-title">Smith Machine Seated Calf Raise<span class="ex-tag">SOLEUS</span></div>
       </div>
       <div class="ex-targets">
-        <span>5 sets</span><span class="sep">·</span>
+        <span>3 sets</span><span class="sep">·</span>
         <span class="reps">12–15 reps</span><span class="sep">·</span>
         <span>1 min</span>
       </div>
       <div class="sets">
-        <div class="set">1</div><div class="set">2</div><div class="set">3</div><div class="set">4</div><div class="set">5</div>
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
       </div>
       <div class="actions">
         <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
@@ -2985,7 +2992,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex" data-rest="60" data-step="2">
+  <div class="ex" data-rest="60" data-step="2" data-default-hidden="1">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">04</div>
@@ -3078,7 +3085,54 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-  <div class="ex" data-rest="60">
+  <div class="ex" data-rest="90" data-step="2" data-default-hidden="1">
+    <div class="ex-head">
+      <div class="ex-row1">
+        <div class="ex-num">06</div>
+        <div class="ex-title">Hammer Curl</div>
+      </div>
+      <div class="ex-targets">
+        <span>3 sets</span><span class="sep">·</span>
+        <span class="reps">12–15 reps</span><span class="sep">·</span>
+        <span>1:30</span>
+      </div>
+      <div class="sets">
+        <div class="set">1</div><div class="set">2</div><div class="set">3</div>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="toggleDetail(this)"><span class="btn-icon">↓</span>Details</button>
+        <button class="btn primary" onclick="startTimer(90)"><span class="btn-icon">⏱</span>Rest 1:30</button>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="detail-inner">
+        <div class="tabs">
+          <button class="tab exec-tab active" onclick="switchTab(this, 'exec')">How</button>
+          <button class="tab act-tab" onclick="switchTab(this, 'act')">Engage</button>
+          <button class="tab comp-tab" onclick="switchTab(this, 'comp')">Avoid</button>
+        </div>
+        <div class="tab-content exec-content active">
+          <p>Neutral grip throughout (palms facing each other). Stand tall, shoulders pulled back. <strong>Elbows pinned to ribs the entire set.</strong></p>
+          <p>Curl by flexing elbow only — humerus does not move. Full ROM up, 1-sec squeeze, <em>3-sec eccentric to full extension</em>. Don't relax at bottom.</p>
+        </div>
+        <div class="tab-content act-content">
+          <ul class="bullet-list">
+            <li>Brachialis primary — sits between biceps and humerus, pushes biceps up = thicker arm</li>
+            <li>Brachioradialis (forearm)</li>
+            <li>Biceps long head secondary</li>
+          </ul>
+        </div>
+        <div class="tab-content comp-content">
+          <ul class="bullet-list">
+            <li>Elbows drifting forward — anterior delt assists</li>
+            <li>Swinging — momentum cheating</li>
+            <li>Cutting bottom range — brachialis stretch is the growth signal</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ex" data-rest="60" data-default-hidden="1">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">09</div>
@@ -3131,7 +3185,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible {
       </div>
     </div>
   </div>
-    <div class="ex" data-rest="90" data-step="2.5" data-default-hidden="1">
+    <div class="ex" data-rest="90" data-step="2.5">
     <div class="ex-head">
       <div class="ex-row1">
         <div class="ex-num">08</div>
@@ -4976,7 +5030,8 @@ function formatDate(iso) {
 
 const NAME_MIGRATIONS = [
   { from: 'pendulum squat (quad isolation)', to: 'Hack Squat (QUAD ISOLATION)' },
-  { from: 'smith machine seated calf raise', to: 'Calf Raise on Leg Press (BOTH LEGS)', before: '2026-08-16' }
+  { from: 'smith machine seated calf raise', to: 'Calf Raise on Leg Press (BOTH LEGS)', before: '2026-08-16' },
+  { from: 'pad-elevated deadlift (short rom)', to: 'Romanian Deadlift (PAD-ELEVATED)' }
 ];
 
 function migrationFor(name, date) {
@@ -4986,7 +5041,7 @@ function migrationFor(name, date) {
 }
 
 function migrateExerciseNames() {
-  if (state.nameMigration >= 2) return;
+  if (state.nameMigration >= 3) return;
   state.sessions.forEach(s => (s.exercises || []).forEach(ex => {
     const m = migrationFor(ex.name, s.date);
     if (m) ex.name = m.to;
@@ -5001,7 +5056,7 @@ function migrateExerciseNames() {
     delete state.suggestions[k];
     if (state.suggestionOverrides) delete state.suggestionOverrides[k];
   });
-  state.nameMigration = 2;
+  state.nameMigration = 3;
   saveState();
 }
 
@@ -5625,6 +5680,8 @@ const MUSCLE_MAP = {
   'smith machine seated calf raise':      { calves: 1 },
   'hanging knee raise':                   { core: 1 },
   'hanging knee raise (core)':            { core: 1 },
+  'horizontal leg press':                 { quads: 1, glutes: 0.5 },
+  'horizontal leg press (quads)':         { quads: 1, glutes: 0.5 },
   'cable crunch':                         { core: 1 }
 };
 
@@ -5916,7 +5973,7 @@ function importJSON(input) {
   } catch (e) { /* install is a bonus, never block the app */ }
 })();
 
-const PROGRAM_REV = 8;
+const PROGRAM_REV = 11;
 
 /* One-time migration for the three-day full-body restructure.
    Several exercises changed day (Hammer Flat Press moved 3->2, Machine Hip
@@ -5985,82 +6042,79 @@ function migrateProgramRev() {
   saveState();
 }
 
-const SUGGESTIONS_REV = 8;
+const SUGGESTIONS_REV = 11;
 
-/* Rev 8 — reconciled against Jeff Nippard's published positions.
-   The one that mattered: he puts the productive range at 0-3 RIR and wants
-   most working sets at 1-2, so a blanket RIR 3 was sitting at the outer edge
-   for two thirds of the weekly volume. But his other rule — don't grind the
-   heavy compounds, do push the low-risk machines and cables — maps almost
-   exactly onto the 9pm sleep constraint, because the arousal-expensive lifts
-   are the ones he already says to leave alone. So RIR is now split by lift
-   rather than by day: heavy and axial stays conservative, machines and
-   isolations go to 1. RIR governs; the load is a starting point. */
+/* Rev 11 — first complete week on the three-day split.
+   Sessions ran about 20% longer than the per-set model predicted, so Body C
+   has been cut from 32 sets to 27; it was overrunning and the last exercises
+   were getting dropped. Loads progress normally this round. */
 const coachSuggestions = {
 
-  /* ===== RIR 2-3 — heavy, axial, or technique-limited ===== */
+  /* ===== BODY A ===== */
   "hack squat (quad isolation)":
-    "20kg × 10-12 × 5 sets, RIR 2-3 — first legs since August, so a re-entry load rather than a test. Stays conservative because the load sits on your shoulders; this is the one lift where going hard costs more than it buys. Exhale through every rep.",
-  "pad-elevated deadlift (short rom)":
-    "100kg × 6-8, RIR 2-3 — no data on this setup yet, and you asked not to progress it quickly. Worth knowing: Nippard tiers the conventional deadlift C for back and quads, B for glutes — 'good glute builder, but fatiguing.' It's the weakest stimulus-to-fatigue ratio in the program AND the one with the pressure concern, so if you ever want to drop it, you'd lose very little. Reset the breath every rep; set it down between reps.",
-  "belt squat (spine-free)":
-    "105kg × 8-10 × 5 sets, RIR 2-3 — fifth set added, which brings quads to 10/week. Down from 125×8×4 in August because that was ten weeks ago. Spine-free and no shoulder load, which is why your heavy squatting lives here. 140 remains the ceiling where the arms take over.",
-
-  /* ===== RIR 2 — loaded presses and the hip thrust ===== */
-  "day1::db incline press (chest)":
-    "30kg per hand (60kg total) × 8, RIR 2 — your number, above what I'd read from the logs; I'd been treating the logged 56kg as combined. Free-weight press overhead of your face, so it stays at 2 rather than 1. Keeps the 2:30 rest — two minutes won't hold this across four sets.",
-  "hammer shoulder press":
-    "25kg/side × 10-12, RIR 2 — the 22.5→27.5 jump on Oct 28 was 22% in one step and reps fell 10→5. 25 is the increment this machine takes. Overhead pressing invites breath-holding, so this one doesn't go to 1.",
-  "machine hip thrust (glute iso)":
-    "70kg × 8-10, RIR 2 — NEW MACHINE, below the 80 you ran standing. The torso pad should remove the arm compensation that capped you; confirm that before adding load. 90kg stays the ceiling, and loaded bridging invites a held breath, so not to 1.",
-
-  /* ===== RIR 1 — machines, cables, isolations. Push these. ===== */
+    "20kg × 10-12 × 5 sets, RIR 3 — unchanged. The hand-on-knee note was your own form cue, not a problem, so the five sets stay. Load holds anyway: first legs since August, and this is the one lift where the weight sits on your shoulders.",
+  "horizontal leg press (quads)":
+    "In the tray — find your load at 12-15, RIR 1. Not part of the program; it's there if you ever want quad volume above the 9 sets a week the hack squat and belt squat give you. Same station as your single-leg calf raise, so it costs about six minutes. Depth limit is where the hips start curling off the pad.",
   "hammer iso-lateral row (back)":
-    "105kg × 8-10, RIR 1 — same load you held at RIR 2 on Oct 27, now going one rep deeper instead of stopping three short. Chest-supported machine: no axial load, no breath-holding, nothing to gain by holding back.",
-  "hammer iso-lat lat pulldown (back)":
-    "65kg × 10-12, RIR 1 — up 2.5. You held 62.5×10 across all four sets on Oct 22 with no rep drop. Stop the set if you start leaning back.",
-  "hammer high row (back)":
-    "57.5kg × 10-12, RIR 1 — holding the load. Oct 22 ran 10,10,10,7; earn all four sets at 10 before the next step.",
-  "hammer flat press":
-    "55kg × 10-12, RIR 1 — holding, not progressing. On Oct 22 this went 60×8 → 60×7 → 55×6: load backwards and reps still falling, which is a failed lift rather than pacing. Stay at 55 until all four sets reach 10. Machine press with a back pad, so this is one to actually push.",
-  "day3::db incline press (chest)":
-    "24kg per hand (48kg total) × 10-12, RIR 1 — the volume exposure at four-fifths of your weeknight load. Lighter and a weekend morning, so it can go deeper than the Day 1 version.",
-  "day2::iso-lateral kneeling leg curl":
-    "12.5kg × 12-15 × 5 sets, RIR 1 — up from 3 sets. Hamstrings were at 7.75/week, under the 10-set floor; this plus the deadlift brings them to 9.75.",
-  "single-leg calf raise on leg press":
-    "37.5kg × 10-12/leg × 5 sets, RIR 1 — back in the program and at slot 2, because calves were the thing that kept getting dropped from the end. Straight knee, so this is the gastrocnemius half the seated raise doesn't cover. August logged 37.5×10×4 to failure every set; one short of that is the target now.",
-  "smith machine seated calf raise (soleus)":
-    "60kg × 12-15 × 5 sets, RIR 1 — up 5 from 55×15×4 at RIR 3, which was too easy to count. Fifth set added; calves now sit at 10/week. Knees at 90°, 2-sec pause at the bottom.",
-  "machine hip adduction (adductors)":
-    "NEW — find your load at 12-15, RIR 1. Comfortable opening stretch, 3-sec return. First direct adductor work in the program; expect the first session to be calibration.",
+    "107.5kg × 8-10, RIR 1 — up 2.5. You held 105×8 across all four sets at RIR 1 on Nov 4, which is the cleanest progression in the program right now.",
+  "day1::db incline press (chest)":
+    "30kg per hand × 8, dropping to 28kg when it breaks — exactly what you did on Nov 4 (30, 30, then 28, 28). That's the right call, not a failure. Keep opening at 30; when the third set won't give you 8, take 2kg off. Move to 32 once you get four clean sets at 30.",
+  "machine hip thrust (glute iso)":
+    "90kg × 8-10, RIR 2 — up 10. You ran 80 at RIR 3 with reps climbing 8→10→10, so there's clear headroom, and the machine pad has removed the arm compensation that capped you on the standing version. 90 was the old ceiling precisely because of that compensation; if it stays absent, the ceiling goes with it.",
+  "hammer shoulder press":
+    "25kg/side × 10-12, RIR 2 — hold. Nov 4 gave 10, 10, 8. Earn 10 on all three before 27.5, which is where it fell apart last time.",
   "cable triceps pushdown, rope":
-    "21.25kg × 10-12, RIR 1 — hold the load, add the third set. Only two logged on Oct 28.",
-  "overhead cable triceps ext.":
-    "15kg × 12-15, RIR 1 — BACK IN, on the weekend session. Nippard tiers the overhead cable extension S+ for triceps because overhead is the lengthened position for the long head, which is most of the muscle. Retiring this for session length was the wrong trade; triceps were at the 10-set floor without it.",
+    "23.75kg × 10-12, RIR 1 — up one plate. 21.25 gave 12, 12, 10 at RIR 2, and this is a cable, so it should be running at 1.",
+
+  /* ===== BODY B ===== */
+  "day2::iso-lateral kneeling leg curl":
+    "17.5kg × 12-15, RIR 1 — up 5. Five sets of 12 at 15kg with a rep in reserve is a load that's ready to move.",
+  "single-leg calf raise on leg press":
+    "45kg × 10-12 × 5 sets, RIR 1 — up 5. You logged RIR 3 against a prescribed RIR 1, and five sets of 12 with three left over is three sets' worth of wasted effort. Calves respond to being taken close to failure more than most muscles.",
+  "hammer iso-lat lat pulldown (back)":
+    "67.5kg × 10-12, RIR 1 — up 2.5. Four sets of 12 at RIR 2 clears the bar.",
+  "hammer flat press":
+    "57.5kg × 10-12, RIR 1 — UP 2.5, finally. The rule was all four sets at 10 before moving, and Nov 7 gave 12, 10, 10, 10. First progression on this lift since August, after it went backwards in October.",
   "day2::db lateral raise":
-    "10kg × 12-15, RIR 1 — hold and build reps. You got 10,10,10,8 on Oct 22; finish all four at 10 before adding.",
-  "day3::db lateral raise":
-    "8kg × 12-15, RIR 1 — second weekly exposure. Direct side-delt work was 3 sets a week on one day; it's 6 across two now. Use the cable version if a station is free — Nippard rates cable lateral raise S tier and the standing dumbbell only B, because the cable keeps tension at the bottom.",
+    "10kg × 12-15, RIR 1 — hold. Three sets of 10 at RIR 1 means the load is right but the reps aren't there yet. Get 12 on all three before 12kg.",
   "incline db curl":
-    "8kg × 10-12, RIR 1 — hold, add the third set. Incline puts the biceps in the lengthened position, so this one earns its slot.",
-  "hammer curl":
-    "10kg × 12-15, RIR 1 — up 2. You got 15,15,10 at 8kg on Oct 22.",
-  "hanging knee raise (core)":
-    "Bodyweight × 12-15 × 2 sets, RIR 1 — NEW, and the program's first direct core work. Hanging rather than a cable crunch on purpose: head stays above the heart and there's no spinal compression. The pelvic tuck is the rep; stop when the tuck goes, not when the knees stop rising.",
+    "8kg × 10-12, RIR 1 — load unchanged, REST NOW 90s instead of 60. Nov 7 went 10, 5, 5, which isn't a strength problem, it's a recovery problem: 60 seconds isn't enough between curl sets at the end of a session.",
+
+  /* ===== BODY C — cut from 32 sets to 27 ===== */
+  "romanian deadlift (pad-elevated)":
+    "110kg × 6-8, RIR 2 — up 10, and renamed, because you ran it as an RDL and that's the better lift here. 100×8×4 at RIR 3 was comfortably submaximal. One correction: don't hold at the top. A loaded standing pause is a static brace where a held breath creeps in, and it adds nothing — the hamstring work is all in the stretch at the bottom.",
+  "belt squat (spine-free)":
+    "110kg × 8-10 × 4 sets, RIR 2 — up 5, down a set to help Body C fit. Noted on the ceiling: the 140 number is gone. The rule it stood for isn't — if the arms start taking load, that's the cap, wherever the number lands.",
+  "hammer high row (back)":
+    "62.5kg × 10-12, RIR 1 — up 2.5. Four clean sets of 10 at 60.",
+  "day3::db incline press (chest)":
+    "28kg per hand × 10-12, RIR 1 — up 2. You logged 26 for 10, 10, 12 at RIR 3 against a prescribed RIR 1, so this was running three reps too easy.",
+  "cable lat pullover":
+    "20kg × 12-15, RIR 1 — up 2.5, and OUT OF THE TRAY, since you swiped it back in on Nov 8 and ran three clean sets. It's a program exercise again.",
+  "machine hip adduction (adductors)":
+    "30kg × 12-15, RIR 1 — up from the 26.25 you calibrated at. Three sets of 12 at RIR 2 on the first exposure means the load was conservative, which was the right way to start.",
+  "smith machine seated calf raise (soleus)":
+    "60kg × 12-15 × 3 sets, RIR 1 — back to 3 sets from 5. You only got one set in before running out of time, so this is the exercise the overrun was costing you.",
+  "overhead cable triceps ext.":
+    "15kg × 12-15, RIR 1 — hold. 12, 11, 10 at RIR 1 is a load working exactly as intended.",
 
   /* ===== conditioning ===== */
   "zone 2 cardio (off-day run)":
-    "30 min easy run on OFF days, 2-3×/week — not part of a lifting night; this card is here to log the run. Nothing logged in the last 14 days. It's the item with a medical reason behind it, it doesn't depend on getting to the gym, and unlike heavy lifting it won't cost you sleep. In a week with room for only two things, make them a run and one lifting session.",
+    "30 min easy, 2-3×/week on OFF days. Log the run here on the day you do it. Keep it conversational — this is the session that should feel like it took nothing out of you. Easy running is far gentler on sleep than lifting, but finishing one late still pushes the night back, so earlier in the day is better where the schedule allows.",
 
-  /* ===== removed tray — kept so nothing comes back blank ===== */
+  /* ===== removed tray ===== */
+  "hammer curl":
+    "8kg × 12-15, RIR 1 — MOVED to Body C and parked in the tray. You were right to flag it: it sat directly after the incline curl, six straight biceps sets at the end of a session, and both collapsed (10/5/5 and 10/4/4). It now lives on a different day, so swiping it back can't recreate that stack.",
+  "day3::db lateral raise":
+    "8kg × 12-15, RIR 1 — in the tray. This was the second side-delt exposure, and it's the main casualty of cutting Body C to fit 80 minutes. Direct side-delt work is back down to 3 sets a week. Swipe it in on any day you have a spare five minutes.",
+  "hanging knee raise (core)":
+    "Bodyweight × 12-15 × 2 sets, RIR 1 — in the tray. You didn't reach it on Nov 8, which told me where it ranked against the clock.",
   "lat pulldown, neutral (back)":
-    "70kg × 6-8, RIR 1 — in the removed tray to bring back volume down from 20 sets/week. Swipe back if you want it; you were at 70×6×3 on Oct 28.",
+    "55kg × 8-10, RIR 1 — in the tray. Back volume sits at 17 sets with the pullover restored, so this stays out unless something else goes.",
   "bulgarian split squat":
-    "16kg × 8-10/leg, RIR 2 — in the tray. Balance limits this rather than strength, and the belt squat covers the same ground faster.",
-  "cable lat pullover":
-    "17.5kg × 12-15, RIR 1 — in the tray to keep back volume in range. Swipe back any time.",
+    "16kg × 8-10/leg, RIR 2 — in the tray. Balance limits this rather than strength, and the belt squat covers the ground faster.",
   "walking lunge (long stride)":
-    "14kg × 10-12/leg, RIR 2 — in the tray; the belt squat and hip thrust cover this ground in less time."
+    "14kg × 10-12/leg, RIR 2 — in the tray; the belt squat and hip thrust cover this in less time."
 };
 
 function applyCoachSuggestions() {
