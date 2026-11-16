@@ -1046,6 +1046,34 @@ body {
   font-weight: 500;
   letter-spacing: 0.005em;
 }
+/* The prescription is what gets read mid-set, so it carries the weight;
+   last session sits under it for comparison, reasoning below that. */
+.ex-suggest-do {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  margin-bottom: 5px;
+}
+.ex-suggest-last {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+.ex-suggest-last b {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-right: 6px;
+}
+.ex-suggest-why {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink);
+  letter-spacing: 0.005em;
+}
 .ex-suggest-edit {
   background: transparent;
   border: none;
@@ -4378,6 +4406,23 @@ function getSuggestion(key) {
   return state.suggestions[suggestKey(key)] || null;
 }
 
+/* Coach suggestions are stored as plain text so the EDIT box stays a plain
+   textarea, but a three-line convention lets the card separate the
+   prescription from the history. Anything not in that shape renders as
+   before, so older hand-edited suggestions keep working. */
+function parseSuggestion(text) {
+  if (!/^THIS WEEK:/m.test(text)) return null;
+  const out = { doIt: '', last: '', why: '' };
+  const field = { 'THIS WEEK': 'doIt', 'LAST TIME': 'last', 'WHY': 'why' };
+  let cur = null;
+  text.split('\n').forEach(line => {
+    const m = /^(THIS WEEK|LAST TIME|WHY):\s*(.*)$/.exec(line.trim());
+    if (m) { cur = field[m[1]]; out[cur] = m[2]; }
+    else if (cur && line.trim()) out[cur] += ' ' + line.trim();
+  });
+  return out.doIt ? out : null;
+}
+
 function renderSuggestionBanners() {
   document.querySelectorAll('.day .ex').forEach(ex => {
     const name = getExerciseName(ex);
@@ -4401,7 +4446,24 @@ function renderSuggestionBanners() {
         </div>
         <button class="ex-suggest-edit" type="button">EDIT</button>
       `;
-      banner.querySelector('.ex-suggest-text').textContent = text;
+      const parts = parseSuggestion(text);
+      if (parts) {
+        const body = banner.querySelector('.ex-suggest-body');
+        body.querySelector('.ex-suggest-text').remove();
+        const mk = (cls, txt, label) => {
+          if (!txt) return;
+          const el = document.createElement('div');
+          el.className = cls;
+          if (label) { const b = document.createElement('b'); b.textContent = label; el.appendChild(b); }
+          el.appendChild(document.createTextNode(txt));
+          body.appendChild(el);
+        };
+        mk('ex-suggest-do', parts.doIt);
+        mk('ex-suggest-last', parts.last, 'LAST');
+        mk('ex-suggest-why', parts.why);
+      } else {
+        banner.querySelector('.ex-suggest-text').textContent = text;
+      }
       banner.querySelector('.ex-suggest-edit').onclick = () => openSuggestModal(key, name);
       targetsEl.insertAdjacentElement('afterend', banner);
     } else {
@@ -4472,6 +4534,14 @@ function clearSuggestion() {
   showToast('Suggestion cleared');
 }
 
+/* The Log tab lists every suggestion; there it only needs the prescription,
+   not the reasoning behind it. */
+function summariseSuggestion(text) {
+  const p = parseSuggestion(text);
+  if (!p) return text;
+  return p.doIt + (p.last ? `   (last: ${p.last})` : '');
+}
+
 function renderSuggestSummary() {
   const root = document.getElementById('suggest-summary');
   if (!root) return;
@@ -4484,7 +4554,7 @@ function renderSuggestSummary() {
     <div class="lib-card">
       <div class="lib-info">
         <div class="lib-name">${escapeHtml(k.includes('::') ? titleCase(k.split('::')[1]) + ' · Day ' + k.match(/^day(\d+)/)[1] : titleCase(k))}</div>
-        <div class="lib-meta" style="white-space:normal;line-height:1.4;margin-top:2px;color:var(--ink-2);text-transform:none;letter-spacing:0;font-size:11px;">${escapeHtml(text)}</div>
+        <div class="lib-meta" style="white-space:normal;line-height:1.4;margin-top:2px;color:var(--ink-2);text-transform:none;letter-spacing:0;font-size:11px;">${escapeHtml(summariseSuggestion(text))}</div>
       </div>
       <div class="lib-actions">
         <button class="lib-btn danger" onclick="quickClearSuggestion('${escapeJs(k)}')">CLEAR</button>
@@ -5864,79 +5934,133 @@ function migrateProgramRev() {
   saveState();
 }
 
-const SUGGESTIONS_REV = 13;
+const SUGGESTIONS_REV = 16;
 
-/* Rev 11 — first complete week on the three-day split.
-   Sessions ran about 20% longer than the per-set model predicted, so Body C
-   has been cut from 32 sets to 27; it was overrunning and the last exercises
-   were getting dropped. Loads progress normally this round. */
+/* Rev 16 — every prescription restructured into THIS WEEK / LAST TIME / WHY.
+   The previous format buried the number to lift inside the reasoning, which
+   is unreadable between sets. The card now renders the three parts
+   separately: prescription large, last session beneath it, reasoning below. */
 const coachSuggestions = {
 
   /* ===== BODY A ===== */
   "hack squat (quad isolation)":
-    "22.5kg × 10-12 × 5 sets, RIR 3 — UP 2.5, first increase since legs came back. You logged 'no more hand on knee' across all five sets, which was the condition for moving. Same stop rule if it returns.",
-  "horizontal leg press (quads)":
-    "In the tray — find your load at 12-15, RIR 1. Not part of the program; it's there if you ever want quad volume above the 9 sets a week the hack squat and belt squat give you. Same station as your single-leg calf raise, so it costs about six minutes. Depth limit is where the hips start curling off the pad.",
+    "THIS WEEK: 22.5kg × 10-12 × 5 sets · RIR 3\n" +
+    "LAST TIME: 20kg × 10,10,10,10,10 · RIR 3\n" +
+    "WHY: Up 2.5, the first increase since legs came back. You logged 'no more hand on knee' across all five sets, which was the condition for moving. Same stop rule if it returns: hand touches knee, set is over.",
   "hammer iso-lateral row (back)":
-    "110kg × 8-10, RIR 1 — HOLDING, at your call. You went to 110 and got 9,9,8,8, and wrote that you want to stay and work on form and range. Agreed, and it is the right instinct at this load: 110 for 9 reps is a 36% jump since August. Earn 9-10 on all four with full range before the next step.",
+    "THIS WEEK: 110kg × 8-10 × 4 sets · RIR 1\n" +
+    "LAST TIME: 110kg × 9,9,8,8 · RIR 1\n" +
+    "WHY: Holding, at your call — you asked to stay and work on form and range. Right instinct at this load: 110 for 9 reps is a 36% jump since August. Earn 9-10 on all four at full range before the next step.",
   "day1::db incline press (chest)":
-    "30kg per hand × 8, dropping when it breaks — three sets at 30 on Nov 10, up from two. The drop-off went to 26 rather than 28 though, which is a bigger step than needed; try 28 for the fourth. Four clean sets at 30 earns 32.",
+    "THIS WEEK: 30kg per hand × 8 × 4 sets · RIR 1 — drop to 28 when it breaks\n" +
+    "LAST TIME: 30,30,30 then 26kg × 8 · RIR 1\n" +
+    "WHY: Three sets at 30 now, up from two. The drop-off went to 26 rather than 28, a bigger step than needed — try 28 for the fourth. Four clean sets at 30 earns 32.",
   "machine hip thrust (glute iso)":
-    "100kg × 8-10, RIR 1 — HOLDING. You skipped past 90 straight to 100 and got 10,8,10 at RIR 1. That clears the old 90kg ceiling, which existed only because of arm compensation on the standing version; the machine pad has evidently removed it. Set 2 dropping to 8 says 100 is the honest edge — get 10 on all three before 105.",
+    "THIS WEEK: 100kg × 8-10 × 3 sets · RIR 1\n" +
+    "LAST TIME: 100kg × 10,8,10 · RIR 1\n" +
+    "WHY: Holding. You skipped 90 and went straight to 100, which clears the old ceiling — that number existed only because of arm compensation on the standing version, and the machine pad has removed it. Set 2 dropping to 8 says 100 is the honest edge. Get 10 on all three before 105.",
   "hammer shoulder press":
-    "27.5kg/side × 8-10, RIR 2 — UP 2.5, earned. Nov 10 gave 12,10,10, which was the condition. Note this is the load that collapsed to 5 reps in October, but that was a 5kg jump from 22.5; from 25 it is a normal step. If reps land under 8 across the board, go back to 25 and build to 12 on all three.",
+    "THIS WEEK: 27.5kg/side × 8-10 × 3 sets · RIR 2\n" +
+    "LAST TIME: 25kg × 12,10,10 · RIR 2\n" +
+    "WHY: Up 2.5, earned — 12,10,10 was the condition. This is the load that collapsed to 5 reps in October, but that was a 5kg jump from 22.5; from 25 it is a normal step. If reps land under 8 across the board, go back to 25 and build to 12 on all three.",
   "cable triceps pushdown, rope":
-    "23.75kg × 8-10, RIR 1 — load holds, REP TARGET DROPS. You got 8,8,8 against a 10-12 prescription, which means the load is real and the target was wrong, not the other way round. 8-10 is a fine range for triceps. Superset it with the EZ bar curl.",
+    "THIS WEEK: 23.75kg × 8-10 × 3 sets · RIR 1\n" +
+    "LAST TIME: 23.75kg × 8,8,8 · RIR 2\n" +
+    "WHY: Load holds, rep target drops. You got 8,8,8 against a 10-12 prescription, which means the load is real and my target was wrong. 8-10 is a fine range for triceps. Superset with the EZ bar curl.",
+  "ez bar curl (biceps)":
+    "THIS WEEK: 20kg × 10-12 × 3 sets · RIR 1\n" +
+    "LAST TIME: 20kg × 10,10,9 · RIR 1\n" +
+    "WHY: Your addition, and it closed a real gap — Body A had no direct biceps work and the weekly total was under the 10-set floor. It is 12 now. Keep supersetting with the pushdown: opposing muscles don't compete for recovery, so the pair costs about what one would alone. Set ends when the elbows drift forward.",
 
   /* ===== BODY B ===== */
   "day2::iso-lateral kneeling leg curl":
-    "17.5kg × 12-15, RIR 1 — still the target. You ran 16.25 on Nov 12, which I take to mean this stack moves in 1.25kg steps rather than 2.5. Five sets of 12 at 16.25 clears it, so take the next notch.",
-  "single-leg calf raise on leg press":
-    "55kg × 10-12 × 5 sets, RIR 1 — UP 10, a deliberate jump rather than another 5. This has come back RIR 3 twice running, at 40 and at 45, so 5kg steps are not reaching you. Twenty-five sets of calf work at three reps in reserve is most of a month spent below the threshold that grows anything.",
+    "THIS WEEK: 17.5kg × 12-15 × 5 sets · RIR 1\n" +
+    "LAST TIME: 16.25kg × 12,12,12,12,12 · RIR 1\n" +
+    "WHY: Five sets of 12 with a rep in reserve clears the bar. You ran 16.25 rather than 17.5, which tells me this stack moves in 1.25kg steps — so take the next notch up, whatever it reads.",
   "hammer iso-lat lat pulldown (back)":
-    "70kg × 10-12, RIR 1 — up 2.5. Four sets of 12 at 67.5, and you rated it RIR 2 against a prescribed 1, so there is a rep still sitting there.",
+    "THIS WEEK: 70kg × 10-12 × 4 sets · RIR 1\n" +
+    "LAST TIME: 67.5kg × 12,12,12,12 · RIR 2\n" +
+    "WHY: Up 2.5. Four sets at the top of the range, and you rated it RIR 2 against a prescribed 1, so there is a rep still sitting there.",
   "hammer flat press":
-    "57.5kg × 10-12, RIR 1 — holding one more session. Last time gave 12,12,12 then 9: three sets at the top of the range and a fourth that fell off, on a day that wasn't a clean read. Repeat it well and 60 is next.",
+    "THIS WEEK: 57.5kg × 10-12 × 4 sets · RIR 1\n" +
+    "LAST TIME: 57.5kg × 12,12,12,9 · RIR 1\n" +
+    "WHY: Holding one more session. Three sets at the top of the range and a fourth that fell off, on a day that was not a clean read. Repeat it well and 60 is next.",
+  "single-leg calf raise on leg press":
+    "THIS WEEK: 55kg × 10-12 × 5 sets · RIR 1\n" +
+    "LAST TIME: 45kg × 12,12,12,12,12 · RIR 3\n" +
+    "WHY: Up 10, a deliberate jump rather than another 5. This has come back RIR 3 twice running, at 40 and at 45, so 5kg steps are not reaching you. Twenty-five sets at three reps in reserve is most of a month spent below the threshold that grows anything.",
   "day2::db lateral raise":
-    "12kg × 12-15, RIR 1 — UP 2, earned. The rule was 12 reps on all three sets at 10kg, and Nov 12 delivered exactly that.",
+    "THIS WEEK: 12kg × 12-15 × 3 sets · RIR 1\n" +
+    "LAST TIME: 10kg × 12,12,12 · RIR 1\n" +
+    "WHY: Up 2, earned. The rule was 12 reps on all three sets at 10kg, and that is exactly what you delivered.",
   "incline db curl":
-    "8kg × 10-12, RIR 1 — hold. The rest change worked: 10,5,5 on 60s became 10,10 on 90s, with only the third set dropping to 6kg. Get three at 8kg before moving.",
+    "THIS WEEK: 8kg × 10-12 × 3 sets · RIR 1\n" +
+    "LAST TIME: 8,8 then 6kg × 10 · RIR 1\n" +
+    "WHY: Holding. The rest change worked — 10,5,5 on 60s became 10,10 on 90s, with only the third set dropping to 6kg. Get three at 8kg before moving.",
 
-  /* ===== BODY C — cut from 32 sets to 27 ===== */
+  /* ===== BODY C ===== */
   "romanian deadlift (pad-elevated)":
-    "EASE-IN SESSION: 100kg × 6-8 × 3 sets, RIR 3 — hold last session's load, not 110, and drop a set. First session back after a break, and opening it with the heaviest pull in the program is the wrong way in. 110 × 4 is waiting next week. Still no pause at the top — a loaded standing hold is a static brace where a held breath creeps in, and the hamstring work is all in the stretch at the bottom.",
+    "THIS WEEK: 110kg × 6-8 × 4 sets · RIR 2\n" +
+    "LAST TIME: 100kg × 8,8,8,8 · RIR 3\n" +
+    "WHY: Ease-in done, back to full. You ran it exactly as written. Still no pause at the top: a loaded standing hold is a static brace where a held breath creeps in, and the hamstring work is all in the stretch at the bottom.",
   "belt squat (spine-free)":
-    "EASE-IN SESSION: 105kg × 8-10 × 3 sets, RIR 3 — last session's load, one set lighter, for the first session back. Normal service is 110 × 4. The 140 ceiling number is gone; the rule it stood for is not — if the arms start taking load, that is the cap wherever it lands.",
+    "THIS WEEK: 110kg × 8-10 × 4 sets · RIR 2\n" +
+    "LAST TIME: 105kg × 10,10,10,10 · RIR 3\n" +
+    "WHY: Up 5. You took the ease-in session to four sets of 10 at RIR 3 rather than the three prescribed, which is a clear signal there was room. The 140 ceiling number is gone; the rule it stood for is not — if the arms start taking load, that is the cap wherever it lands.",
   "hammer high row (back)":
-    "62.5kg × 10-12, RIR 1 — up 2.5. Four clean sets of 10 at 60.",
+    "THIS WEEK: 62.5kg × 10-12 × 4 sets · RIR 1\n" +
+    "LAST TIME: 62.5kg × 12,10,10,8 · RIR 2\n" +
+    "WHY: Holding. The first set cleared the range and the fourth fell under it. Get all four to 10 before 65.",
   "day3::db incline press (chest)":
-    "28kg per hand × 10-12, RIR 1 — up 2. You logged 26 for 10, 10, 12 at RIR 3 against a prescribed RIR 1, so this was running three reps too easy.",
-  "cable lat pullover":
-    "20kg × 12-15, RIR 1 — up 2.5, and OUT OF THE TRAY, since you swiped it back in on Nov 8 and ran three clean sets. It's a program exercise again.",
+    "THIS WEEK: 28kg per hand × 10-12 × 3 sets · RIR 1\n" +
+    "LAST TIME: 28kg × 10,10,10 · RIR 2\n" +
+    "WHY: Holding. Three clean sets, but logged RIR 2 against a prescribed 1. Push the last set to 12 before adding load. This is the volume exposure — four-fifths of your Body A load.",
   "machine hip adduction (adductors)":
-    "30kg × 12-15, RIR 1 — up from the 26.25 you calibrated at. Three sets of 12 at RIR 2 on the first exposure means the load was conservative, which was the right way to start.",
+    "THIS WEEK: 30kg × 12-15 × 3 sets · RIR 1\n" +
+    "LAST TIME: 30kg × 12,12,10 · RIR 1\n" +
+    "WHY: Holding — the load is sitting right where it should. Build to 15 on all three. Comfortable opening stretch, 3-sec return.",
   "smith machine seated calf raise (soleus)":
-    "60kg × 12-15 × 3 sets, RIR 1 — back to 3 sets from 5. You only got one set in before running out of time, so this is the exercise the overrun was costing you.",
+    "THIS WEEK: 65kg × 12-15 × 3 sets · RIR 1\n" +
+    "LAST TIME: 60kg × 15,15,15 · RIR 1\n" +
+    "WHY: Up 5, and the first time this has been completed rather than cut for time. 15 reps on all three with a rep to spare is the top of the range. Knees at 90°, 2-sec pause at the bottom.",
   "overhead cable triceps ext.":
-    "15kg × 12-15, RIR 1 — hold. 12, 11, 10 at RIR 1 is a load working exactly as intended.",
+    "THIS WEEK: 15kg × 12-15 × 3 sets · RIR 1\n" +
+    "LAST TIME: 15kg × 12,12,12 · RIR 1\n" +
+    "WHY: Holding. 12 on all three now, up from 12/11/10. Reach 15 on the first set before 17.5. Overhead is the lengthened position for the long head, which is most of the muscle — that is why this one earns its slot.",
+  "cable lat pullover":
+    "THIS WEEK: 22.5kg × 12-15 × 3 sets · RIR 1\n" +
+    "LAST TIME: 20kg × 12,12,12 · RIR 3\n" +
+    "WHY: Up 2.5. Three sets of 12 came back RIR 3 against a prescribed 1, so there were two reps sitting unused in every set.",
 
-  "ez bar curl (biceps)":
-    "20kg × 10-12, RIR 1 — your addition, kept, and it fills a real gap: Body A had no direct biceps work and the weekly total was 9 sets, under the 10-set floor. It is 12 now. You got 10,10,9 on Nov 10. Keep supersetting it with the pushdown — opposing muscles don't compete for recovery, so the pair costs about what one of them would alone. Set ends when the elbows drift forward.",
-
-
-  /* ===== removed tray ===== */
+  /* ===== REMOVED TRAY ===== */
   "hammer curl":
-    "8kg × 12-15, RIR 1 — MOVED to Body C and parked in the tray. You were right to flag it: it sat directly after the incline curl, six straight biceps sets at the end of a session, and both collapsed (10/5/5 and 10/4/4). It now lives on a different day, so swiping it back can't recreate that stack.",
+    "THIS WEEK: 8kg × 12-15 × 3 sets · RIR 1 — in the tray\n" +
+    "LAST TIME: 8kg × 10,4,4 · RIR 1\n" +
+    "WHY: Moved to Body C and parked. You were right to flag it: it sat directly after the incline curl, six straight biceps sets at the end of a session, and both collapsed. It now lives on a different day, so swiping it back cannot recreate that stack.",
   "day3::db lateral raise":
-    "8kg × 12-15, RIR 1 — in the tray. This was the second side-delt exposure, and it's the main casualty of cutting Body C to fit 80 minutes. Direct side-delt work is back down to 3 sets a week. Swipe it in on any day you have a spare five minutes.",
+    "THIS WEEK: 8kg × 12-15 × 3 sets · RIR 1 — in the tray\n" +
+    "LAST TIME: never logged on this day\n" +
+    "WHY: This was the second side-delt exposure, and the main casualty of cutting Body C to fit 80 minutes. Direct side-delt work is back down to 3 sets a week. Swipe it in on any day you have a spare five minutes.",
   "hanging knee raise (core)":
-    "Bodyweight × 12-15 × 2 sets, RIR 1 — in the tray. You didn't reach it on Nov 8, which told me where it ranked against the clock.",
+    "THIS WEEK: bodyweight × 12-15 × 2 sets · RIR 1 — in the tray\n" +
+    "LAST TIME: never logged\n" +
+    "WHY: The program's only direct core work, and hanging rather than a cable crunch on purpose — head stays above the heart and there is no spinal compression. The pelvic tuck is the rep; stop when the tuck goes, not when the knees stop rising.",
+  "horizontal leg press (quads)":
+    "THIS WEEK: find your load at 12-15 × 3 sets · RIR 1 — in the tray\n" +
+    "LAST TIME: never logged\n" +
+    "WHY: Here if you ever want quad volume above the 9 sets a week the hack squat and belt squat give you. Same station as your single-leg calf raise, so it costs about six minutes. Depth limit is where the hips start curling off the pad.",
   "lat pulldown, neutral (back)":
-    "55kg × 8-10, RIR 1 — in the tray. Back volume sits at 17 sets with the pullover restored, so this stays out unless something else goes.",
+    "THIS WEEK: 55kg × 8-10 × 4 sets · RIR 1 — in the tray\n" +
+    "LAST TIME: 55kg × 8,8,9,8 · RIR 3\n" +
+    "WHY: Out of the program to keep back volume in range — it sits at 17 sets with the pullover restored. Swipe it back if you want it.",
   "bulgarian split squat":
-    "16kg × 8-10/leg, RIR 2 — in the tray. Balance limits this rather than strength, and the belt squat covers the ground faster.",
+    "THIS WEEK: 16kg × 8-10/leg × 3 sets · RIR 2 — in the tray\n" +
+    "LAST TIME: 18kg × 8,8,8 (August)\n" +
+    "WHY: Balance limits this lift rather than strength, and the belt squat covers the same ground faster.",
   "walking lunge (long stride)":
-    "14kg × 10-12/leg, RIR 2 — in the tray; the belt squat and hip thrust cover this in less time."
+    "THIS WEEK: 14kg × 10-12/leg × 3 sets · RIR 2 — in the tray\n" +
+    "LAST TIME: 14kg × 12,12,12 (August)\n" +
+    "WHY: The belt squat and hip thrust cover this ground in less time."
 };
 
 function applyCoachSuggestions() {
